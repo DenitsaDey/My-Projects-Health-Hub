@@ -24,8 +24,26 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
+        public DbSet<Referral> Referrals { get; set; }
 
+        public DbSet<Appointment> Appointments { get; set; }
+
+        public DbSet<Clinic> Clinics { get; set; }
+
+        public DbSet<Diagnosis> Diagnoses { get; set; }
+
+        public DbSet<UserDiagnosis> UsersDiagnoses { get; set; }
+
+        public DbSet<DoctorPatient> DoctorsPatients { get; set; }
+
+        public DbSet<DoctorClinic> DoctorsClinics { get; set; }
+
+        public DbSet<Specialty> Specialties { get; set; }
+
+        public DbSet<CityArea> CityAreas { get; set; }
+
+        public DbSet<Insurance> Insurances { get; set; }
+        public DbSet<InsuranceClinic> InsuranceClinics { get; set; }
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
