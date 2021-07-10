@@ -12,8 +12,6 @@
 
         public string Name { get; set; }
 
-        public string DoctorId { get; set; }
-
-        public virtual ApplicationUser Doctor { get; set; }
-    }
+        public virtual ICollection<ApplicationUser> Doctors { get; set; } = new HashSet<ApplicationUser>();
+       }
 }

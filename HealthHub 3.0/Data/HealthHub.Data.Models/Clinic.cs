@@ -14,6 +14,8 @@
 
         public string Name { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public string AreaId { get; set; }
 
         public virtual CityArea Area { get; set; }
@@ -23,12 +25,11 @@
         public string Address { get; set; }
 
         //collection of users that are medical professionals
-        public virtual ICollection<DoctorClinic> MedicalProfessionals { get; set; } = new HashSet<DoctorClinic>();
-
-        //collection of appointments
-        public virtual ICollection<Appointment> Appointments { get; set; } = new HashSet<Appointment>();
+        public virtual ICollection<DoctorClinic> MedicalStaff { get; set; } = new HashSet<DoctorClinic>();
 
         //collection of Insurance companies the clicl works with
         public virtual ICollection<InsuranceClinic> InsuranceCompanies { get; set; } = new HashSet<InsuranceClinic>();
+
+        public virtual ICollection<ClinicProcedure> ListedProcedures { get; set; } = new HashSet<ClinicProcedure>();
     }
 }

@@ -8,6 +8,7 @@
     using HealthHub.Data.Models;
     using HealthHub.Data.Repositories;
     using HealthHub.Data.Seeding;
+    using HealthHub.Services;
     using HealthHub.Services.Mapping;
     using HealthHub.Services.Messaging;
     using HealthHub.Web.ViewModels;
@@ -37,7 +38,8 @@
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -63,6 +65,8 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+            //services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
+            //services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
