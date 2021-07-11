@@ -20,5 +20,20 @@
 
             public const string PatientEmail = "patient@patient.com";
         }
+
+        public static class SeededDataCounts
+        {
+            public const int BlogPosts = 4;
+
+            public const int Categories = 6;
+
+            public const int Services = 55;
+
+            public const int CityAreas = 10;
+
+            public const int Salons = 18;
+
+            public const int Appointments = 54;
+        }
     }
 }
