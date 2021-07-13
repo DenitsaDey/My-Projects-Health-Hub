@@ -9,7 +9,7 @@
 
         public virtual Diagnosis Diagnosis { get; set; }
 
-        public string UserId { get; set; }
+        public string PatientId { get; set; }
 
         public virtual ApplicationUser Patient { get; set; }
 

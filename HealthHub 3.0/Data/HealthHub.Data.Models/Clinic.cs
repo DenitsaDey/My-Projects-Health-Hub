@@ -25,7 +25,7 @@
         public string Address { get; set; }
 
         //collection of users that are medical professionals
-        public virtual ICollection<DoctorClinic> MedicalStaff { get; set; } = new HashSet<DoctorClinic>();
+        public virtual ICollection<Doctor> MedicalStaff { get; set; } = new HashSet<Doctor>();
 
         //collection of Insurance companies the clicl works with
         public virtual ICollection<InsuranceClinic> InsuranceCompanies { get; set; } = new HashSet<InsuranceClinic>();

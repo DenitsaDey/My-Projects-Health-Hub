@@ -32,7 +32,7 @@
         [Required]
         public string DoctorId { get; set; }
 
-        public ApplicationUser Doctor { get; set; }
+        public Doctor Doctor { get; set; }
 
         //the Doctor can confirm or decline appointment
         public AppointmentStatus AppointmentStatus { get; set; }
@@ -44,6 +44,5 @@
         public string RatingId { get; set; }
 
         public virtual Rating Rating { get; set; }
-
     }
 }

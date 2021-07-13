@@ -44,8 +44,4 @@
     <ProjectReference Include="..\HealthHub.Data.Models\HealthHub.Data.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

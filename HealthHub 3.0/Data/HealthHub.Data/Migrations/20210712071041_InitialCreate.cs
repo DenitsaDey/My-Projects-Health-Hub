@@ -26,6 +26,40 @@ namespace HealthHub.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CityAreas",
                 columns: table => new
                 {
@@ -128,142 +162,6 @@ namespace HealthHub.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clinics",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AreaId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clinics", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Clinics_CityAreas_AreaId",
-                        column: x => x.AreaId,
-                        principalTable: "CityAreas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SpecialtyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    YearsOFExperience = table.Column<int>(type: "int", nullable: false),
-                    WorksWithChildren = table.Column<bool>(type: "bit", nullable: false),
-                    OnlineConsultation = table.Column<bool>(type: "bit", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Clinics_ClinicId",
-                        column: x => x.ClinicId,
-                        principalTable: "Clinics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Specialties_SpecialtyId",
-                        column: x => x.SpecialtyId,
-                        principalTable: "Specialties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ClinicsProcedures",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProcedureId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClinicsProcedures", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ClinicsProcedures_Clinics_ClinicId",
-                        column: x => x.ClinicId,
-                        principalTable: "Clinics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ClinicsProcedures_Procedures_ProcedureId",
-                        column: x => x.ProcedureId,
-                        principalTable: "Procedures",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InsuranceClinics",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    InsuranceID = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InsuranceClinics", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InsuranceClinics_Clinics_ClinicId",
-                        column: x => x.ClinicId,
-                        principalTable: "Clinics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_InsuranceClinics_Insurances_InsuranceID",
-                        column: x => x.InsuranceID,
-                        principalTable: "Insurances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -349,13 +247,14 @@ namespace HealthHub.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DoctorsClinics",
+                name: "Clinics",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MedicalProfessionalId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AreaId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -363,47 +262,11 @@ namespace HealthHub.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorsClinics", x => x.Id);
+                    table.PrimaryKey("PK_Clinics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DoctorsClinics_AspNetUsers_MedicalProfessionalId",
-                        column: x => x.MedicalProfessionalId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DoctorsClinics_Clinics_ClinicId",
-                        column: x => x.ClinicId,
-                        principalTable: "Clinics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DoctorsPatients",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MedicalProfessionalId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DoctorsPatients", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DoctorsPatients_AspNetUsers_MedicalProfessionalId",
-                        column: x => x.MedicalProfessionalId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DoctorsPatients_AspNetUsers_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_Clinics_CityAreas_AreaId",
+                        column: x => x.AreaId,
+                        principalTable: "CityAreas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -415,7 +278,6 @@ namespace HealthHub.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DiagnosisId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CurrentStatus = table.Column<int>(type: "int", nullable: false),
                     AdditionalDetails = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -437,6 +299,103 @@ namespace HealthHub.Data.Migrations
                         name: "FK_UsersDiagnoses_Diagnoses_DiagnosisId",
                         column: x => x.DiagnosisId,
                         principalTable: "Diagnoses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClinicsProcedures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProcedureId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClinicsProcedures", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClinicsProcedures_Clinics_ClinicId",
+                        column: x => x.ClinicId,
+                        principalTable: "Clinics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ClinicsProcedures_Procedures_ProcedureId",
+                        column: x => x.ProcedureId,
+                        principalTable: "Procedures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SpecialtyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    YearsOFExperience = table.Column<int>(type: "int", nullable: false),
+                    WorksWithChildren = table.Column<bool>(type: "bit", nullable: false),
+                    OnlineConsultation = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Clinics_ClinicId",
+                        column: x => x.ClinicId,
+                        principalTable: "Clinics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Specialties_SpecialtyId",
+                        column: x => x.SpecialtyId,
+                        principalTable: "Specialties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InsuranceClinics",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InsuranceID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InsuranceClinics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InsuranceClinics_Clinics_ClinicId",
+                        column: x => x.ClinicId,
+                        principalTable: "Clinics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InsuranceClinics_Insurances_InsuranceID",
+                        column: x => x.InsuranceID,
+                        principalTable: "Insurances",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -464,12 +423,6 @@ namespace HealthHub.Data.Migrations
                 {
                     table.PrimaryKey("PK_Appointments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Appointments_AspNetUsers_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Appointments_AspNetUsers_PatientId",
                         column: x => x.PatientId,
                         principalTable: "AspNetUsers",
@@ -479,6 +432,42 @@ namespace HealthHub.Data.Migrations
                         name: "FK_Appointments_ClinicsProcedures_ProcedureBookedId",
                         column: x => x.ProcedureBookedId,
                         principalTable: "ClinicsProcedures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DoctorsPatients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorsPatients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DoctorsPatients_AspNetUsers_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DoctorsPatients_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -491,7 +480,6 @@ namespace HealthHub.Data.Migrations
                     Value = table.Column<int>(type: "int", nullable: false),
                     AppointmentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AdditionalComments = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -504,12 +492,6 @@ namespace HealthHub.Data.Migrations
                         name: "FK_Ratings_Appointments_AppointmentId",
                         column: x => x.AppointmentId,
                         principalTable: "Appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Ratings_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -572,19 +554,9 @@ namespace HealthHub.Data.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_ClinicId",
-                table: "AspNetUsers",
-                column: "ClinicId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_IsDeleted",
                 table: "AspNetUsers",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_SpecialtyId",
-                table: "AspNetUsers",
-                column: "SpecialtyId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -629,29 +601,29 @@ namespace HealthHub.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorsClinics_ClinicId",
-                table: "DoctorsClinics",
+                name: "IX_Doctors_ClinicId",
+                table: "Doctors",
                 column: "ClinicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorsClinics_IsDeleted",
-                table: "DoctorsClinics",
+                name: "IX_Doctors_IsDeleted",
+                table: "Doctors",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorsClinics_MedicalProfessionalId",
-                table: "DoctorsClinics",
-                column: "MedicalProfessionalId");
+                name: "IX_Doctors_SpecialtyId",
+                table: "Doctors",
+                column: "SpecialtyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorsPatients_DoctorId",
+                table: "DoctorsPatients",
+                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DoctorsPatients_IsDeleted",
                 table: "DoctorsPatients",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DoctorsPatients_MedicalProfessionalId",
-                table: "DoctorsPatients",
-                column: "MedicalProfessionalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DoctorsPatients_PatientId",
@@ -682,11 +654,6 @@ namespace HealthHub.Data.Migrations
                 name: "IX_Procedures_IsDeleted",
                 table: "Procedures",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ratings_ApplicationUserId",
-                table: "Ratings",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_AppointmentId",
@@ -739,9 +706,6 @@ namespace HealthHub.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DoctorsClinics");
-
-            migrationBuilder.DropTable(
                 name: "DoctorsPatients");
 
             migrationBuilder.DropTable(
@@ -772,13 +736,16 @@ namespace HealthHub.Data.Migrations
                 name: "ClinicsProcedures");
 
             migrationBuilder.DropTable(
-                name: "Specialties");
+                name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "Procedures");
 
             migrationBuilder.DropTable(
                 name: "Clinics");
 
             migrationBuilder.DropTable(
-                name: "Procedures");
+                name: "Specialties");
 
             migrationBuilder.DropTable(
                 name: "CityAreas");

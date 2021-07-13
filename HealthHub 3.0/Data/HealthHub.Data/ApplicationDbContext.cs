@@ -34,7 +34,7 @@
 
         public DbSet<Diagnosis> Diagnoses { get; set; }
 
-        public DbSet<DoctorClinic> DoctorsClinics { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
 
         public DbSet<DoctorPatient> DoctorsPatients { get; set; }
 

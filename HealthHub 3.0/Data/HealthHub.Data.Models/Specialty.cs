@@ -12,6 +12,6 @@
 
         public string Name { get; set; }
 
-        public virtual ICollection<ApplicationUser> Doctors { get; set; } = new HashSet<ApplicationUser>();
+        public virtual ICollection<Doctor> Doctors { get; set; } = new HashSet<Doctor>();
        }
 }

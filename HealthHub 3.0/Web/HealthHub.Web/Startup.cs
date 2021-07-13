@@ -9,6 +9,7 @@
     using HealthHub.Data.Repositories;
     using HealthHub.Data.Seeding;
     using HealthHub.Services;
+    using HealthHub.Services.Data;
     using HealthHub.Services.Mapping;
     using HealthHub.Services.Messaging;
     using HealthHub.Web.ViewModels;
@@ -65,8 +66,10 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            //services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
-            //services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();
+            services.AddTransient<IRatingService, RatingService>();
+            services.AddTransient<IGetCountsService, GetCountsService>();
+            services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
+            services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

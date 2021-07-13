@@ -1,16 +1,30 @@
 ﻿namespace HealthHub.Web.Controllers
 {
     using System.Diagnostics;
-
+    using System.Linq;
+    using HealthHub.Data;
     using HealthHub.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        private readonly ApplicationDbContext db;
+
+        public HomeController(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new CountsViewModel()
+            {
+                DoctorsCount = this.db.Doctors.Count(),
+                ClinicsCount = this.db.Clinics.Count(),
+                SpecialtiesCount = this.db.Specialties.Count(),
+                Appointments = this.db.Appointments.Count(),
+            };
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

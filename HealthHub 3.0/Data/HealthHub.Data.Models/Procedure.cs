@@ -6,10 +6,9 @@
 
     using HealthHub.Data.Common.Models;
 
-    using static HealthHub.Data.Common.DataConstants;
-
     public class Procedure : BaseDeletableModel<string>
     {
+        //списък с процедури от сайта на супердок-> appointments
         public Procedure() => this.Id = Guid.NewGuid().ToString();
 
         [Required]

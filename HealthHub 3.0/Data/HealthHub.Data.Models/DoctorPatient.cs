@@ -8,8 +8,8 @@
 
         public virtual ApplicationUser Patient { get; set; }
 
-        public string MedicalProfessionalId { get; set; }
+        public string DoctorId { get; set; }
 
-        public virtual ApplicationUser MedicalProfessional { get; set; }
+        public virtual Doctor Doctor { get; set; }
     }
 }
