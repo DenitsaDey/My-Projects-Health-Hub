@@ -1,11 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HealthHub.Web.Views.Rating
-{
-    public class Rate
-    {
-    }
+﻿@model HealthHub.Web.ViewModels.Rating.RatingInputModel
+@{
+    this.ViewData["Title"] = "Rate your appointment";
 }
+
+<div class="container">
+
+    <div class="section-title">
+        <form method="post" class="col-md-6 offset-md-3"
+              enctype="multipart/form-data">
+            <h1>@this.ViewData["Title"]</h1>
+            <div class="form-group mt-3">
+                <label asp-for="Value"></label>
+                <textarea asp-for="Value" class="form-control" rows="5" placeholder="Your Rating"></textarea>
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label asp-for="AdditionalComments"></label>
+                <textarea asp-for="AdditionalComments" class="form-control" rows="5" placeholder="Additional Comments (Optional)"></textarea>
+                <span asp-validation-for="AdditionalComments" class="text-danger"></span>
+            </div>
+        </form>
+    </div>
+</div>

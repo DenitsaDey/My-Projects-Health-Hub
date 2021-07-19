@@ -8,8 +8,33 @@ namespace CityAreasScraping
 {
     class Program
     {
-        static async Task Main()
+        public static void Main(string[] args)
         {
+            var config = Configuration.Default.WithDefaultLoader();
+
+            var context = BrowsingContext.New(config);
+
+            var document = context.OpenAsync("https://www.moph.gov.qa/english/OurServices/eservices/Pages/Health-Facilities.aspx")
+                .GetAwaiter()
+                .GetResult();
+
+            var cityAreas = document.QuerySelectorAll("#ddlAreas")
+                .Select(x => x.TextContent)
+                .FirstOrDefault()
+                .Split("\n\t\t\t\t\t\t\t", StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
+
+            foreach (var area in cityAreas.Skip(1))
+            {
+                var parts = area.Split(new char[]{'/', '\\', }, StringSplitOptions.RemoveEmptyEntries);
+                
+                    foreach (var part in parts)
+                    {
+                    Console.WriteLine(part.Trim());
+                }
+                
+                
+            }
             /*default settings
                 //Use the default configuration for AngleSharp
                 var config = Configuration.Default;
@@ -40,28 +65,34 @@ namespace CityAreasScraping
 
             /*
              first example list of areas from moph.gov
-            public async Task ImportCityAreas()
-        {
-            var document = this.context.OpenAsync("https://www.moph.gov.qa/english/OurServices/eservices/Pages/Health-Facilities.aspx")
-                .GetAwaiter()
-                .GetResult();
-
-            var cityAreas = document.QuerySelectorAll("#ddlAreas")
-                .Select(x => x.TextContent)
-                .FirstOrDefault()
-                .Split("\n\t\t\t\t\t\t\t", StringSplitOptions.RemoveEmptyEntries)
-                .ToList();
-
-            foreach (var area in cityAreas.Skip(1))
-            {
-                Console.WriteLine(area.Trim());
-            }
+            */
         }
-             */
+             public void ImportCityAreas()
+            {
+                var config = Configuration.Default.WithDefaultLoader();
+
+                var context = BrowsingContext.New(config);
+
+                var document = context.OpenAsync("https://www.moph.gov.qa/english/OurServices/eservices/Pages/Health-Facilities.aspx")
+                    .GetAwaiter()
+                    .GetResult();
+
+                var cityAreas = document.QuerySelectorAll("#ddlAreas")
+                    .Select(x => x.TextContent)
+                    .FirstOrDefault()
+                    .Split("\n\t\t\t\t\t\t\t", StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
+
+                foreach (var area in cityAreas.Skip(1))
+                {
+                    Console.WriteLine(area.Trim());
+                }
+            }
 
 
 
-            //second example for insurance companies:
+
+            /*second example for insurance companies:
             //Use the default configuration for AngleSharp
             var config = Configuration.Default.WithDefaultLoader();
 
@@ -83,6 +114,7 @@ namespace CityAreasScraping
             //imageUrl example
             //var imageUrl = document.QuerySelector("#newsGal > div.image > img").GetAttribute("src");
             //Console.WriteLine(imageUrl);
+            */
         }
     }
-}
+

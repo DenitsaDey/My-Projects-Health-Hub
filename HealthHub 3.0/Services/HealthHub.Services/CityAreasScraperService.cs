@@ -35,10 +35,15 @@
 
             foreach (var area in cityAreas.Skip(1))
             {
-                var newCityArea = new CityArea { Name = area.Trim() };
+                var parts = area.Split(new char[] { '/', '\\', }, StringSplitOptions.RemoveEmptyEntries);
 
-                await this.cityAreaRepository.AddAsync(newCityArea);
-                await this.cityAreaRepository.SaveChangesAsync();
+                foreach (var part in parts)
+                {
+                    var newCityArea = new CityArea { Name = part.Trim() };
+
+                    await this.cityAreaRepository.AddAsync(newCityArea);
+                    await this.cityAreaRepository.SaveChangesAsync();
+                }
             }
         }
     }

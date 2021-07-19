@@ -4,7 +4,16 @@ using System.Text;
 
 namespace HealthHub.Web.ViewModels.Rating
 {
-    class RatingViewModel
+    public class RatingViewModel
     {
+        public string AppointmentId { get; set; }
+
+        public string Doctor { get; set; }
+
+        public string Service { get; set; }
+
+        public string VisitedOn { get; set; }
+
+        public string AdditionalComments { get; set; }
     }
 }

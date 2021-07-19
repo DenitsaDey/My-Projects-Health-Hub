@@ -1,9 +1,10 @@
 ﻿namespace HealthHub.Web.Controllers
 {
+    using System.Linq;
+
     using HealthHub.Services.Data;
     using HealthHub.Web.ViewModels.Appointment;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     public class AppointmentController : BaseController
     {
@@ -46,7 +47,7 @@
 
              //this.appointmentService.AddAppointment(input, doctorId, patientId)
             //TODO return message "You have successfully requested an appointment"
-            return this.Redirect("/Appointments/All");
+            return this.Redirect("/Appointment/All");
         }
 
         public IActionResult All(string patientId)
@@ -68,11 +69,24 @@
             return this.View();
         }
 
-        public IActionResult Rate()
+        public IActionResult Edit()
         {
-            var model = new 
+            return this.View();
         }
+
         [HttpPost]
-        public IActionResult Rate(string appointmentId)
+        public IActionResult Edit(string appointmentId, string message)
+        {
+            //TODO if user is not signed in redirect to login page
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            this.appointmentService.EditMessage(appointmentId, message);
+            //TODO return message "You have successfully edited your appointment"
+            return this.Redirect("/Appointment/All");
+        }
     }
 }

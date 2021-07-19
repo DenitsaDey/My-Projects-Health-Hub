@@ -65,15 +65,16 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<IRatingService, RatingService>();
+            services.AddTransient<IAppointmentsService, AppointmentsService>(); 
+            services.AddTransient<ICityAreasService, CityAreasService>();
+            services.AddTransient<IDoctorsService, DoctorsService>();
             services.AddTransient<IGetCountsService, GetCountsService>();
+            services.AddTransient<IRatingService, RatingService>();
+            services.AddTransient<IServicesService, ServicesService>();
+            services.AddTransient<ISpecialtiesService, SpecialtiesService>();
+            services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
             services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();
-            services.AddTransient<IServicesService, ServicesService>();
-            services.AddTransient<ICityAreasService, CityAreasService>();
-            services.AddTransient<ISpecialtiesService, SpecialtiesService>();
-            services.AddTransient<IAppointmentsService, AppointmentsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

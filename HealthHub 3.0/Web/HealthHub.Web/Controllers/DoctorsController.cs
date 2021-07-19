@@ -1,11 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HealthHub.Web.Controllers
+﻿namespace HealthHub.Web.Controllers
 {
-    public class DoctorsController
+    using HealthHub.Services.Data;
+    using Microsoft.AspNetCore.Mvc;
+
+    public class DoctorsController : BaseController
     {
+        private readonly IDoctorsService doctorsService;
+
+        public DoctorsController(IDoctorsService doctorsService)
+        {
+            this.doctorsService = doctorsService;
+        }
+
+        public IActionResult Index()
+        {
+            var viewModel = this.doctorsService.GetAll();
+            return this.View(viewModel);
+        }
+
+        public IActionResult All(string specialty, string area, string name)
+        {
+            var viewModel = this.doctorsService.GetAllSearched(specialty, area, name);
+            return this.View(viewModel);
+        }
+
+        public IActionResult Details(string doctorId)
+        {
+            var model = this.doctorsService.GetById(doctorId);
+            return this.View(model);
+        }
     }
 }

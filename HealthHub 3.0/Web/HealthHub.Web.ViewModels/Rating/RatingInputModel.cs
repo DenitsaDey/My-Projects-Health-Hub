@@ -1,10 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HealthHub.Web.ViewModels.Rating
 {
-    class RatingInputModel
+    public class RatingInputModel
     {
+        [Required]
+        public string AppointmentId { get; set; }
+
+        [Required]
+        [Range(1, 5)]
+        public int Value { get; set; }
+
+        [MaxLength(200)]
+        public string AdditionalComments { get; set; }
     }
 }

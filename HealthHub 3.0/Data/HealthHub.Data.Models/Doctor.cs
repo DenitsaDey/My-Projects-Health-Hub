@@ -48,5 +48,7 @@
         public bool WorksWithChildren { get; set; }
 
         public bool OnlineConsultation { get; set; }
+
+        public string About { get; set; }
     }
 }

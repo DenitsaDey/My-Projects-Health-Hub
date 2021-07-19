@@ -41,7 +41,7 @@
                                                         .Average(sa => sa.Rating.Value)));
         }
 
-        public async Task SetRatungAsync(string appointmentId, int value)
+        public async Task SetRatungAsync(string appointmentId, int value, string additionalComments)
         {
             var ratingToBeSet = this.ratingRepository.All()
                 .FirstOrDefault(r => r.AppointmentId == appointmentId && !r.Appointment.HasBeenVoted);
@@ -57,6 +57,12 @@
             }
 
             ratingToBeSet.Value = value;
+
+            if (additionalComments != string.Empty)
+            {
+                ratingToBeSet.AdditionalComments = additionalComments;
+            }
+
             this.appointmentRepository.All()
                 .FirstOrDefault(a => a.Id == appointmentId)
                 .HasBeenVoted = true;

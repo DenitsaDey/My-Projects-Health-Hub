@@ -38,7 +38,7 @@
                             <td>@Model.ProcedureBooked</td>
                             <td>@Model.Message</td>
                             <td>
-                                <a href="/Appointment/EditMessage?appointmentId=@Model.Id" class="btn btn-block btn-primary">Edit Notes</a>
+                                <a href="/Appointment/Edit?appointmentId=@Model.Id" class="btn btn-block btn-primary">Edit Notes</a>
                             </td>
                             <td>
                                 @if (@Model.Rating == 0 && @Model.AppointmentStatus.ToString() == "Completed")

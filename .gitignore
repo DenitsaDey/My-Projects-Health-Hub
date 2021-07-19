@@ -359,6 +359,7 @@ appsettings.Production.json
 *.min.js
 
 # Other project versions
+AddressScraping/*
 Health Hub 1.0/*
 HealthHub 2.0/*
 ASP.NET Core Template by NikolayIT/*
