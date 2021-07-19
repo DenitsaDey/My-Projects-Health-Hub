@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HealthHub.Services.Data
+﻿namespace HealthHub.Services.Data
 {
+    using System.Threading.Tasks;
+
     public interface IRatingService
     {
         Task SetRatungAsync(string appointmentId, int value);

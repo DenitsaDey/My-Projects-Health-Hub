@@ -1,0 +1,44 @@
+﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentInputModel
+@{
+    this.ViewData["Title"] = "Book An Appointment";
+}
+
+
+<!--take info from partial view Appointments, BeautyBooking, superdoc F12 calendar slots>-->
+<!-- ======= Appointment Section ======= -->
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+
+        <div class="section-title">
+            <form method="post" class="col-md-6 offset-md-3"
+                  enctype="multipart/form-data">
+                <h1>@this.ViewData["Title"]</h1>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ServiceId"></label>
+                    @*<vc:CategoriesDropDown name="CategoryId"></vc:CategoriesDropDown>*@
+                    <select asp-for="ServiceId" class="form-control">
+                        @foreach (var service in Model.ServicesItems)
+                        {
+                            <option value="@service.Id"> @service.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ServiceId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AppointmentTime"></label>
+                    <input asp-for="AppointmentTime" class="form-control" placeholder="Choose your appointment time" />
+                    <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Message"></label>
+                    <textarea asp-for="Message" class="form-control" rows="5" placeholder="Message (Optional)"></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+            </form>
+        </div>
+        <div class="text-center"><button type="submit">Book an Appointment</button></div>
+    </div>
+</section>
+

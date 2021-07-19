@@ -70,6 +70,10 @@
             services.AddTransient<IGetCountsService, GetCountsService>();
             services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
             services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();
+            services.AddTransient<IServicesService, ServicesService>();
+            services.AddTransient<ICityAreasService, CityAreasService>();
+            services.AddTransient<ISpecialtiesService, SpecialtiesService>();
+            services.AddTransient<IAppointmentsService, AppointmentsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

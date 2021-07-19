@@ -1,8 +1,23 @@
-﻿@using HealthHub.Common
+﻿@model HealthHub.Web.ViewModels.Home.IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
+@if (User.IsInRole("Admin"))
+{
+    <div class="text-center">
+        <a class="button" asp-controller="GatherCityAreas" asp-action="Add">Add City Areas Data</a>
+    </div>
+    <div class="text-center">
+        <a class="button" asp-controller="GatherInsuranceCompanies" asp-action="Add">Add Insurance Companies Data</a>
+    </div>
+}
+@if (User.IsInRole("Patient"))
+{
+    <div class="text-center">
+        <a class="button" asp-controller="Appointmen" asp-action="All" asp-route-id="@User.Identity">My Appointments</a>
+    </div>
+}
 <partial name="_WhyUsSection" />
 <partial name="_CountsSectionPartial" />
 <partial name="_AboutPartial" />
@@ -16,16 +31,8 @@
 
 
 @*<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>*@
+        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>*@
 
-@*@if (User.IsInRole("Admin"))
-{
-    <div class="text-center">
-        <a class="button" asp-controller="GatherCityAreas" asp-action="Add">Add City Areas Data</a>
-    </div>
-    <div class="text-center">
-        <a class="button" asp-controller="GatherInsuranceCompanies" asp-action="Add">Add Insurance Companies Data</a>
-    </div>
-}*@
+

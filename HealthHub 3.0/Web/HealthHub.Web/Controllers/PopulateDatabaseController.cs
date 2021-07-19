@@ -1,12 +1,10 @@
-﻿using HealthHub.Services;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HealthHub.Web.Controllers
+﻿namespace HealthHub.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using HealthHub.Services;
+    using Microsoft.AspNetCore.Mvc;
+
     public class PopulateDatabaseController : BaseController
     {
         private readonly ICityAreasScraperService cityAreasScraperService;
@@ -19,7 +17,7 @@ namespace HealthHub.Web.Controllers
             this.cityAreasScraperService = cityAreasScraperService;
             this.insuranceScraperService = insuranceScraperService;
         }
-        
+
         public IActionResult Index()
         {
             return this.View();

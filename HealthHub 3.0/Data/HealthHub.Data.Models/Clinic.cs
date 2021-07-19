@@ -12,10 +12,14 @@
     {
         public Clinic() => this.Id = Guid.NewGuid().ToString();
 
+        [Required]
+        [MaxLength(ClinicNameMaxLength)]
         public string Name { get; set; }
 
-        public string ImageUrl { get; set; }
+        [Required]
+        public string MapUrl { get; set; }
 
+        [Required]
         public string AreaId { get; set; }
 
         public virtual CityArea Area { get; set; }
@@ -29,7 +33,5 @@
 
         //collection of Insurance companies the clicl works with
         public virtual ICollection<InsuranceClinic> InsuranceCompanies { get; set; } = new HashSet<InsuranceClinic>();
-
-        public virtual ICollection<ClinicProcedure> ListedProcedures { get; set; } = new HashSet<ClinicProcedure>();
     }
 }

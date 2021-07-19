@@ -1,4 +1,6 @@
 ﻿@using HealthHub.Common
+@*@model HealthHub.Web.ViewModels.Home.IndexViewModel*@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,52 +28,36 @@
             <a href="index.html" class="logo me-auto"><img src="~/img/HH2.png" alt="" class="img-fluid"></a>
             <h1 class="logo me-auto"><a href="index.html">HealthHub</a></h1>
 
-            <nav id="navbar" class="navbar order-last order-lg-0">
+            <!--<nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
                     <li class="dropdown">
-                        <a href="#"><span>Specialty</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="#">Drop Down 1</a></li>
-                            @*<li class="dropdown">
-                                    <a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                                    <ul>
-                                        <li><a href="#">Deep Drop Down 1</a></li>
-                                        <li><a href="#">Deep Drop Down 2</a></li>
-                                        <li><a href="#">Deep Drop Down 3</a></li>
-                                        <li><a href="#">Deep Drop Down 4</a></li>
-                                        <li><a href="#">Deep Drop Down 5</a></li>
-                                    </ul>
-                                </li>*@
-                            <li><a href="#">Drop Down 2</a></li>
-                            <li><a href="#">Drop Down 3</a></li>
-                            <li><a href="#">Drop Down 4</a></li>
-                        </ul>
+                        <label asp-for="Specialties"></label>
+                        <select asp-for="Specialties" class="bi bi-chevron-down">
+                            foreach (var specialty in Model.Specialties)
+                            {
+                                <option value="specialty.Id"> specialty.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Specialties" class="text-danger"></span>
+
                     </li>
                     <li class="dropdown">
-                        <a href="#"><span>City Area</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="#">Drop Down 1</a></li>
-                            @*<li class="dropdown">
-                                    <a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                                    <ul>
-                                        <li><a href="#">Deep Drop Down 1</a></li>
-                                        <li><a href="#">Deep Drop Down 2</a></li>
-                                        <li><a href="#">Deep Drop Down 3</a></li>
-                                        <li><a href="#">Deep Drop Down 4</a></li>
-                                        <li><a href="#">Deep Drop Down 5</a></li>
-                                    </ul>
-                                </li>*@
-                            <li><a href="#">Drop Down 2</a></li>
-                            <li><a href="#">Drop Down 3</a></li>
-                            <li><a href="#">Drop Down 4</a></li>
-                        </ul>
+                        <label asp-for="CityAreas"></label>
+                        <select asp-for="CityAreas" class="bi bi-chevron-down">
+                            foreach (var cityArea in Model.CityAreas)
+                            {
+                                <option value="cityArea.Id"> cityArea.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CityAreas" class="text-danger"></span>
+
                     </li>
                     <li><a class="nav-link scrollto" href="#doctors">Doctors</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
+            </nav>--><!-- .navbar -->
 
-            <a href="#doctors" class="appointment-btn scrollto"><span class="d-none d-md-inline">Find a</span> Doctor</a>
+            <a href="#doctors" class="appointment-btn scrollto"><span class="d-none d-md-inline" asp-controller="SearchDoctors" asp-action="Index">Find a</span> Doctor</a>
             <nav id="navbar" class="navbar order-last order-lg-0">
 
                 <ul class="navbar order-last order-lg-0">

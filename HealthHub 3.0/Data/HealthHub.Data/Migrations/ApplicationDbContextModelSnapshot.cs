@@ -165,18 +165,11 @@ namespace HealthHub.Data.Migrations
                     b.Property<DateTime>("AppointmentTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ClinicProcedureId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
@@ -188,6 +181,10 @@ namespace HealthHub.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Message")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -195,8 +192,12 @@ namespace HealthHub.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("ProcedureBookedId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProcedureBookedId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProcedureId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RatingId")
                         .HasColumnType("nvarchar(max)");
@@ -232,7 +233,9 @@ namespace HealthHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.HasKey("Id");
 
@@ -252,6 +255,7 @@ namespace HealthHub.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("AreaId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -260,17 +264,20 @@ namespace HealthHub.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("MapUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -279,42 +286,6 @@ namespace HealthHub.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Clinics");
-                });
-
-            modelBuilder.Entity("HealthHub.Data.Models.ClinicProcedure", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClinicId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ProcedureId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClinicId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("ProcedureId");
-
-                    b.ToTable("ClinicsProcedures");
                 });
 
             modelBuilder.Entity("HealthHub.Data.Models.Diagnosis", b =>
@@ -331,12 +302,13 @@ namespace HealthHub.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MedicalCondition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -351,6 +323,7 @@ namespace HealthHub.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ClinicId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -363,19 +336,24 @@ namespace HealthHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -383,7 +361,11 @@ namespace HealthHub.Data.Migrations
                     b.Property<bool>("OnlineConsultation")
                         .HasColumnType("bit");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SpecialtyId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("WorksWithChildren")
@@ -457,7 +439,9 @@ namespace HealthHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -502,37 +486,6 @@ namespace HealthHub.Data.Migrations
                     b.ToTable("InsuranceClinics");
                 });
 
-            modelBuilder.Entity("HealthHub.Data.Models.Procedure", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Procedures");
-                });
-
             modelBuilder.Entity("HealthHub.Data.Models.Rating", b =>
                 {
                     b.Property<string>("Id")
@@ -570,6 +523,38 @@ namespace HealthHub.Data.Migrations
                     b.ToTable("Ratings");
                 });
 
+            modelBuilder.Entity("HealthHub.Data.Models.Service", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Services");
+                });
+
             modelBuilder.Entity("HealthHub.Data.Models.Specialty", b =>
                 {
                     b.Property<string>("Id")
@@ -588,7 +573,9 @@ namespace HealthHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -757,8 +744,8 @@ namespace HealthHub.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("HealthHub.Data.Models.ClinicProcedure", "ProcedureBooked")
-                        .WithMany("ScheduledAppointments")
+                    b.HasOne("HealthHub.Data.Models.Service", "ProcedureBooked")
+                        .WithMany("Appointments")
                         .HasForeignKey("ProcedureBookedId");
 
                     b.Navigation("Doctor");
@@ -772,35 +759,26 @@ namespace HealthHub.Data.Migrations
                 {
                     b.HasOne("HealthHub.Data.Models.CityArea", "Area")
                         .WithMany("Clinics")
-                        .HasForeignKey("AreaId");
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Area");
-                });
-
-            modelBuilder.Entity("HealthHub.Data.Models.ClinicProcedure", b =>
-                {
-                    b.HasOne("HealthHub.Data.Models.Clinic", "Clinic")
-                        .WithMany("ListedProcedures")
-                        .HasForeignKey("ClinicId");
-
-                    b.HasOne("HealthHub.Data.Models.Procedure", "Procedure")
-                        .WithMany("Clinics")
-                        .HasForeignKey("ProcedureId");
-
-                    b.Navigation("Clinic");
-
-                    b.Navigation("Procedure");
                 });
 
             modelBuilder.Entity("HealthHub.Data.Models.Doctor", b =>
                 {
                     b.HasOne("HealthHub.Data.Models.Clinic", "Clinic")
                         .WithMany("MedicalStaff")
-                        .HasForeignKey("ClinicId");
+                        .HasForeignKey("ClinicId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("HealthHub.Data.Models.Specialty", "Specialty")
                         .WithMany("Doctors")
-                        .HasForeignKey("SpecialtyId");
+                        .HasForeignKey("SpecialtyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Clinic");
 
@@ -939,14 +917,7 @@ namespace HealthHub.Data.Migrations
                 {
                     b.Navigation("InsuranceCompanies");
 
-                    b.Navigation("ListedProcedures");
-
                     b.Navigation("MedicalStaff");
-                });
-
-            modelBuilder.Entity("HealthHub.Data.Models.ClinicProcedure", b =>
-                {
-                    b.Navigation("ScheduledAppointments");
                 });
 
             modelBuilder.Entity("HealthHub.Data.Models.Diagnosis", b =>
@@ -964,9 +935,9 @@ namespace HealthHub.Data.Migrations
                     b.Navigation("Clinics");
                 });
 
-            modelBuilder.Entity("HealthHub.Data.Models.Procedure", b =>
+            modelBuilder.Entity("HealthHub.Data.Models.Service", b =>
                 {
-                    b.Navigation("Clinics");
+                    b.Navigation("Appointments");
                 });
 
             modelBuilder.Entity("HealthHub.Data.Models.Specialty", b =>

@@ -30,8 +30,6 @@
 
         public DbSet<Clinic> Clinics { get; set; }
 
-        public DbSet<ClinicProcedure> ClinicsProcedures { get; set; }
-
         public DbSet<Diagnosis> Diagnoses { get; set; }
 
         public DbSet<Doctor> Doctors { get; set; }
@@ -42,7 +40,7 @@
 
         public DbSet<InsuranceClinic> InsuranceClinics { get; set; }
 
-        public DbSet<Procedure> Procedures { get; set; }
+        public DbSet<Service> Services { get; set; }
 
         public DbSet<Rating> Ratings { get; set; }
 

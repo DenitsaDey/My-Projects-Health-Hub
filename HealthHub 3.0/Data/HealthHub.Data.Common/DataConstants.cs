@@ -11,7 +11,9 @@
         public const string UserTypePatient = "Patient";
         public const string UserTypeMedicalProfessional = "Medical Professional";
 
-        public const int DescriptionMaxLength = 200;
+        public const int MessageMaxLength = 200;
+        public const int CityAreaMaxLength = 40;
+        public const int ClinicNameMaxLength = 50;
         public const int AddressMaxLength = 200;
 
 

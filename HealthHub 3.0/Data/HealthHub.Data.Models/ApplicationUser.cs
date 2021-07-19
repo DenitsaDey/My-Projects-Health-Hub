@@ -3,10 +3,13 @@ namespace HealthHub.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using HealthHub.Data.Common.Models;
     using HealthHub.Data.Models.Enums;
     using Microsoft.AspNetCore.Identity;
+
+    using static HealthHub.Data.Common.DataConstants;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {

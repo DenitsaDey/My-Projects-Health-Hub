@@ -8,6 +8,6 @@
 
         public int SpecialtiesCount { get; set; }
 
-        public int Appointments { get; set; }
+        public int AppointmentsCount { get; set; }
     }
 }

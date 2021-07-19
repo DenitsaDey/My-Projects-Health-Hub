@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HealthHub.Services.Data.Models
+﻿namespace HealthHub.Services.Data.Models
 {
     public class CountsDto
     {

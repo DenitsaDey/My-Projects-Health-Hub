@@ -27,7 +27,7 @@
                           {
                               new RolesSeeder(),
                               new AccountsSeeder(),
-                              new ProceduresSeeder(),
+                              new ServicesSeeder(),
                           };
 
             foreach (var seeder in seeders)

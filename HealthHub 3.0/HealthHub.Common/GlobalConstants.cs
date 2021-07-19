@@ -21,19 +21,13 @@
             public const string PatientEmail = "patient@patient.com";
         }
 
-        public static class SeededDataCounts
+        public static class DateTimeFormats
         {
-            public const int BlogPosts = 4;
+            public const string DateFormat = "dd-MM-yyyy";
 
-            public const int Categories = 6;
+            public const string TimeFormat = "h:mmtt";
 
-            public const int Services = 55;
-
-            public const int CityAreas = 10;
-
-            public const int Salons = 18;
-
-            public const int Appointments = 54;
+            public const string DateTimeFormat = "dd-MM-yyyy h:mmtt";
         }
     }
 }

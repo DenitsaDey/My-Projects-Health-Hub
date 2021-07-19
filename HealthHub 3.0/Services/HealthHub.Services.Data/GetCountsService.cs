@@ -1,13 +1,12 @@
-﻿using HealthHub.Data.Common.Repositories;
-using HealthHub.Data.Models;
-using HealthHub.Services.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace HealthHub.Services.Data
+﻿namespace HealthHub.Services.Data
 {
+    using System.Linq;
+
+    using HealthHub.Data.Common.Repositories;
+    using HealthHub.Data.Models;
+    using HealthHub.Services.Data.Models;
+    using HealthHub.Web.ViewModels;
+
     public class GetCountsService : IGetCountsService
     {
         private readonly IDeletableEntityRepository<Doctor> doctorsRepository;
@@ -27,9 +26,9 @@ namespace HealthHub.Services.Data
             this.appointmentsRepository = appointmentsRepository;
         }
 
-        public CountsDto GetCounts()
+        public CountsViewModel GetCounts()
         {
-            var countsData = new CountsDto
+            var countsData = new CountsViewModel
             {
                 DoctorsCount = this.doctorsRepository.All().Count(),
                 ClinicsCount = this.clinicsRepository.All().Count(),

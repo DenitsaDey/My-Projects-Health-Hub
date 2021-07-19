@@ -1,0 +1,113 @@
+﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentListViewModel
+@{
+    this.ViewData["Title"] = "Your Appointments";
+}
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+
+        <div class="section-title">
+            <form method="get" class="col-md-6 offset-md-3"
+                  enctype="multipart/form-data">
+                <h1>@this.ViewData["Title"]</h1>
+                @if (!@Model.AppointmentList.Any())
+                {
+                    <div class="row">
+                        <div class="col-lg-4 ml-lg-5">
+                            <div class="about_text_2">
+                                <p>
+                                    You have no appointments booked yet.
+                                </p>
+                            </div>
+                            <div class="about_text_highlight">
+                                Book an appointment in 3 easy steps:
+                            </div>
+                            <div class="about_text_highlight">
+                                <ol>
+                                    <li>Find a doctor.</li>
+                                    <li>Choose a service.</li>
+                                    <li>Pick date and time.</li>
+                                </ol>
+                            </div>
+                            <div class="about_text_2">
+                                <p>
+                                    Waiting back here for you.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 ml-lg-5">
+                            <div class="button button-large button_1 elements_button mt-4">
+                                <a asp-area="" asp-controller="Appointment" asp-action="Book">
+                                    <span>Find a doctor</span>
+                                    <span>Find s doctor</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <h2>@Model.AppointmentList.Count() appointments booked:</h2>
+
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Date and Time</th>
+                                <th scope="col">Docotr <span class="text-info">*</span></th>
+                                <th scope="col">Clinic</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">Details</th>
+                                <th scope="col">Cancel</th>
+                                <th scope="col">Reschedule</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var appointment in this.Model.AppointmentList)
+                            {
+                                <tr>
+                                    <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
+                                    <td>@appointment.DoctorId</td>
+                                    <td>@appointment.AppointmentStatus</td>
+                                    <td>
+                                        @if (appointment.RatingValue == 0 && appointment.AppointmentStatus == "Completed")
+                                        {
+                                            <a class="btn btn-outline-danger btn-sm"
+                                               asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-id="@appointment.Id">
+                                                Rate this appointment
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            @appointment.RatingValue
+                                        }
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-outline-danger btn-sm"
+                                           asp-area="" asp-controller="Appointments" asp-action="GetDetails" asp-route-id="@appointment.Id">
+                                            Details
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-outline-danger btn-sm"
+                                           asp-area="" asp-controller="Appointments" asp-action="Cancel" asp-route-id="@appointment.Id">
+                                            Cancel
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-outline-danger btn-sm"
+                                           asp-area="" asp-controller="Appointments" asp-action="Reschedule" asp-route-id="@appointment.Id">
+                                            Reschedule
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </form>
+        </div>
+    </div>
+</section>
+

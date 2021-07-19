@@ -1,29 +1,35 @@
 ﻿namespace HealthHub.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Linq;
-    using HealthHub.Data;
+
+    using HealthHub.Services.Data;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
-        private readonly ApplicationDbContext db;
+        private readonly IGetCountsService getCountsService;
+        private readonly ISpecialtiesService specialtiesService;
+        private readonly ICityAreasService cityAreasService;
 
-        public HomeController(ApplicationDbContext db)
+        public HomeController(
+            IGetCountsService getCountsService,
+            ISpecialtiesService specialtiesService,
+            ICityAreasService cityAreasService)
         {
-            this.db = db;
+          this.getCountsService = getCountsService;
+          this.specialtiesService = specialtiesService;
+          this.cityAreasService = cityAreasService;
         }
 
         public IActionResult Index()
         {
-            var viewModel = new CountsViewModel()
-            {
-                DoctorsCount = this.db.Doctors.Count(),
-                ClinicsCount = this.db.Clinics.Count(),
-                SpecialtiesCount = this.db.Specialties.Count(),
-                Appointments = this.db.Appointments.Count(),
-            };
+            var viewModel = new IndexViewModel();
+            viewModel.DataCounts = this.getCountsService.GetCounts();
+            viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
+            viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
+
             return this.View(viewModel);
         }
 

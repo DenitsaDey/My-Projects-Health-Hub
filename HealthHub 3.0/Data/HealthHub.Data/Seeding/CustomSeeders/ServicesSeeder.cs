@@ -1,58 +1,57 @@
-﻿using HealthHub.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HealthHub.Data.Seeding.CustomSeeders
+﻿namespace HealthHub.Data.Seeding.CustomSeeders
 {
-    public class ProceduresSeeder : ISeeder
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using HealthHub.Data.Models;
+
+    public class ServicesSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            if (dbContext.Procedures.Any())
+            if (dbContext.Services.Any())
             {
                 return;
             }
 
-            var procedures = new Procedure[]
+            var services = new Service[]
             {
-                new Procedure
+                new Service
                 {
                     Name = "Initial check-up",
                     Description = "Visiting this doctor for the fist time or visiting this doctor with a new issue.",
                 },
-                new Procedure
+                new Service
                 {
                     Name = "Follow-up",
                     Description = "Visiting this doctor for the same issue within a week of the last appointment.",
                 },
-                new Procedure
+                new Service
                 {
                     Name = "Lab test",
                     Description = "Visiting this doctor for lab referral.",
                 },
-                new Procedure
+                new Service
                 {
                     Name = "Vaccination",
                     Description = "Visiting this doctor for vaccination.",
                 },
-                new Procedure
+                new Service
                 {
                     Name = "Medical Document",
                     Description = "Visiting this doctor for prescription, medical certificate for sick leave, return to work, fit for school etc.",
                 },
-                new Procedure
+                new Service
                 {
                     Name = "Other",
                     Description = "Any other reason that was not mentioned above.",
                 },
             };
 
-            foreach (var procedure in procedures)
+            foreach (var service in services)
             {
-                await dbContext.Procedures.AddAsync(procedure);
+                await dbContext.Services.AddAsync(service);
                 await dbContext.SaveChangesAsync();
             }
         }
