@@ -43,12 +43,12 @@
             await this.appointmentsRepository.SaveChangesAsync();
         }
 
-        public async Task CancelAppointment(string appointmentId)
+        public async Task ChangeAppointmentStaus(string appointmentId, string status)
         {
             var appointment = this.appointmentsRepository.All()
                 .Where(a => a.Id == appointmentId)
                 .FirstOrDefault();
-            appointment.AppointmentStatus = AppointmentStatus.Cancelled;
+            appointment.AppointmentStatus = Enum.Parse<AppointmentStatus>(status);
 
             await this.appointmentsRepository.SaveChangesAsync();
         }
@@ -78,6 +78,28 @@
                 .ToList();
 
             return allAppointments;
+        }
+
+        public AppointmentViewModel GetById(string appointmentId)
+        {
+            var currentAppointment = this.appointmentsRepository.All()
+                .Where(a => a.Id == appointmentId)
+                .Select(a => new AppointmentViewModel
+                {
+                    Id = a.Id,
+                    Doctor = a.Doctor.FirstName + " " + a.Doctor.LastName,
+                    Clinic = a.Doctor.Clinic.Name,
+                    Address = a.Doctor.Clinic.Address,
+                    Location = a.Doctor.Clinic.MapUrl,
+                    ProcedureBooked = a.ProcedureBooked.Name,
+                    AppointmentTime = a.AppointmentTime,
+                    AppointmentStatus = a.AppointmentStatus,
+                    Message = a.Message,
+                    Rating = a.Rating.Value,
+                })
+                .FirstOrDefault();
+
+            return currentAppointment;
         }
 
         public async Task RescheduleAppointment(string appointmentId, string newDate)

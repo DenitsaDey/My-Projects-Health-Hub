@@ -1,1 +1,65 @@
-﻿
+﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentViewModel
+@{
+    this.ViewData["Title"] = "Appointment Details";
+}
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+
+        <div class="section-title">
+            <form method="get" class="col-md-6 offset-md-3"
+                  enctype="multipart/form-data">
+                <h1>@this.ViewData["Title"]</h1>
+
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Date and Time</th>
+                            <th scope="col">Doctor</th>
+                            <th scope="col">Clinic</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Booked For</th>
+                            <th scope="col">Additional Notes</th>
+                            <th scope="col">Edit Notes</th>
+                            <th scope="col">Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">@Model.AppointmentTime.ToString("f")</th>
+                            <td>@Model.Doctor</td>
+                            <td>@Model.Clinic</td>
+                            <td>@Model.Address</td>
+                            <td>
+                                <iframe style="border:0; width: 100%; height: 350px;" src="@Model.Location" frameborder="0" allowfullscreen></iframe>
+                            </td>
+                            <td>@Model.AppointmentStatus</td>
+                            <td>@Model.ProcedureBooked</td>
+                            <td>@Model.Message</td>
+                            <td>
+                                <a href="/Appointment/EditMessage?appointmentId=@Model.Id" class="btn btn-block btn-primary">Edit Notes</a>
+                            </td>
+                            <td>
+                                @if (@Model.Rating == 0 && @Model.AppointmentStatus.ToString() == "Completed")
+                                {
+                                    <a class="btn btn-outline-danger btn-sm"
+                                       asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-id="@Model.Id">
+                                        Rate this appointment
+                                    </a>
+                                }
+                                else
+                                {
+                                    @Model.Rating
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <a href="/Appointment/All" class="btn btn-block btn-primary">My Appointments</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

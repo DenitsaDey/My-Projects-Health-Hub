@@ -11,7 +11,9 @@
 
         IEnumerable<AppointmentSummaryViewModel> GetAll(string patientId);
 
-        Task CancelAppointment(string appointmentId);
+        AppointmentViewModel GetById(string appointmentId);
+
+        Task ChangeAppointmentStaus(string appointmentId, string status);
 
         Task RescheduleAppointment(string appointmentId, string newDate);
 

@@ -6,13 +6,17 @@
 
     public class AppointmentViewModel
     {
-        public string DoctorId { get; set; }
+        public string Id { get; set; }
 
-        public string ClinicId { get; set; }
+        public string Doctor { get; set; }
+
+        public string Clinic { get; set; }
+
+        public string Address { get; set; }
 
         public string Location { get; set; }
 
-        public string ProcedureBookedId { get; set; }
+        public string ProcedureBooked { get; set; }
 
         public DateTime AppointmentTime { get; set; }
 
@@ -22,6 +26,6 @@
 
         public bool HasBeenVoted { get; set; }
 
-        public string RatingId { get; set; }
+        public int Rating { get; set; }
     }
 }

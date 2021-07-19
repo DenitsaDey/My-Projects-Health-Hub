@@ -55,5 +55,24 @@
             viewModel.AppointmentList = this.appointmentService.GetAll(patientId);
             return this.View(viewModel);
         }
+
+        public IActionResult Details(string appointmentId)
+        {
+            var model = this.appointmentService.GetById(appointmentId);
+            return this.View(model);
+        }
+
+        public IActionResult Cancel(string appointmentId)
+        {
+            var model = this.appointmentService.ChangeAppointmentStaus(appointmentId, "Cancelled");
+            return this.View();
+        }
+
+        public IActionResult Rate()
+        {
+            var model = new 
+        }
+        [HttpPost]
+        public IActionResult Rate(string appointmentId)
     }
 }

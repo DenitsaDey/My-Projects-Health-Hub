@@ -1,6 +1,6 @@
 ﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentListViewModel
 @{
-    this.ViewData["Title"] = "Your Appointments";
+    this.ViewData["Title"] = "My Appointments";
 }
 <section id="appointment" class="appointment section-bg">
     <div class="container">
@@ -27,21 +27,6 @@
                                     <li>Choose a service.</li>
                                     <li>Pick date and time.</li>
                                 </ol>
-                            </div>
-                            <div class="about_text_2">
-                                <p>
-                                    Waiting back here for you.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 ml-lg-5">
-                            <div class="button button-large button_1 elements_button mt-4">
-                                <a asp-area="" asp-controller="Appointment" asp-action="Book">
-                                    <span>Find a doctor</span>
-                                    <span>Find s doctor</span>
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -84,20 +69,21 @@
                                         }
                                     </td>
                                     <td>
+                                        <a href="/Appointment/Details?appointmentId=@appointment.Id" class="btn btn-block btn-primary">Details1</a>
                                         <a class="btn btn-outline-danger btn-sm"
-                                           asp-area="" asp-controller="Appointments" asp-action="GetDetails" asp-route-id="@appointment.Id">
-                                            Details
+                                           asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-id="@appointment.Id">
+                                            Details2
                                         </a>
                                     </td>
                                     <td>
                                         <a class="btn btn-outline-danger btn-sm"
-                                           asp-area="" asp-controller="Appointments" asp-action="Cancel" asp-route-id="@appointment.Id">
+                                           asp-area="" asp-controller="Appointment" asp-action="Cancel" asp-route-id="@appointment.Id">
                                             Cancel
                                         </a>
                                     </td>
                                     <td>
                                         <a class="btn btn-outline-danger btn-sm"
-                                           asp-area="" asp-controller="Appointments" asp-action="Reschedule" asp-route-id="@appointment.Id">
+                                           asp-area="" asp-controller="Appointment" asp-action="Reschedule" asp-route-id="@appointment.Id">
                                             Reschedule
                                         </a>
                                     </td>
@@ -106,6 +92,15 @@
                         </tbody>
                     </table>
                 }
+                <div class="row">
+                    <div class="col-lg-4 ml-lg-5">
+                        <div class="button button-large button_1 elements_button mt-4">
+                            <a asp-area="" asp-controller="Doctor" asp-action="All">
+                                <span>Find a doctor</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
