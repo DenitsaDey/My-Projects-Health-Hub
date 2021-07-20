@@ -13,7 +13,7 @@
         public Specialty() => this.Id = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(DefaultMaxLength)]
+        [MaxLength(SpecialtyMaxLength)]
         public string Name { get; set; }
 
         public virtual ICollection<Doctor> Doctors { get; set; } = new HashSet<Doctor>();

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using HealthHub.Data.Seeding.CustomSeeders;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -28,6 +29,9 @@
                               new RolesSeeder(),
                               new AccountsSeeder(),
                               new ServicesSeeder(),
+                              new CityAreaSeeder(),
+                              new ClinicsSeeder(),
+                              new DoctorsSeeder(),
                           };
 
             foreach (var seeder in seeders)
