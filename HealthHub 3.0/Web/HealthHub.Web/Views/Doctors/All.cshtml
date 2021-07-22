@@ -1,1 +1,51 @@
-﻿<h1>All Doctors</h1>
+﻿@model HeaderSearchQueryModel
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+
+
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <a href="index.html" class="logo me-auto"><img src="~/img/HH2.png" alt="" class="img-fluid"></a>
+        <h1 class="logo me-auto"><a href="index.html">HealthHub</a></h1>
+
+        <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                    <li class="dropdown">
+                            <a href="#"><span>Specialties</span> <i class="bi bi-chevron-down"></i></a>
+                            <ul>
+                                @foreach (var specialty in Model.Specialties)
+                                {
+                                <a href="specialty.Id"> @specialty.Name </a>
+                            }
+                                <span asp-validation-for="Specialties" class="text-danger"></span>
+                         
+</ul>
+</li>
+                    <li class="dropdown">
+                        <a href="#"><span>City Areas</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            @foreach (var cityArea in Model.CityAreas)
+                            {
+                                <option value="cityArea.Id"> @cityArea.Name</option>
+                            }
+                            <span asp-validation-for="CityAreas" class="text-danger"></span>
+                        </ul>
+                    </li>
+                    <li class="form-group">
+                        <input asp-for="SearchName" class="form-control" placeholder="or search by name">
+                    </li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav>
+            <!-- .navbar -->
+
+            <a href="Doctors/All" class="appointment-btn scrollto"><span class="d-none d-md-inline" asp-controller="Doctors" asp-action="Searched">Find a</span> Doctor</a>
+            <nav id="navbar" class="navbar order-last order-lg-0">
+
+                <ul class="navbar order-last order-lg-0">
+                    <partial name="_LoginPartial" />
+                </ul>
+            </nav>
+</div>   
+</header><!-- End Header -->

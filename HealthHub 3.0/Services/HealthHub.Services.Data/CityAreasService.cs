@@ -5,6 +5,7 @@
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
+    using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Home;
 
     public class CityAreasService : ICityAreasService
@@ -16,10 +17,10 @@
             this.cityAreasRepository = cityAreasRepository;
         }
 
-        public IEnumerable<IndexCityAreaViewModel> GetAllCityAreas()
+        public IEnumerable<CityAreasViewModel> GetAllCityAreas()
         {
             return this.cityAreasRepository.All()
-                .Select(p => new IndexCityAreaViewModel
+                .Select(p => new CityAreasViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,

@@ -4,9 +4,9 @@
 
     public class IndexViewModel
     {
-        public IEnumerable<IndexSpecialtyViewModel> Specialties { get; set; }
+        public IEnumerable<SpecialtyViewModel> Specialties { get; set; }
 
-        public IEnumerable<IndexCityAreaViewModel> CityAreas { get; set; }
+        public IEnumerable<CityAreasViewModel> CityAreas { get; set; }
 
         public CountsViewModel DataCounts { get; set; }
     }

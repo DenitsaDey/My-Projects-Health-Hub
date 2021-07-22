@@ -13,7 +13,7 @@
         public Insurance() => this.Id = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(DefaultMaxLength)]
+        [MaxLength(InsuranceMaxLength)]
         public string Name { get; set; }
 
         public virtual ICollection<InsuranceClinic> Clinics { get; set; } = new HashSet<InsuranceClinic>();

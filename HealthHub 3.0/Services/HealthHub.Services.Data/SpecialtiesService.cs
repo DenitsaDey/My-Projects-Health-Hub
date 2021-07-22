@@ -5,6 +5,7 @@
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
+    using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Home;
 
     public class SpecialtiesService : ISpecialtiesService
@@ -16,16 +17,24 @@
             this.specialtiesRepository = specialtiesRepository;
         }
 
-        public IEnumerable<IndexSpecialtyViewModel> GetAllSpecialties()
+        public IEnumerable<SpecialtyViewModel> GetAllSpecialties()
         {
             return this.specialtiesRepository.All()
-                .Select(s => new IndexSpecialtyViewModel
+                .Select(s => new SpecialtyViewModel
                 {
                     Id = s.Id,
                     Name = s.Name,
                 })
                 .ToList()
                 .OrderBy(x => x.Id);
+        }
+
+        public IEnumerable<string> GetAllSpecialtiesNames()
+        {
+            return this.specialtiesRepository.All()
+                .OrderBy(s => s.Name)
+                .Select(s => s.Name)
+                .ToList();
         }
     }
 }

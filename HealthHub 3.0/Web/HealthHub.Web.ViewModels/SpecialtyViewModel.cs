@@ -1,6 +1,6 @@
-﻿namespace HealthHub.Web.ViewModels.Home
+﻿namespace HealthHub.Web.ViewModels
 {
-    public class IndexSpecialtyViewModel
+    public class SpecialtyViewModel
     {
         public string Id { get; set; }
 

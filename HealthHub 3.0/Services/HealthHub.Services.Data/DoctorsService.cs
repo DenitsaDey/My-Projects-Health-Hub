@@ -8,6 +8,7 @@
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
+    using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Doctor;
 
     public class DoctorsService : IDoctorsService
@@ -19,7 +20,7 @@
             this.doctorsRepository = doctorsRepository;
         }
 
-        public IEnumerable<DoctorsSummaryViewModel> GetAll()
+        public HeaderSearchQueryModel GetAll()
         {
             var allDoctors = this.doctorsRepository.All()
                 .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
@@ -34,7 +35,12 @@
                 })
                 .ToList();
 
-            return allDoctors;
+            var result = new HeaderSearchQueryModel
+            {
+                Doctors = allDoctors,
+            };
+
+            return result;
         }
 
         public IEnumerable<DoctorsSummaryViewModel> GetAllSearched(string specialty, string cityArea, string name)
