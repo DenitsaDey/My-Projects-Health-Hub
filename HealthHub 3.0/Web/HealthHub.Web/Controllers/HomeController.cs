@@ -12,15 +12,18 @@
         private readonly IGetCountsService getCountsService;
         private readonly ISpecialtiesService specialtiesService;
         private readonly ICityAreasService cityAreasService;
+        private readonly IDoctorsService doctorsService;
 
         public HomeController(
             IGetCountsService getCountsService,
             ISpecialtiesService specialtiesService,
-            ICityAreasService cityAreasService)
+            ICityAreasService cityAreasService,
+            IDoctorsService doctorsService)
         {
           this.getCountsService = getCountsService;
           this.specialtiesService = specialtiesService;
           this.cityAreasService = cityAreasService;
+          this.doctorsService = doctorsService;
         }
 
         public IActionResult Index()
@@ -29,6 +32,7 @@
             viewModel.DataCounts = this.getCountsService.GetCounts();
             viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
             viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
+            viewModel.Doctors = this.doctorsService.GetAll(string.Empty, string.Empty, string.Empty).Doctors;
 
             return this.View(viewModel);
         }

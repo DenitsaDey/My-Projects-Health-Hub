@@ -18,17 +18,20 @@
     <link rel="stylesheet" href="~/lib/swiper/swiper-bundle.min.css" asp-append-version="true" />
 </head>
 <body>
+    
+    <partial name="_CookieConsentPartial"/>
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top">
-        <div class="container d-flex align-items-center">
+    <div class="super-container">
+        <!-- ======= Header ======= -->
+        <header id="header" class="fixed-top">
+            <div class="container d-flex align-items-center">
 
 
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <a href="index.html" class="logo me-auto"><img src="~/img/HH2.png" alt="" class="img-fluid"></a>
-            <h1 class="logo me-auto"><a href="index.html">HealthHub</a></h1>
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <a href="index.html" class="logo me-auto"><img src="~/img/HH2.png" alt="" class="img-fluid"></a>
+                <h1 class="logo me-auto"><a href="index.html">HealthHub</a></h1>
 
-            <!--<nav id="navbar" class="navbar order-last order-lg-0">
+                <!--<nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
                     <li class="dropdown">
                         <label asp-for="Specialties"></label>
@@ -55,34 +58,37 @@
                     <li><a class="nav-link scrollto" href="#doctors">Doctors</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav>--><!-- .navbar -->
+            </nav>-->
+                <!-- .navbar -->
 
-            <a href="Doctors/All" class="appointment-btn scrollto"><span class="d-none d-md-inline" asp-controller="Doctors" asp-action="All">Find a</span> Doctor</a>
-            <nav id="navbar" class="navbar order-last order-lg-0">
+                <a href="Doctors/All" class="appointment-btn scrollto"><span class="d-none d-md-inline" asp-controller="Doctors" asp-action="All">Find a</span> Doctor</a>
+                <nav id="navbar" class="navbar order-last order-lg-0">
 
-                <ul class="navbar order-last order-lg-0">
-                    <partial name="_LoginPartial" />
-                </ul>
-            </nav>
+                    <ul class="navbar order-last order-lg-0">
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </nav>
 
+            </div>
+        </header><!-- End Header -->
+
+
+
+        <partial name="_CookieConsentPartial" />
+
+        <!--Hero Section-->
+        <partial name="_HeroPartial" />
+
+        <div class="m-5">
+            <main role="main">
+                @this.RenderBody()
+            </main>
         </div>
-    </header><!-- End Header -->
 
 
-
-    <partial name="_CookieConsentPartial" />
-
-    <!--Hero Section-->
-    <partial name="_HeroPartial" />
-
-    <div class="m-5">
-        <main role="main">
-            @this.RenderBody()
-        </main>
+        <!--Footer-->
+        <partial name="_FooterPartial" />
     </div>
-
-    <!--Footer-->
-    <partial name="_FooterPartial" />
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>

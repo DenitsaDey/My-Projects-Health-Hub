@@ -20,8 +20,27 @@
             this.doctorsRepository = doctorsRepository;
         }
 
-        public HeaderSearchQueryModel GetAll()
+        public HeaderSearchQueryModel GetAll(string specialtyId, string cityAreaId, string name)
         {
+            var doctorsQuery = this.doctorsRepository.All().AsQueryable();
+            if (!string.IsNullOrWhiteSpace(specialtyId))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Specialty.Id == specialtyId);
+            }
+
+            if (!string.IsNullOrWhiteSpace(cityAreaId))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Clinic.Area.Id == cityAreaId);
+            }
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(name.ToLower()));
+            }
+
             var allDoctors = this.doctorsRepository.All()
                 .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
                 .Select(d => new DoctorsSummaryViewModel
@@ -43,10 +62,28 @@
             return result;
         }
 
-        public IEnumerable<DoctorsSummaryViewModel> GetAllSearched(string specialty, string cityArea, string name)
+        public IEnumerable<DoctorsSummaryViewModel> GetAllSearched(string specialtyId, string cityAreaId, string name)
         {
-            var allDoctors = this.doctorsRepository.All()
-                .Where(d => (d.Specialty.Name == specialty && d.Clinic.Area.Name == cityArea) || d.FirstName.ToLower().Contains(name.ToLower()) || d.LastName.ToLower().Contains(name.ToLower()))
+            var doctorsQuery = this.doctorsRepository.All().AsQueryable();
+            if (!string.IsNullOrWhiteSpace(specialtyId))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Specialty.Id == specialtyId);
+            }
+
+            if (!string.IsNullOrWhiteSpace(cityAreaId))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Clinic.Area.Id == cityAreaId);
+            }
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(name.ToLower()));
+            }
+
+            var allDoctors = doctorsQuery
                 .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
                 .Select(d => new DoctorsSummaryViewModel
                 {

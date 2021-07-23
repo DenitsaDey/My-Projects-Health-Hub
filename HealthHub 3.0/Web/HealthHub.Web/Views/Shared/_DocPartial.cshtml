@@ -1,0 +1,24 @@
+﻿@model IEnumerable<DoctorsSummaryViewModel>
+
+<section id="doctors" class="doctors">
+    <div class="container">
+        <div class="row">
+            @foreach (var doctor in Model)
+            {
+                <div class="col-lg-6">
+                    <div class="member d-flex align-items-start">
+                        <div class="pic"><img src="@doctor.ImageUrl" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>@doctor.FirstName @doctor.LastName</h4>
+                            <span>@doctor.Specialty</span>
+                            <p>@doctor.Clinic</p>
+                            <div class="form-group" style="padding-top:30px">
+                                <a href="Details"><i class="appointment-btn scrollto"><span class="d-none d-md-inline" asp-controller="Doctors" asp-action="Details">Book an </span>Appointment</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

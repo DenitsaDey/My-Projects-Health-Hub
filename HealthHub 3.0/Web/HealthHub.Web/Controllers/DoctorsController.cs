@@ -16,17 +16,17 @@
             this.cityAreasService = cityAreasService;
         }
 
-        public IActionResult All()
+        public IActionResult All(string specialtyId, string cityAreaId, string name)
         {
-            var viewModel = this.doctorsService.GetAll();
+            var viewModel = this.doctorsService.GetAll(specialtyId, cityAreaId, name);
             viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
             viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
             return this.View(viewModel);
         }
 
-        public IActionResult Searched(string specialty, string area, string name)
+        public IActionResult Searched(string specialtyId, string areaId, string name)
         {
-            var viewModel = this.doctorsService.GetAllSearched(specialty, area, name);
+            var viewModel = this.doctorsService.GetAllSearched(specialtyId, areaId, name);
             return this.View(viewModel);
         }
 

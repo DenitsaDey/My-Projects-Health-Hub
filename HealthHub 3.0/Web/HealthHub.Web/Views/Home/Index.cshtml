@@ -15,16 +15,21 @@
 @if (User.IsInRole("Patient"))
 {
     <div class="text-center">
-        <a class="button" asp-controller="Appointmen" asp-action="All" asp-route-id="@User.Identity">My Appointments</a>
+        <a class="button" asp-controller="Appointment" asp-action="All" asp-route-id="@User.Identity">My Appointments</a>
     </div>
 }
 <partial name="_WhyUsSection" />
 <partial name="_CountsSectionPartial" />
 <partial name="_AboutPartial" />
-<partial name="_ServicesSectionPartial" />
+<div class="container">
+    <div class="section-title">
+        <h2>Doctors</h2>
+        <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+    </div>
+</div>
+<partial name="_DocPartial" model="Model.Doctors.Take(4)" />
 <partial name="_AppointmentsPartial" />
-<partial name="_SpecialtiesPartial" />
-<partial name="_DoctorsPartial" />
+<partial name="_ServicesSectionPartial" />
 <partial name="_FAQPartial" />
 <partial name="_TestimonialPartial" />
 <partial name="_ContactPartial" />
