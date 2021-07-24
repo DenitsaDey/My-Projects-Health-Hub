@@ -17,23 +17,36 @@
     <link rel="stylesheet" href="~/lib/swiper/swiper-bundle.min.css" asp-append-version="true" />
 </head>
 <body>
-    
-    <partial name="_CookieConsentPartial"/>
-        
-        
 
+    <partial name="_CookieConsentPartial" />
+
+
+    <!-- Home -->
+    @if (this.ViewData["Title"].ToString() == "Home Page")
+    {
         <!--Hero Section-->
         <partial name="_HeroPartial" />
-
-        <div class="m-5">
-            <main role="main">
-                @this.RenderBody()
-            </main>
+    }
+    else
+    {
+        @*<div class="background_image" style="background-image:url('../../wwwroot/img/hero-bg.jpg')"></div>*@
+<section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <h1>@this.ViewData["Title"]</h1>
         </div>
+</section>
+    }
 
 
-        <!--Footer-->
-        <partial name="_FooterPartial" />
+    <div class="m-5">
+        <main role="main">
+            @this.RenderBody()
+        </main>
+    </div>
+
+
+    <!--Footer-->
+    <partial name="_FooterPartial" />
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
