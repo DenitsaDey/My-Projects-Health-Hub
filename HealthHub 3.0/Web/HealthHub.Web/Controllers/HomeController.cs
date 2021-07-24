@@ -4,7 +4,6 @@
 
     using HealthHub.Services.Data;
     using HealthHub.Web.ViewModels;
-    using HealthHub.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
@@ -28,7 +27,7 @@
 
         public IActionResult Index()
         {
-            var viewModel = new IndexViewModel();
+            var viewModel = new HeaderSearchQueryModel();
             viewModel.DataCounts = this.getCountsService.GetCounts();
             viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
             viewModel.Specialties = this.specialtiesService.GetAllSpecialties();

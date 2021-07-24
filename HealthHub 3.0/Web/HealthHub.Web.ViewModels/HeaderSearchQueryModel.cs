@@ -1,11 +1,11 @@
-﻿using HealthHub.Data.Models.Enums;
-using HealthHub.Web.ViewModels.Doctor;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HealthHub.Web.ViewModels
+﻿namespace HealthHub.Web.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+
+    using HealthHub.Data.Models.Enums;
+    using HealthHub.Web.ViewModels.Doctor;
+
     public class HeaderSearchQueryModel
     {
         public string SpecialtyId { get; set; }
@@ -21,5 +21,7 @@ namespace HealthHub.Web.ViewModels
         public SearchSorting Sorting { get; set; }
 
         public IEnumerable<DoctorsSummaryViewModel> Doctors { get; set; }
+
+        public CountsViewModel DataCounts { get; set; }
     }
 }

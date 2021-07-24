@@ -3,6 +3,14 @@
     <div class="container">
         <h1>Welcome to Health Hub</h1>
         <h2>We help you find the right medical professional</h2>
+        @if (User.IsInRole("Admin"))
+        {
+                <a href="" class="btn-get-started scrollto" asp-controller="GatherInsuranceCompanies" asp-action="Add">Add Insurance Companies Data</a>           
+        }
+        @if (User.IsInRole("Patient"))
+        {
+                <a class="btn-get-started scrollto" asp-controller="Appointment" asp-action="All">My Appointments</a>
+        }
         <a href="Doctors/All" class="btn-get-started scrollto">Find a doctor</a>
     </div>
 </section><!-- End Hero -->

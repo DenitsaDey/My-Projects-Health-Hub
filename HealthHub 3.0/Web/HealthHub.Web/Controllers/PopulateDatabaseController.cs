@@ -14,7 +14,7 @@
             ICityAreasScraperService cityAreasScraperService,
             IInsuranceScraperService insuranceScraperService)
         {
-            this.cityAreasScraperService = cityAreasScraperService;
+            //this.cityAreasScraperService = cityAreasScraperService;
             this.insuranceScraperService = insuranceScraperService;
         }
 
@@ -25,7 +25,7 @@
 
         public async Task<IActionResult> Add()
         {
-            await this.cityAreasScraperService.ImportCityAreas();
+            //await this.cityAreasScraperService.ImportCityAreas();
             await this.insuranceScraperService.ImportInsuranceCompanies();
 
             return this.View();

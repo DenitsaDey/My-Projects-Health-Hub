@@ -6,7 +6,6 @@
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Web.ViewModels;
-    using HealthHub.Web.ViewModels.Home;
 
     public class CityAreasService : ICityAreasService
     {
