@@ -22,6 +22,12 @@
 
         public IEnumerable<DoctorsSummaryViewModel> Doctors { get; set; }
 
+        //public int ItemsPerPage { get; set; }
+
+        //public int PageNumber { get; set; }
+
+        public PagingViewModel Paging { get; set; }
+
         public CountsViewModel DataCounts { get; set; }
     }
 }

@@ -8,19 +8,36 @@
         private readonly IDoctorsService doctorsService;
         private readonly ISpecialtiesService specialtiesService;
         private readonly ICityAreasService cityAreasService;
+        private readonly IGetCountsService getCountsService;
 
-        public DoctorsController(IDoctorsService doctorsService, ISpecialtiesService specialtiesService, ICityAreasService cityAreasService)
+        public DoctorsController(IDoctorsService doctorsService, ISpecialtiesService specialtiesService, ICityAreasService cityAreasService, IGetCountsService getCountsService)
         {
             this.doctorsService = doctorsService;
             this.specialtiesService = specialtiesService;
             this.cityAreasService = cityAreasService;
+            this.getCountsService = getCountsService;
         }
 
-        public IActionResult All(string specialtyId, string cityAreaId, string name)
+        public IActionResult All(string specialtyId, string cityAreaId, string name, int pageNumber = 1)
         {
-            var viewModel = this.doctorsService.GetAll(specialtyId, cityAreaId, name);
+            if (pageNumber <= 0)
+            {
+                return this.NotFound();
+            }
+
+            const int ItemsPerPage = 8;
+
+            var viewModel = this.doctorsService.GetAll(specialtyId, cityAreaId, name, pageNumber);
+
             viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
             viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
+            viewModel.Paging = new ViewModels.PagingViewModel
+            {
+                ItemsPerPage = ItemsPerPage,
+                PageNumber = pageNumber,
+                DataCount = this.getCountsService.GetCounts().DoctorsCount,
+            };
+
             return this.View(viewModel);
         }
 

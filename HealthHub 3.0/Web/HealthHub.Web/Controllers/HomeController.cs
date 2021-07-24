@@ -31,7 +31,7 @@
             viewModel.DataCounts = this.getCountsService.GetCounts();
             viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
             viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
-            viewModel.Doctors = this.doctorsService.GetAll(string.Empty, string.Empty, string.Empty).Doctors;
+            viewModel.Doctors = this.doctorsService.GetAll(string.Empty, string.Empty, string.Empty, 1).Doctors;
 
             return this.View(viewModel);
         }

@@ -20,7 +20,7 @@
             this.doctorsRepository = doctorsRepository;
         }
 
-        public HeaderSearchQueryModel GetAll(string specialtyId, string cityAreaId, string name)
+        public HeaderSearchQueryModel GetAll(string specialtyId, string cityAreaId, string name, int pageNumber, int itemsPerPage = 8)
         {
             var doctorsQuery = this.doctorsRepository.All().AsQueryable();
             if (!string.IsNullOrWhiteSpace(specialtyId))
@@ -43,6 +43,7 @@
 
             var allDoctors = this.doctorsRepository.All()
                 .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
+                .Skip((pageNumber -1) * itemsPerPage).Take(itemsPerPage)
                 .Select(d => new DoctorsSummaryViewModel
                 {
                     Id = d.Id,

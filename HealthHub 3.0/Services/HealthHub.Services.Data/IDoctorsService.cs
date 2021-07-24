@@ -7,7 +7,7 @@
 
     public interface IDoctorsService
     {
-        HeaderSearchQueryModel GetAll(string specialtyId, string cityAreaId, string name);
+        HeaderSearchQueryModel GetAll(string specialtyId, string cityAreaId, string name, int pageNumber, int itemsPerPage = 8);
 
         IEnumerable<DoctorsSummaryViewModel> GetAllSearched(string specialty, string area, string name);
 
