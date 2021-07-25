@@ -1,9 +1,66 @@
-﻿@model HeaderSearchQueryModel
+﻿@model DoctorsHeaderViewModel
 @{
     this.ViewData["Title"] = "Our Doctors";
 }
 
-<partial name="_HeaderPartial" />
+<partial name="_HeaderPartial"/>
+
+<!-- ======= Second Header for Filtering ======= -->
+<header id="header">
+
+    <div class="container d-flex align-items-center">
+
+
+        <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li class="dropdown">
+                    <a href="#"><span>Insurance</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        @foreach (var insurance in Model.InsuranceCompanies)
+                        {
+                            <a class="page-link" asp-for="All" asp-route-id="@insurance.Id"><span asp-validation-for="InsuranceCompanies">@insurance.Name</span></a>
+                        }
+                    </ul>
+                </li>
+                <li class="btn-group-toggle">
+                    <input class="search-filter has-input" type="checkbox" name="@Model.WorksWithChildren" value="1" />
+                    <label class="appointment-btn scrollto" asp-for="WorksWithChildren"> Works with children</label>
+                </li>
+                <li class="btn-group-toggle">
+                    <input class="search-filter has-input" type="checkbox" name="@Model.OnlineConsultation" value="1" />
+                    <label class="appointment-btn scrollto" asp-for="OnlineConsultation">Online Consulations</label>
+                </li>
+                <li class="dropdown">
+                    <a href="#"><span>Sort By</span><i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><option value="0">Latest</option></li>
+                        <li><option value="1">Best Voted</option></li>
+                        <li><option value="2">Most Popular</option></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#"><span>Gender</span><i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><option value="0">Male</option></li>
+                        <li><option value="1">Female</option></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#"><span>City Areas</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        @foreach (var cityArea in Model.CityAreas)
+                        {
+                            <a class="page-link" asp-for="All" asp-route-id="@cityArea.Id"><span asp-validation-for="CityAreas">@cityArea.Name</span></a>
+                        }
+                    </ul>
+                </li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+
+    </div>
+</header><!-- End Header -->
 <partial name="_DocPartial" model="Model.Doctors" />
 <partial name="_PagingPartial" model="@Model.Paging" />
 

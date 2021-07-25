@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HealthHub.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -378,8 +378,7 @@ namespace HealthHub.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AppointmentTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProcedureId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProcedureBookedId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ServiceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -407,8 +406,8 @@ namespace HealthHub.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Appointments_Services_ProcedureBookedId",
-                        column: x => x.ProcedureBookedId,
+                        name: "FK_Appointments_Services_ServiceId",
+                        column: x => x.ServiceId,
                         principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -484,9 +483,9 @@ namespace HealthHub.Data.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_ProcedureBookedId",
+                name: "IX_Appointments_ServiceId",
                 table: "Appointments",
-                column: "ProcedureBookedId");
+                column: "ServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

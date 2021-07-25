@@ -72,6 +72,7 @@
             services.AddTransient<IRatingService, RatingService>();
             services.AddTransient<IServicesService, ServicesService>();
             services.AddTransient<ISpecialtiesService, SpecialtiesService>();
+            services.AddTransient<IInsuranceService, InsuranceService>();
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
             services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();

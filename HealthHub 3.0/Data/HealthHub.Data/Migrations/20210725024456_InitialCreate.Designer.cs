@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210720073737_Initial")]
-    partial class Initial
+    [Migration("20210725024456_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -194,15 +194,12 @@ namespace HealthHub.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProcedureBookedId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProcedureId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("RatingId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -212,7 +209,7 @@ namespace HealthHub.Data.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("ProcedureBookedId");
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Appointments");
                 });
@@ -751,7 +748,9 @@ namespace HealthHub.Data.Migrations
 
                     b.HasOne("HealthHub.Data.Models.Service", "ProcedureBooked")
                         .WithMany("Appointments")
-                        .HasForeignKey("ProcedureBookedId");
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Doctor");
 

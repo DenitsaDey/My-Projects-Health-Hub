@@ -17,7 +17,7 @@
         public DateTime AppointmentTime { get; set; }
 
         [Required]
-        public string ProcedureId { get; set; }
+        public string ServiceId { get; set; }
 
         public virtual Service ProcedureBooked { get; set; }
 

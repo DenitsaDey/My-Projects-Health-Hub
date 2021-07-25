@@ -20,7 +20,15 @@
             this.doctorsRepository = doctorsRepository;
         }
 
-        public HeaderSearchQueryModel GetAll(string specialtyId, string cityAreaId, string name, int pageNumber, int itemsPerPage = 8)
+        public DoctorsHeaderViewModel GetAll(
+            string specialtyId,
+            string cityAreaId,
+            string name,
+            int pageNumber,
+            SearchSorting sorting,
+            Gender gender,
+            string insuranceId,
+            int itemsPerPage = 8)
         {
             var doctorsQuery = this.doctorsRepository.All().AsQueryable();
             if (!string.IsNullOrWhiteSpace(specialtyId))
@@ -41,9 +49,29 @@
                     .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(name.ToLower()));
             }
 
-            var allDoctors = this.doctorsRepository.All()
-                .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
-                .Skip((pageNumber -1) * itemsPerPage).Take(itemsPerPage)
+            doctorsQuery = sorting switch
+            {
+                SearchSorting.DateCreated => doctorsQuery.OrderByDescending(d => d.Id),
+                SearchSorting.Rating => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average()),
+                SearchSorting.AppointmentsCount => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Count),
+                _ => doctorsQuery.OrderByDescending(d => d.Id),
+            };
+
+            doctorsQuery = gender switch
+            {
+                Gender.Male => doctorsQuery.Where(d => d.Gender == Gender.Male).OrderByDescending(d => d.Id),
+                Gender.Female => doctorsQuery.Where(d => d.Gender == Gender.Female).OrderByDescending(d => d.Id),
+                _ => doctorsQuery.OrderByDescending(d => d.Id),
+            };
+
+            if (!string.IsNullOrWhiteSpace(insuranceId))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Clinic.InsuranceCompanies.Any(ic => ic.InsuranceID == insuranceId));
+            }
+
+            var allDoctors = doctorsQuery
+                .Skip((pageNumber - 1) * itemsPerPage).Take(itemsPerPage)
                 .Select(d => new DoctorsSummaryViewModel
                 {
                     Id = d.Id,
@@ -55,7 +83,7 @@
                 })
                 .ToList();
 
-            var result = new HeaderSearchQueryModel
+            var result = new DoctorsHeaderViewModel
             {
                 Doctors = allDoctors,
             };

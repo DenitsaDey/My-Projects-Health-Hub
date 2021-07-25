@@ -31,7 +31,9 @@
                               new ServicesSeeder(),
                               new CityAreaSeeder(),
                               new ClinicsSeeder(),
+                              new InsuranceSeeder(),
                               new DoctorsSeeder(),
+                              new AppointmentsSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -25,7 +25,7 @@
                     Name = s.Name,
                 })
                 .ToList()
-                .OrderBy(x => x.Id);
+                .OrderBy(x => x.Name);
         }
 
         public IEnumerable<string> GetAllSpecialtiesNames()

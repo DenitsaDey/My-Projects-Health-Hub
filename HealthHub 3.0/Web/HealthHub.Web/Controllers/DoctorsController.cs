@@ -1,5 +1,6 @@
 ﻿namespace HealthHub.Web.Controllers
 {
+    using HealthHub.Data.Models.Enums;
     using HealthHub.Services.Data;
     using Microsoft.AspNetCore.Mvc;
 
@@ -9,16 +10,31 @@
         private readonly ISpecialtiesService specialtiesService;
         private readonly ICityAreasService cityAreasService;
         private readonly IGetCountsService getCountsService;
+        private readonly IInsuranceService insuranceService;
 
-        public DoctorsController(IDoctorsService doctorsService, ISpecialtiesService specialtiesService, ICityAreasService cityAreasService, IGetCountsService getCountsService)
+        public DoctorsController(
+            IDoctorsService doctorsService,
+            ISpecialtiesService specialtiesService,
+            ICityAreasService cityAreasService,
+            IGetCountsService getCountsService,
+            IInsuranceService insuranceService)
         {
             this.doctorsService = doctorsService;
             this.specialtiesService = specialtiesService;
             this.cityAreasService = cityAreasService;
             this.getCountsService = getCountsService;
+            this.insuranceService = insuranceService;
         }
 
-        public IActionResult All(string specialtyId, string cityAreaId, string name, int pageNumber = 1)
+        //[Route("Doctors/All/{specialtyId}&{cityAreaId}&{name}&{pageNumber}")]
+        public IActionResult All(
+            string specialtyId,
+            string cityAreaId,
+            string name,
+            string insuranceId,
+            SearchSorting sorting = SearchSorting.DateCreated,
+            Gender gender = Gender.Female,
+            int pageNumber = 1)
         {
             if (pageNumber <= 0)
             {
@@ -27,7 +43,7 @@
 
             const int ItemsPerPage = 8;
 
-            var viewModel = this.doctorsService.GetAll(specialtyId, cityAreaId, name, pageNumber);
+            var viewModel = this.doctorsService.GetAll(specialtyId, cityAreaId, name, pageNumber, sorting, gender, insuranceId);
 
             viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
             viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
@@ -37,6 +53,7 @@
                 PageNumber = pageNumber,
                 DataCount = this.getCountsService.GetCounts().DoctorsCount,
             };
+            viewModel.InsuranceCompanies = this.insuranceService.GetAllInsuranceCompanies();
 
             return this.View(viewModel);
         }
