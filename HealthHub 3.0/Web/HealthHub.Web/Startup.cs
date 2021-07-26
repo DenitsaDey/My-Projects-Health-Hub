@@ -65,7 +65,8 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IAppointmentsService, AppointmentsService>(); 
+            services.AddTransient<IAppointmentsService, AppointmentsService>();
+            services.AddTransient<IDateTimeParserService, DateTimeParserService>();
             services.AddTransient<ICityAreasService, CityAreasService>();
             services.AddTransient<IDoctorsService, DoctorsService>();
             services.AddTransient<IGetCountsService, GetCountsService>();

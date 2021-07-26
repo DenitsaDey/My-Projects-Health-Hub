@@ -9,8 +9,8 @@
         }
         @if (User.IsInRole("Patient"))
         {
-                <a class="btn-get-started scrollto" asp-controller="Appointment" asp-action="All">My Appointments</a>
+                <a class="btn-get-started scrollto" asp-controller="Appointment" asp-action="Index">My Appointments</a>
         }
-        <a href="Doctors/All" class="btn-get-started scrollto">Find a doctor</a>
+        <a asp-area="" asp-controller="Doctors" asp-action="All" class="btn-get-started scrollto">Find a doctor</a>
     </div>
 </section><!-- End Hero -->

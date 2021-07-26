@@ -2,7 +2,119 @@
 @{
     this.ViewData["Title"] = "My Appointments";
 }
-<section id="appointment" class="appointment section-bg">
+
+@if (@Model.AppointmentList.Count() == 0)
+{
+    <div class="row">
+        <div class="col-lg-4 ml-lg-5">
+            <div class="about_text_2">
+                <p>
+                    You have nothing booked yet...
+                </p>
+            </div>
+            <div class="about_text_highlight">
+                Find a doctor using the search bar on top of the page!
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 ml-lg-5">
+            <div class="btn-get-started scrollto">
+                <a asp-area="" asp-controller="Doctors" asp-action="All">
+                    <span>Find a Doctor</span>
+                </a>
+            </div>
+        </div>
+    </div>}
+
+@if (@Model.AppointmentList.Count() > 0)
+{
+    <h2>Due Appointments</h2>
+
+    <table class="table table-bordered table-light">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Date and Time</th>
+                <th scope="col">Doctor</th>
+                <th scope="col">Clinic</th>
+                <th scope="col">Status</th>
+                <th scope="col">Details</th>
+                <th scope="col">Reschedule</th>
+                <th scope="col">Cancel</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in this.Model.AppointmentList)
+            {
+            <tr>
+                <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
+                <td>@appointment.DoctorName</td>
+                <td>@appointment.Clinic</td>
+                <td>@appointment.AppointmentStatus.ToString()</td>
+                <td>
+                    <a class="btn btn-outline-success btn-sm"
+                       asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-id="@appointment.Id">
+                        Details
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-info btn-sm"
+                       asp-area="" asp-controller="Appointment" asp-action="Reschedule" asp-route-id="@appointment.Id">
+                        Reschedule
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger btn-sm"
+                       asp-area="" asp-controller="Appointment" asp-action="Cancel" asp-route-id="@appointment.Id">
+                        Cancel
+                    </a>
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-lg-10 ml-lg-5">
+            <div class="about_text_highlight">
+                Your Appointmen Status
+            </div>
+            <div class="about_text_2">
+                <ul>
+                    <li>
+                        <span class="title">Requested</span>
+                        <span class="description">- Waiting for the Doctor's confirmation.</span>
+                    </li>
+                    <li>
+                        <span class="title">Confirmed</span>
+                        <span class="description">
+                            - Good! Your appointment is confirmed.
+                            They are expecting you on the set date and time.
+                        </span>
+                    </li>
+                    <li>
+                        <span class="title">Cancelled</span>
+                        <span class="description">- Sorry, the appointment can't happen on the set date and time.</span>
+                    </li>
+                </ul>
+            </div>
+            <strong>Need another appointment?</strong>
+            <div class="btn-get-started scrollto">
+                <a asp-area="" asp-controller="Doctors" asp-action="All">
+                    <span>Find a Doctor</span>
+                </a>
+            </div>
+        </div>
+    </div>}
+
+<hr class="bg-dark m-4" style="height: 6px;" />
+
+<div>
+    @await Component.InvokeAsync("PastAppointments")
+</div>
+
+
+@*<section id="appointment" class="appointment section-bg">
     <div class="container">
 
         <div class="section-title">
@@ -104,5 +216,5 @@
             </form>
         </div>
     </div>
-</section>
+</section>*@
 

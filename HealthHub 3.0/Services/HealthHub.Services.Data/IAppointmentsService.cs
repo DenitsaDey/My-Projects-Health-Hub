@@ -7,16 +7,22 @@
 
     public interface IAppointmentsService
     {
-        Task AddAppointment(AppointmentInputModel input, string doctorId, string patientId);
+        Task<AppointmentViewModel> GetByIdAsync(string id);
 
-        IEnumerable<AppointmentSummaryViewModel> GetAll(string patientId);
+        IEnumerable<AppointmentViewModel> GetAll();
 
-        AppointmentViewModel GetById(string appointmentId);
+        public IEnumerable<AppointmentViewModel> GetAllByDoctor(string doctorId);
 
-        Task ChangeAppointmentStaus(string appointmentId, string status);
+        IEnumerable<AppointmentViewModel> GetUpcomingByPatient(string patientId);
 
-        Task RescheduleAppointment(string appointmentId, string newDate);
+        Task<IEnumerable<AppointmentViewModel>> GetPastByPatientAsync(string patientId);
 
-        Task EditMessage(string appointmentId, string message);
+        Task AddAppointmentAsync(AppointmentInputModel input, string patientId);
+
+        Task ChangeAppointmentStatusAsync(string appointmentId, string status);
+
+        Task RescheduleAppointmentAsync(string appointmentId, string newDate);
+
+        Task EditMessageAsync(string appointmentId, string message);
     }
 }

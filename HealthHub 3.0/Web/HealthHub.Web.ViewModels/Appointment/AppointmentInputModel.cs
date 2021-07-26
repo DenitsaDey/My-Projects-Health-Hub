@@ -1,10 +1,13 @@
 ﻿namespace HealthHub.Web.ViewModels.Appointment
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class AppointmentInputModel
     {
+        public string DoctorId { get; set; }
+
         [Required]
         [Display(Name = "Choose A Service")]
         public string ServiceId { get; set; }
@@ -12,7 +15,7 @@
         [Required]
         [Display(Name = "Appointent Time")]
 
-        public string AppointmentTime { get; set; }
+        public DateTime AppointmentTime { get; set; }
 
         //[Required]
         [Display(Name ="Additional Notes")]

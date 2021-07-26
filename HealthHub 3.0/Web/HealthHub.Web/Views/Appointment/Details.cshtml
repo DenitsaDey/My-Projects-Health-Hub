@@ -28,7 +28,7 @@
                     <tbody>
                         <tr>
                             <th scope="row">@Model.AppointmentTime.ToString("f")</th>
-                            <td>@Model.Doctor</td>
+                            <td>@Model.DoctorName</td>
                             <td>@Model.Clinic</td>
                             <td>@Model.Address</td>
                             <td>
@@ -41,7 +41,7 @@
                                 <a href="/Appointment/Edit?appointmentId=@Model.Id" class="btn btn-block btn-primary">Edit Notes</a>
                             </td>
                             <td>
-                                @if (@Model.Rating == 0 && @Model.AppointmentStatus.ToString() == "Completed")
+                                @if (@Model.RatingValue == 0 && @Model.AppointmentStatus.ToString() == "Completed")
                                 {
                                     <a class="btn btn-outline-danger btn-sm"
                                        asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-id="@Model.Id">
@@ -50,7 +50,7 @@
                                 }
                                 else
                                 {
-                                    @Model.Rating
+                                    @Model.RatingValue
                                 }
                             </td>
                         </tr>

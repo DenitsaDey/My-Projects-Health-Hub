@@ -2,25 +2,178 @@
 @{
     this.ViewData["Title"] = "Book An Appointment";
 }
+@section Styles {
+    <link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
+}
 
+<div class="container-fluid ">
+    <div class="row justify-content-center mx-0">
+        <div class="col-lg-6">
+            <div class="card">
+                <form autocomplete="off">
+                    <div class="card-header">
+                        <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                            <input type="text" id="dp1" class="datepicker" placeholder="&#xf073; Pick Date" style="font-family:Arial, FontAwesome" name="date" readonly />
+                        </div>
+                    </div>
+                    <div class="card-body p-3 p-sm-5">
+                        <div class="row text-center mx-0">
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">9:00AM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">9:30AM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">10:00AM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">10:30AM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">11:00AM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">11:30AM</div>
+                            </div>
+                        </div>
+                        <div class="row text-center mx-0">
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">12:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">12:30PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">1:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">1:30PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">2:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">2:30PM</div>
+                            </div>
+                        </div>
+                        <div class="row text-center mx-0">
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">3:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">3:30PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">4:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">4:30PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">5:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">5:30PM</div>
+                            </div>
+                        </div>
+                        <div class="row text-center mx-0">
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">6:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">6:30PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">7:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">7:30PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">8:00PM</div>
+                            </div>
+                            <div class="col-md-2 col-4 my-1 px-2">
+                                <div class="cell py-1">8:30PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-<!--take info from partial view Appointments, BeautyBooking, superdoc F12 calendar slots>-->
+        <div class="col-lg-6">
+            <div>
+                @await Component.InvokeAsync("DoctorDetails", new { Model.DoctorId})
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                <input asp-for="@Model.DoctorId" value="@Model.DoctorId" class="form-control" hidden>
+                <input asp-for="@Model.ServiceId" value="@Model.ServiceId" class="form-control" hidden>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Date</label>
+                    <div class="col-sm-10">
+                        <div id="selectedDate" asp-for="@Model.AppointmentTime.Date" class="form-control" hidden></div>
+                        <input asp-for="@Model.AppointmentTime.Date" value="" class="form-control" required readonly />
+                        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Time</label>
+                    <div class="col-sm-10">
+                        <div id="selectedTime" asp-for="@Model.AppointmentTime.TimeOfDay" class="form-control" hidden></div>
+                        <input asp-for="@Model.AppointmentTime.TimeOfDay" value="" class="form-control" required readonly />
+                        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row mt-4">
+                    <div class="col-sm-10">
+                        <button type="submit" class="button button-large button_1 elements_button my-2"
+                                asp-area="" asp-controller="Appointment" asp-action="Book">
+                            Make An Appointment
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="button button-large button_2 elements_button">
+                <a asp-area="" asp-controller="Doctors" asp-action="Details" asp-route-id="@Model.DoctorId">
+                    <span>Cancel</span><span>Cancel</span>
+                </a>
+            </div>
+            <div asp-validation-summary="All" data-valmsg-summary="true"></div>
+        </div>
+
+    </div>
+</div>
+
+<!--
+<div id="selectedDate"></div>
+<div id="selectedTime"></div>
+-->
+
+@section Scripts {
+    <script src="~/js/bootstrap-datepicker.js" asp-append-version="true"></script>
+    <script src="~/js/date-picker.js" asp-append-version="true"></script>
+    <script type="text/javascript">$.validator.setDefaults({
+            ignore: ""
+        })</script>
+}
+
 <!-- ======= Appointment Section ======= -->
-<section id="appointment" class="appointment section-bg">
+<!--<section id="appointment" class="appointment section-bg">
     <div class="container">
 
         <div class="section-title">
             <form method="post" class="col-md-6 offset-md-3"
                   enctype="multipart/form-data">
-                <h1>@this.ViewData["Title"]</h1>
+                <h1>this.ViewData["Title"]</h1>
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="ServiceId"></label>
+                    <label asp-for="ServiceId"></label>-->
                     @*<vc:CategoriesDropDown name="CategoryId"></vc:CategoriesDropDown>*@
-                    <select asp-for="ServiceId" class="form-control">
-                        @foreach (var service in Model.ServicesItems)
+                    <!--<select asp-for="ServiceId" class="form-control">
+                        foreach (var service in Model.ServicesItems)
                         {
-                            <option value="@service.Id"> @service.Name</option>
+                            <option value="service.Id"> service.Name</option>
                         }
                     </select>
                     <span asp-validation-for="ServiceId" class="text-danger"></span>
@@ -39,6 +192,6 @@
             </form>
         </div>
         <div class="text-center"><button type="submit">Book an Appointment</button></div>
-    </div>
-</section>
+    </div>-->
+@*</section>*@
 

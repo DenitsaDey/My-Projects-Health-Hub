@@ -3,6 +3,7 @@
     using HealthHub.Data.Models.Enums;
     using HealthHub.Services.Data;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     public class DoctorsController : BaseController
     {
@@ -31,9 +32,9 @@
             string specialtyId,
             string cityAreaId,
             string name,
-            string insuranceId,
-            SearchSorting sorting = SearchSorting.DateCreated,
-            Gender gender = Gender.Female,
+            //string insuranceId,
+            //SearchSorting sorting = SearchSorting.DateCreated,
+            //Gender gender = Gender.Female,
             int pageNumber = 1)
         {
             if (pageNumber <= 0)
@@ -43,7 +44,7 @@
 
             const int ItemsPerPage = 8;
 
-            var viewModel = this.doctorsService.GetAll(specialtyId, cityAreaId, name, pageNumber, sorting, gender, insuranceId);
+            var viewModel = this.doctorsService.GetAll(specialtyId, cityAreaId, name, pageNumber);  /*sorting, gender, insuranceId*/
 
             viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
             viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
@@ -64,9 +65,9 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Details(string doctorId)
+        public async Task<IActionResult> Details(string doctorId)
         {
-            var model = this.doctorsService.GetById(doctorId);
+            var model = this.doctorsService.GetByIdAsync(doctorId);
             return this.View(model);
         }
     }

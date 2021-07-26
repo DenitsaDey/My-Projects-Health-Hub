@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
+    using System.Threading.Tasks;
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
@@ -25,9 +25,9 @@
             string cityAreaId,
             string name,
             int pageNumber,
-            SearchSorting sorting,
-            Gender gender,
-            string insuranceId,
+            //SearchSorting sorting,
+            //Gender gender,
+            //string insuranceId,
             int itemsPerPage = 8)
         {
             var doctorsQuery = this.doctorsRepository.All().AsQueryable();
@@ -49,26 +49,26 @@
                     .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(name.ToLower()));
             }
 
-            doctorsQuery = sorting switch
-            {
-                SearchSorting.DateCreated => doctorsQuery.OrderByDescending(d => d.Id),
-                SearchSorting.Rating => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average()),
-                SearchSorting.AppointmentsCount => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Count),
-                _ => doctorsQuery.OrderByDescending(d => d.Id),
-            };
+            //doctorsQuery = sorting switch
+            //{
+            //    SearchSorting.DateCreated => doctorsQuery.OrderByDescending(d => d.Id),
+            //    SearchSorting.Rating => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average()),
+            //    SearchSorting.AppointmentsCount => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Count),
+            //    _ => doctorsQuery.OrderByDescending(d => d.Id),
+            //};
 
-            doctorsQuery = gender switch
-            {
-                Gender.Male => doctorsQuery.Where(d => d.Gender == Gender.Male).OrderByDescending(d => d.Id),
-                Gender.Female => doctorsQuery.Where(d => d.Gender == Gender.Female).OrderByDescending(d => d.Id),
-                _ => doctorsQuery.OrderByDescending(d => d.Id),
-            };
+            //doctorsQuery = gender switch
+            //{
+            //    Gender.Male => doctorsQuery.Where(d => d.Gender == Gender.Male).OrderByDescending(d => d.Id),
+            //    Gender.Female => doctorsQuery.Where(d => d.Gender == Gender.Female).OrderByDescending(d => d.Id),
+            //    _ => doctorsQuery.OrderByDescending(d => d.Id),
+            //};
 
-            if (!string.IsNullOrWhiteSpace(insuranceId))
-            {
-                doctorsQuery = doctorsQuery
-                    .Where(d => d.Clinic.InsuranceCompanies.Any(ic => ic.InsuranceID == insuranceId));
-            }
+            //if (!string.IsNullOrWhiteSpace(insuranceId))
+            //{
+            //    doctorsQuery = doctorsQuery
+            //        .Where(d => d.Clinic.InsuranceCompanies.Any(ic => ic.InsuranceID == insuranceId));
+            //}
 
             var allDoctors = doctorsQuery
                 .Skip((pageNumber - 1) * itemsPerPage).Take(itemsPerPage)
@@ -128,7 +128,7 @@
             return allDoctors;
         }
 
-        public DoctorsViewModel GetById(string doctorId)
+        public async Task<DoctorsViewModel> GetByIdAsync(string doctorId)
         {
             var currentDoctor = this.doctorsRepository.All()
                 .Where(d => d.Id == doctorId)

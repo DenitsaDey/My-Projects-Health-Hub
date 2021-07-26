@@ -6,6 +6,6 @@ namespace HealthHub.Web.ViewModels.Appointment
 {
     public class AppointmentListViewModel
     {
-        public IEnumerable<AppointmentSummaryViewModel> AppointmentList { get; set; }
+        public IEnumerable<AppointmentViewModel> AppointmentList { get; set; }
     }
 }
