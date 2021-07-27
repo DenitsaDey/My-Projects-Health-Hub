@@ -112,16 +112,16 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Date</label>
                     <div class="col-sm-10">
-                        <div id="selectedDate" asp-for="@Model.AppointmentTime.Date" class="form-control" hidden></div>
-                        <input asp-for="@Model.AppointmentTime.Date" value="" class="form-control" required readonly />
-                        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                        <div id="selectedDate" asp-for="@Model.AppointmentDate" class="form-control" hidden></div>
+                        <input asp-for="@Model.AppointmentDate" value="" class="form-control" required readonly />
+                        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Time</label>
                     <div class="col-sm-10">
-                        <div id="selectedTime" asp-for="@Model.AppointmentTime.TimeOfDay" class="form-control" hidden></div>
-                        <input asp-for="@Model.AppointmentTime.TimeOfDay" value="" class="form-control" required readonly />
+                        <div id="selectedTime" asp-for="@Model.AppointmentTime" class="form-control" hidden></div>
+                        <input asp-for="@Model.AppointmentTime" value="" class="form-control" required readonly />
                         <span asp-validation-for="AppointmentTime" class="text-danger"></span>
                     </div>
                 </div>

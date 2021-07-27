@@ -1,9 +1,11 @@
 ﻿namespace HealthHub.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
-
+    using System.Threading.Tasks;
     using HealthHub.Services.Data;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Doctor;
     using HealthHub.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
@@ -26,13 +28,13 @@
           this.doctorsService = doctorsService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var viewModel = new HomeHeaderViewModel();
             viewModel.DataCounts = this.getCountsService.GetCounts();
-            viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
-            viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
-            viewModel.Doctors = this.doctorsService.GetAll(string.Empty, string.Empty, string.Empty, 1).Doctors;
+            viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync();
+            viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync();
+            viewModel.Doctors =this.doctorsService.GetAll();
 
             return this.View(viewModel);
         }

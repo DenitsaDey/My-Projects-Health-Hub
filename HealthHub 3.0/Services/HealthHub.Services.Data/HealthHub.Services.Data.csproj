@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Data\HealthHub.Data.Models\HealthHub.Data.Models.csproj" />
     <ProjectReference Include="..\..\Web\HealthHub.Web.ViewModels\HealthHub.Web.ViewModels.csproj" />
     <ProjectReference Include="..\HealthHub.Services.Mapping\HealthHub.Services.Mapping.csproj" />
+    <ProjectReference Include="..\HealthHub.Services\HealthHub.Services.csproj" />
   </ItemGroup>
 
 </Project>

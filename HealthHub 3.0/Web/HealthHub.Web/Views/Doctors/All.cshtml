@@ -3,8 +3,33 @@
     this.ViewData["Title"] = "Our Doctors";
 }
 
-<partial name="_HeaderPartial"/>
-
+<partial name="_HeaderPartial" />
+@*<div>
+    @await Component.InvokeAsync("HeaderSearch")
+</div>*@
+@*@{ var prevDisabled = !Model.Paging.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.Paging.HasNextPage ? "disabled" : ""; 
+    }
+<div class="row ml-5">
+    <div class="m-5">
+        <a asp-action="All"
+           asp-route-sortId="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.Paging.PageNumber - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           style="color: #BA55D3" class="btn btn-outline-secondary btn-lg @prevDisabled">
+            &#x2190; Previous Page
+        </a>
+    </div>
+    <div class="m-5">
+        <a asp-action="Index"
+           asp-route-sortId="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.Paging.PageNumber + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           style="color: #BA55D3" class="btn btn-outline-secondary btn-lg @nextDisabled">
+            Next Page &#x2192;
+        </a>
+    </div>
+</div>*@
 <!-- ======= Second Header for Filtering ======= -->
 <header id="header">
 

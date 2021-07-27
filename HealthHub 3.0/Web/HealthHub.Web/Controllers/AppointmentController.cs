@@ -1,5 +1,6 @@
 ﻿namespace HealthHub.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using HealthHub.Data.Models;
@@ -41,7 +42,7 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Book()
+        public IActionResult Book(string doctorId)
         {
             var viewModel = new AppointmentInputModel();
             viewModel.ServicesItems = this.servicesService.GetAllServices();
@@ -49,10 +50,14 @@
         }
 
         [HttpPost]
-        public IActionResult Book(AppointmentInputModel input)
+        public async Task<IActionResult> Book(AppointmentInputModel input)
         {
-            //TODO if user is not signed in redirect to login page
-            if(!this.servicesService.GetAllServices().Any(s=>s.Id == input.ServiceId))
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Book", new { input.DoctorId });
+            }
+
+            if (!this.servicesService.GetAllServices().Any(s => s.Id == input.ServiceId))
             {
                 this.ModelState.AddModelError(nameof(input.ServiceId), "Service does not exist.");
             }
@@ -63,13 +68,23 @@
                 return this.View(input);
             }
 
-            //TODO: patient and doctor Id
-            //var patientId = this.UserManager.GetId();
-            //var doctorId = ...
+            DateTime dateTime;
+            try
+            {
+                dateTime = this.dateTimeParserService.ConvertStrings(input.AppointmentDate, input.AppointmentTime);
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Book", new { input.DoctorId });
+            }
 
-             //this.appointmentService.AddAppointment(input, doctorId, patientId)
+            var patient = await this.userManager.GetUserAsync(this.HttpContext.User);
+            var patientId = await this.userManager.GetUserIdAsync(patient);
+
+            await this.appointmentService.AddAppointmentAsync(input, patientId);
+ 
             //TODO return message "You have successfully requested an appointment"
-            return this.Redirect("/Appointment/All");
+            return this.RedirectToAction("Index");
         }
 
         public IActionResult All(string patientId)

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\HealthHub.Data.Models\HealthHub.Data.Models.csproj" />
+    <ProjectReference Include="..\..\HealthHub.Common\HealthHub.Common.csproj" />
     <ProjectReference Include="..\..\Services\HealthHub.Services.Mapping\HealthHub.Services.Mapping.csproj" />
   </ItemGroup>
 

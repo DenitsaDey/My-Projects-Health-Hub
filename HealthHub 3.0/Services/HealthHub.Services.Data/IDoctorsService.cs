@@ -7,7 +7,7 @@
 
     public interface IDoctorsService
     {
-        DoctorsHeaderViewModel GetAll(
+        Task<DoctorsHeaderViewModel> GetAllSearchedAsync(
             string specialtyId,
             string cityAreaId,
             string name,
@@ -17,7 +17,7 @@
             //string insuranceId,
             int itemsPerPage = 8);
 
-        IEnumerable<DoctorsSummaryViewModel> GetAllSearched(string specialty, string area, string name);
+        IEnumerable<DoctorsViewModel> GetAll();
 
         Task<DoctorsViewModel> GetByIdAsync(string doctorId);
     }

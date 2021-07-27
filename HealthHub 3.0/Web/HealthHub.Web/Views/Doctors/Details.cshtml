@@ -1,1 +1,59 @@
-﻿<h1>Details about doctor + schedule</h1>
+﻿@model HealthHub.Web.ViewModels.Doctor.DoctorsViewModel
+@{ this.ViewData["Title"] = "Dr. " + Model.FirstName + " " + Model.LastName; }
+<div class="row row-eq-height">
+    <!-- Info Box -->
+    <div class="col-lg-4 info_box_col">
+        <div class="info_box">
+            <div class="info_image"><img src="@Model.ImageUrl" alt=""></div>
+            <div class="info_content">
+                <div class="info_title">@Model.FirstName @Model.LastName</div>
+                
+                <div class="info_text">
+                    Rating: &nbsp;&nbsp;
+                    <span class="star-rating">
+                        <span class="fa fa-star-o" data-rating="1"></span>
+                        <span class="fa fa-star-o" data-rating="2"></span>
+                        <span class="fa fa-star-o" data-rating="3"></span>
+                        <span class="fa fa-star-o" data-rating="4"></span>
+                        <span class="fa fa-star-o" data-rating="5"></span>
+                        <input type="hidden" name="whatever1" class="rating-value" value="@Model.AverageRating">
+                    </span>
+                    <span>&nbsp; ( @Model.AverageRating.ToString("F") / 5.00 ) from @Model.RatingCount votes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Panel -->
+    <div class="col-lg-4 list-group-item-light">
+        <h2>About:</h2>
+        <div class="tab_panel active">
+            <div class="tab_panel_content">
+                <div class="info_content">
+                    <div class="info_title"><strong> Dr. @Model.FirstName @Model.LastName</strong> </div>
+                    <div class="info_text" style="padding-top:20px"><strong>Specialty: </strong>@Model.Specialty</div>
+                    <div class="info_text"><strong>Years of Experience: </strong>@Model.YearsOFExperience</div>
+                    <div class="info_text"><strong>Clinic: </strong>@Model.Clinic</div>
+                    <div class="info_text"><strong>Phone Number: </strong>@Model.PhoneNumber</div>
+                    <div class="info_text"><strong>Works with children: </strong>@Model.WorksWithChildren</div>
+                    <div class="info_text"><strong>Available for online consulations: </strong>@Model.OnlineConsultation</div>
+                </div>
+                <div class="tab_list">
+                    <div class="tab_list_text" style="padding-top:30px"><p>@Model.About</p></div>
+                    <div class="appointment-btn scrollto">
+                        <a asp-area="" asp-controller="Appointment" asp-action="Book"
+                           asp-route-doctorId="@Model.Id">
+                            @*asp-route-serviceId="@Model.ServiceId"*@
+                            <i class="appointment-btn scrollto">
+                                <span>Book An Appointment</span></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/rating-static.js" asp-append-version="true"></script>
+}
+

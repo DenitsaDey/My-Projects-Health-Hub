@@ -1,4 +1,7 @@
 ﻿@model HeaderSearchQueryModel
+@{ 
+    this.ViewData["Title"] = "Default"; 
+    }
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
@@ -22,7 +25,6 @@
                                    asp-area="" asp-controller="Doctors" asp-action="All" asp-route-Id="@specialty.Id">
                                     @specialty.Name
                                 </a>
-
                             }
                         </ul>
                     </li>
@@ -58,6 +60,3 @@
         </nav>
     </div>
 </header><!-- End Header -->
-
-
-

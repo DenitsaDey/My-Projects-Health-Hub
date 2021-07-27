@@ -10,43 +10,50 @@
     using HealthHub.Data.Models.Enums;
     using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Doctor;
+    using Microsoft.EntityFrameworkCore;
 
     public class DoctorsService : IDoctorsService
     {
         private readonly IDeletableEntityRepository<Doctor> doctorsRepository;
+        private readonly IDeletableEntityRepository<Service> servicesRepository;
 
-        public DoctorsService(IDeletableEntityRepository<Doctor> doctorsRepository)
+        public DoctorsService(
+            IDeletableEntityRepository<Doctor> doctorsRepository,
+            IDeletableEntityRepository<Service> servicesRepository)
         {
             this.doctorsRepository = doctorsRepository;
+            this.servicesRepository = servicesRepository;
         }
 
-        public DoctorsHeaderViewModel GetAll(
+        public async Task<DoctorsHeaderViewModel> GetAllSearchedAsync(
             string specialtyId,
             string cityAreaId,
-            string name,
+            string searchName,
             int pageNumber,
             //SearchSorting sorting,
             //Gender gender,
             //string insuranceId,
             int itemsPerPage = 8)
         {
-            var doctorsQuery = this.doctorsRepository.All().AsQueryable();
-            if (!string.IsNullOrWhiteSpace(specialtyId))
+            var doctorsQuery = this.doctorsRepository.AllAsNoTracking()
+                .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
+                .AsQueryable();
+            if (!string.IsNullOrEmpty(specialtyId))
             {
                 doctorsQuery = doctorsQuery
                     .Where(d => d.Specialty.Id == specialtyId);
             }
 
-            if (!string.IsNullOrWhiteSpace(cityAreaId))
+            if (!string.IsNullOrEmpty(cityAreaId))
             {
                 doctorsQuery = doctorsQuery
                     .Where(d => d.Clinic.Area.Id == cityAreaId);
             }
 
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(searchName))
             {
                 doctorsQuery = doctorsQuery
-                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(name.ToLower()));
+                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(searchName.ToLower()));
             }
 
             //doctorsQuery = sorting switch
@@ -70,18 +77,30 @@
             //        .Where(d => d.Clinic.InsuranceCompanies.Any(ic => ic.InsuranceID == insuranceId));
             //}
 
-            var allDoctors = doctorsQuery
+            var allDoctors = await doctorsQuery
                 .Skip((pageNumber - 1) * itemsPerPage).Take(itemsPerPage)
-                .Select(d => new DoctorsSummaryViewModel
+                .Select(d => new DoctorsViewModel
                 {
                     Id = d.Id,
                     FirstName = d.FirstName,
                     LastName = d.LastName,
+                    Age = DateTime.Now.Year - d.DateOfBirth.Year,
+                    PhoneNumber = d.PhoneNumber,
                     ImageUrl = d.ImageUrl,
                     Clinic = d.Clinic.Name,
                     Specialty = d.Specialty.Name,
+                    YearsOFExperience = d.YearsOFExperience,
+                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
+                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
+                    AverageRating = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
+                    RatingCount = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                    About = d.About,
                 })
-                .ToList();
+                .ToListAsync();
 
             var result = new DoctorsHeaderViewModel
             {
@@ -91,37 +110,30 @@
             return result;
         }
 
-        public IEnumerable<DoctorsSummaryViewModel> GetAllSearched(string specialtyId, string cityAreaId, string name)
+        public IEnumerable<DoctorsViewModel> GetAll()
         {
-            var doctorsQuery = this.doctorsRepository.All().AsQueryable();
-            if (!string.IsNullOrWhiteSpace(specialtyId))
-            {
-                doctorsQuery = doctorsQuery
-                    .Where(d => d.Specialty.Id == specialtyId);
-            }
-
-            if (!string.IsNullOrWhiteSpace(cityAreaId))
-            {
-                doctorsQuery = doctorsQuery
-                    .Where(d => d.Clinic.Area.Id == cityAreaId);
-            }
-
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                doctorsQuery = doctorsQuery
-                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(name.ToLower()));
-            }
-
-            var allDoctors = doctorsQuery
+            var allDoctors = this.doctorsRepository.All()
                 .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
-                .Select(d => new DoctorsSummaryViewModel
+                .Select(d => new DoctorsViewModel
                 {
                     Id = d.Id,
                     FirstName = d.FirstName,
                     LastName = d.LastName,
+                    Age = DateTime.Now.Year - d.DateOfBirth.Year,
+                    PhoneNumber = d.PhoneNumber,
                     ImageUrl = d.ImageUrl,
                     Clinic = d.Clinic.Name,
                     Specialty = d.Specialty.Name,
+                    YearsOFExperience = d.YearsOFExperience,
+                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
+                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
+                    AverageRating = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
+                    RatingCount = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                    About = d.About,
                 })
                 .ToList();
 
@@ -130,7 +142,7 @@
 
         public async Task<DoctorsViewModel> GetByIdAsync(string doctorId)
         {
-            var currentDoctor = this.doctorsRepository.All()
+            var currentDoctor = await this.doctorsRepository.All()
                 .Where(d => d.Id == doctorId)
                 .Select(d => new DoctorsViewModel
                 {
@@ -146,13 +158,14 @@
                     WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
                     OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
                     AverageRating = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true)
-                                    .Select(sa => sa.Rating.Value).Average(),
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
                     RatingCount = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true)
-                                    .Count(),
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                    About = d.About,
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return currentDoctor;
         }

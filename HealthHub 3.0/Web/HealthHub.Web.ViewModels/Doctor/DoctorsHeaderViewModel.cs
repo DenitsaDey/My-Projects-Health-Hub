@@ -6,7 +6,7 @@
 
     public class DoctorsHeaderViewModel : HeaderSearchQueryModel
     {
-        public IEnumerable<DoctorsSummaryViewModel> Doctors { get; set; }
+        public IEnumerable<DoctorsViewModel> Doctors { get; set; }
 
         public PagingViewModel Paging { get; set; }
 

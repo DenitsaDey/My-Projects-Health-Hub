@@ -1,9 +1,9 @@
 ﻿namespace HealthHub.Web.Controllers
 {
-    using HealthHub.Data.Models.Enums;
+    using System.Threading.Tasks;
+
     using HealthHub.Services.Data;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
 
     public class DoctorsController : BaseController
     {
@@ -28,10 +28,10 @@
         }
 
         //[Route("Doctors/All/{specialtyId}&{cityAreaId}&{name}&{pageNumber}")]
-        public IActionResult All(
+        public async Task<IActionResult> All(
             string specialtyId,
             string cityAreaId,
-            string name,
+            string searchName,
             //string insuranceId,
             //SearchSorting sorting = SearchSorting.DateCreated,
             //Gender gender = Gender.Female,
@@ -42,12 +42,40 @@
                 return this.NotFound();
             }
 
+            if (!string.IsNullOrEmpty(specialtyId))
+            {
+                var specialty = await this.specialtiesService.GetByIdAsync(specialtyId);
+
+                if (specialty == null)
+                {
+                    return new StatusCodeResult(404);
+                }
+
+                this.ViewData["SpecialtyName"] = specialty.Name;
+            }
+
+            this.ViewData["CurentSort"] = specialtyId;
+
+            if (!string.IsNullOrEmpty(cityAreaId))
+            {
+                var cityArea = await this.cityAreasService.GetByIdAsync(cityAreaId);
+
+                if (cityArea == null)
+                {
+                    return new StatusCodeResult(404);
+                }
+
+                this.ViewData["CityAreaName"] = cityArea.Name;
+            }
+
+            this.ViewData["CurentSort"] = cityAreaId;
+
             const int ItemsPerPage = 8;
 
-            var viewModel = this.doctorsService.GetAll(specialtyId, cityAreaId, name, pageNumber);  /*sorting, gender, insuranceId*/
+            var viewModel = await this.doctorsService.GetAllSearchedAsync(specialtyId, cityAreaId, searchName, pageNumber);  /*sorting, gender, insuranceId*/
 
-            viewModel.Specialties = this.specialtiesService.GetAllSpecialties();
-            viewModel.CityAreas = this.cityAreasService.GetAllCityAreas();
+            viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync();
+            viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync();
             viewModel.Paging = new ViewModels.PagingViewModel
             {
                 ItemsPerPage = ItemsPerPage,
@@ -59,15 +87,15 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Searched(string specialtyId, string areaId, string name)
-        {
-            var viewModel = this.doctorsService.GetAllSearched(specialtyId, areaId, name);
-            return this.View(viewModel);
-        }
-
         public async Task<IActionResult> Details(string doctorId)
         {
-            var model = this.doctorsService.GetByIdAsync(doctorId);
+            var model = await this.doctorsService.GetByIdAsync(doctorId);
+
+            if (model == null)
+            {
+                return new StatusCodeResult(404);
+            }
+
             return this.View(model);
         }
     }

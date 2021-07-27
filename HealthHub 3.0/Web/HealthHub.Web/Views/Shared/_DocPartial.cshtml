@@ -1,19 +1,30 @@
-﻿@model IEnumerable<DoctorsSummaryViewModel>
+﻿@model IEnumerable<DoctorsViewModel>
 
 <section id="doctors" class="doctors">
     <div class="container">
         <div class="row">
+            @if (!Model.Any())
+            {
+                <h2 class="text-center"> No doctors found by the given criteria!</h2>
+            }
             @foreach (var doctor in Model)
             {
                 <div class="col-lg-6">
                     <div class="member d-flex align-items-start">
-                        <div class="pic"><img src="@doctor.ImageUrl" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="@doctor.ImageUrl" class="img-fluid" alt="">
+                                         <a asp-area="" asp-controller="Doctors" asp-action="Details" asp-route-id="@doctor.Id"></a>
+                        </div>
                         <div class="member-info">
                             <h4>@doctor.FirstName @doctor.LastName</h4>
                             <span>@doctor.Specialty</span>
                             <p>@doctor.Clinic</p>
                             <div class="form-group" style="padding-top:30px">
-                                <a href="Details"><i class="appointment-btn scrollto"><span class="d-none d-md-inline" asp-controller="Doctors" asp-action="Details">Book an </span>Appointment</i></a>
+                                <a asp-area="" asp-controller="Doctors" asp-action="Details"
+                                   asp-route-doctorId="@doctor.Id">
+                                    <i class="appointment-btn scrollto">
+                                        <span>Book an Appointment</span>
+                                    </i>
+                                </a>
                             </div>
                         </div>
                     </div>

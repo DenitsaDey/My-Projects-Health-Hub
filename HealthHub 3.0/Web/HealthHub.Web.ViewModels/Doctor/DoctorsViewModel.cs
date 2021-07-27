@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HealthHub.Web.ViewModels.Doctor
+﻿namespace HealthHub.Web.ViewModels.Doctor
 {
+    using System.Collections.Generic;
+
     public class DoctorsViewModel
     {
         public string Id { get; set; }
@@ -18,8 +16,6 @@ namespace HealthHub.Web.ViewModels.Doctor
 
         public string ImageUrl { get; set; }
 
-        //available appointments calendar
-
         public string Clinic { get; set; }
 
         public string Specialty { get; set; }
@@ -33,5 +29,7 @@ namespace HealthHub.Web.ViewModels.Doctor
         public double AverageRating { get; set; }
 
         public int RatingCount { get; set; }
+
+        public string About { get; set; }
     }
 }

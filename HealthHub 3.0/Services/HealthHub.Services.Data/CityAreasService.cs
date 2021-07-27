@@ -2,10 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Web.ViewModels;
+    using Microsoft.EntityFrameworkCore;
 
     public class CityAreasService : ICityAreasService
     {
@@ -16,15 +17,36 @@
             this.cityAreasRepository = cityAreasRepository;
         }
 
-        public IEnumerable<CityAreasViewModel> GetAllCityAreas()
+        public async Task AddAsync(string name)
         {
-            return this.cityAreasRepository.All()
+            await this.cityAreasRepository.AddAsync(new CityArea { Name = name });
+            await this.cityAreasRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<CityAreasViewModel>> GetAllCityAreasAsync()
+        {
+            return await this.cityAreasRepository.All()
                 .Select(p => new CityAreasViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,
-                }).ToList()
-                .OrderBy(x => x.Id);
+                })
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+        }
+
+        public async Task<CityAreasViewModel> GetByIdAsync(string cityAreaId)
+        {
+            var cityArea = await this.cityAreasRepository.All()
+                .Where(s => s.Id == cityAreaId)
+                .Select(s => new CityAreasViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                })
+                .FirstOrDefaultAsync();
+
+            return cityArea;
         }
     }
 }

@@ -2,10 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Web.ViewModels;
+    using Microsoft.EntityFrameworkCore;
 
     public class SpecialtiesService : ISpecialtiesService
     {
@@ -16,16 +17,22 @@
             this.specialtiesRepository = specialtiesRepository;
         }
 
-        public IEnumerable<SpecialtyViewModel> GetAllSpecialties()
+        public async Task AddAsync(string name)
         {
-            return this.specialtiesRepository.All()
+            await this.specialtiesRepository.AddAsync(new Specialty { Name = name });
+            await this.specialtiesRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<SpecialtyViewModel>> GetAllSpecialtiesAsync()
+        {
+            return await this.specialtiesRepository.All()
                 .Select(s => new SpecialtyViewModel
                 {
                     Id = s.Id,
                     Name = s.Name,
                 })
-                .ToList()
-                .OrderBy(x => x.Name);
+                .OrderBy(x => x.Name)
+                .ToListAsync();
         }
 
         public IEnumerable<string> GetAllSpecialtiesNames()
@@ -34,6 +41,20 @@
                 .OrderBy(s => s.Name)
                 .Select(s => s.Name)
                 .ToList();
+        }
+
+        public async Task<SpecialtyViewModel> GetByIdAsync(string specialtyId)
+        {
+            var specialty = await this.specialtiesRepository.All()
+                .Where(s => s.Id == specialtyId)
+                .Select(s => new SpecialtyViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                })
+                .FirstOrDefaultAsync();
+
+            return specialty;
         }
     }
 }

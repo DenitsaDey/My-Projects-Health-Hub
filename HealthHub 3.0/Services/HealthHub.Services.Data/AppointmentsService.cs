@@ -9,6 +9,7 @@
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
+    using HealthHub.Services;
     using HealthHub.Web.ViewModels.Appointment;
     using Microsoft.EntityFrameworkCore;
 
@@ -16,13 +17,16 @@
     {
         private readonly IDeletableEntityRepository<Appointment> appointmentsRepository;
         private readonly IDeletableEntityRepository<Service> proceduresRepository;
+        private readonly IDateTimeParserService dateTimeParserService;
 
         public AppointmentsService(
             IDeletableEntityRepository<Appointment> appointmentsRepository,
-            IDeletableEntityRepository<Service> proceduresRepository)
+            IDeletableEntityRepository<Service> proceduresRepository,
+            IDateTimeParserService dateTimeParserService)
         {
             this.appointmentsRepository = appointmentsRepository;
             this.proceduresRepository = proceduresRepository;
+            this.dateTimeParserService = dateTimeParserService;
         }
 
         public async Task<AppointmentViewModel> GetByIdAsync(string id)
@@ -154,9 +158,11 @@
 
         public async Task AddAppointmentAsync(AppointmentInputModel input, string patientId)
         {
+            var dateTime = this.dateTimeParserService.ConvertStrings(input.AppointmentDate, input.AppointmentTime);
+
             var newAppointment = new Appointment
             {
-                AppointmentTime = input.AppointmentTime,
+                AppointmentTime = dateTime,
                 ProcedureBooked = this.proceduresRepository.All().Where(p => p.Id == input.ServiceId).FirstOrDefault(),
                 PatientId = patientId,
                 DoctorId = input.DoctorId,

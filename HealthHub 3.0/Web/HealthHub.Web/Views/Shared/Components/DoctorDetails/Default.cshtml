@@ -1,0 +1,21 @@
+﻿@model HealthHub.Web.ViewModels.Doctor.DoctorsViewModel
+@{ ViewData["Title"] = "Default"; }
+
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">Doctor</label>
+    <div class="col-sm-10">
+        <div class="form-control">@Model.FirstName @Model.LastName</div>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">Clinic</label>
+    <div class="col-sm-10">
+        <div class="form-control">@Model.Clinic</div>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">Service</label>
+    <div class="col-sm-10">
+        <div class="form-control">to be chosen</div>
+    </div>
+</div>
