@@ -115,7 +115,7 @@
 
                         @foreach (var service in @Model.ServicesItems)
                         {
-                    <div>@service.Name</div>
+                            <div>@service.Name</div>
                         }
                     </div>
                 </div>
@@ -135,7 +135,15 @@
                         <span asp-validation-for="AppointmentTime" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group row mt-4">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Comment</label>
+                    <div class="col-sm-10">
+                        <input type="text" asp-for="@Model.Message" value="" class="form-control" placeholder="Optional notes to the doctor" />
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"> </label>
                     <div class="col-sm-10">
                         <button type="submit" class="appointment-btn scrollto"
                                 asp-area="" asp-controller="Appointment" asp-action="Book">
@@ -148,11 +156,7 @@
                     </div>
                 </div>
             </form>
-            <div class="appointment-btn scrollto" color: azure>
-                    <a asp-area="" asp-controller="Doctors" asp-action="Details" asp-route-doctorId="@Model.DoctorId">
-                        <span>Cancel</span>
-                    </a>
-            </div>
+            
             <div asp-validation-summary="All" data-valmsg-summary="true"></div>
         </div>
 

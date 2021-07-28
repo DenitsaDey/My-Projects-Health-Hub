@@ -11,8 +11,9 @@
             {
                 <div class="col-lg-6">
                     <div class="member d-flex align-items-start">
-                        <div class="pic"><img src="@doctor.ImageUrl" class="img-fluid" alt="">
-                                         <a asp-area="" asp-controller="Doctors" asp-action="Details" asp-route-id="@doctor.Id"></a>
+                        <div class="pic">
+                            <img src="@doctor.ImageUrl" class="img-fluid" alt="">
+                                         <a asp-area="" asp-controller="Doctors" asp-action="Details" asp-route-doctorId="@doctor.Id"></a>
                         </div>
                         <div class="member-info">
                             <h4>@doctor.FirstName @doctor.LastName</h4>

@@ -1,11 +1,10 @@
 ﻿namespace HealthHub.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
+
     using HealthHub.Services.Data;
     using HealthHub.Web.ViewModels;
-    using HealthHub.Web.ViewModels.Doctor;
     using HealthHub.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
@@ -34,13 +33,27 @@
             viewModel.DataCounts = this.getCountsService.GetCounts();
             viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync();
             viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync();
-            viewModel.Doctors =this.doctorsService.GetAll();
+            viewModel.Doctors = this.doctorsService.GetAll();
 
             return this.View(viewModel);
         }
 
         public IActionResult Privacy()
         {
+            return this.View();
+        }
+
+        [Route("/Home/Error/404")]
+        public IActionResult Error404()
+        {
+            return this.View();
+        }
+
+        [Route("/Home/Error/{code:int}")]
+        public IActionResult Error(int code)
+        {
+            // Could handle different codes here
+            // or just return the default error view
             return this.View();
         }
 

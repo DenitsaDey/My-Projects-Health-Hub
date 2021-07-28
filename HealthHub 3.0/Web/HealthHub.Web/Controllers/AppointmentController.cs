@@ -94,7 +94,7 @@
         public async Task<IActionResult> Reschedule(string appointmentId, string doctorId)
         {
             var model = await this.appointmentService.GetByIdAsync(appointmentId);
-            return this.Redirect($"Doctors/doctorId_{doctorId}");
+            return this.Redirect($"Doctors/Book/{model.DoctorId}");
         }
 
         public IActionResult Cancel(string appointmentId)
