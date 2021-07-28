@@ -13,6 +13,7 @@
         <nav id="navbar" class="navbar order-last order-lg-0">
             <form asp-area="" asp-controller="Doctors" asp-action="All" method="get" class="navbar order-last order-lg-0">
                 <ul>
+                    <li><a class="nav-link scrollto" asp-area="" asp-controller="Clinics" asp-action="Index">Clinics</a></li>
                     <li class="dropdown">
                         <a href="#"><span>Specialties</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
@@ -49,12 +50,7 @@
         <!-- .navbar -->
 
         <a asp-area="" asp-controller="Doctors" asp-action="All" class="appointment-btn scrollto" area-hidden="true"><span>Find a </span>Doctor</a>
-        <nav id="navbar" class="navbar order-last order-lg-0">
-
-            <ul class="navbar order-last order-lg-0">
-                <partial name="_LoginPartial" />
-            </ul>
-        </nav>
+        
     </div>
 </header><!-- End Header -->
 
