@@ -45,6 +45,7 @@
         public IActionResult Book(string doctorId)
         {
             var viewModel = new AppointmentInputModel();
+            viewModel.DoctorId = doctorId;
             viewModel.ServicesItems = this.servicesService.GetAllServices();
             return this.View(viewModel);
         }
@@ -66,16 +67,6 @@
             {
                 input.ServicesItems = this.servicesService.GetAllServices();
                 return this.View(input);
-            }
-
-            DateTime dateTime;
-            try
-            {
-                dateTime = this.dateTimeParserService.ConvertStrings(input.AppointmentDate, input.AppointmentTime);
-            }
-            catch (System.Exception)
-            {
-                return this.RedirectToAction("Book", new { input.DoctorId });
             }
 
             var patient = await this.userManager.GetUserAsync(this.HttpContext.User);

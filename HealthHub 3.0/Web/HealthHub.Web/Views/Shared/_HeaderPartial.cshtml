@@ -19,7 +19,7 @@
                             @foreach (var specialty in Model.Specialties)
                             {
                                 <a class="page-link"
-                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-Id="@specialty.Id">
+                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-specialtyId="@specialty.Id">
                                     @specialty.Name
                                 </a>
 
@@ -32,7 +32,7 @@
                             @foreach (var cityArea in Model.CityAreas)
                             {
                                 <a class="page-link"
-                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-Id="@cityArea.Id">
+                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-cityAreaId="@cityArea.Id">
                                     @cityArea.Name
                                 </a>
 

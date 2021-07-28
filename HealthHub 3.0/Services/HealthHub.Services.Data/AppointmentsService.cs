@@ -131,7 +131,7 @@
 
         public async Task<IEnumerable<AppointmentViewModel>> GetPastByPatientAsync(string patientId)
         {
-            var allAppointments = this.appointmentsRepository.All()
+            var allAppointments = await this.appointmentsRepository.All()
                 .Where(a => a.PatientId == patientId
                 && a.AppointmentTime.Date < DateTime.UtcNow.Date
                 && a.AppointmentStatus == AppointmentStatus.Completed)
@@ -151,7 +151,7 @@
                     AppointmentStatus = a.AppointmentStatus.ToString(),
                     RatingValue = a.HasBeenVoted ? a.Rating.Value : 0,
                 })
-                .ToList();
+                .ToListAsync();
 
             return allAppointments;
         }
