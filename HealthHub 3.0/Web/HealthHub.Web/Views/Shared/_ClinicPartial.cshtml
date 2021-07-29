@@ -1,4 +1,13 @@
-﻿<!-- ======= Contact Section ======= -->
+﻿@model ClinicViewModel
+@if(this.ViewData["Title"].ToString() != "Clinics")
+    {
+<div>
+    @await Component.InvokeAsync("MinistryClinic")
+</div>
+    }
+    else
+    {
+    <!-- ======= Contact Section ======= -->
 <section id="contact" class="contact">
     <div class="container">
 
@@ -71,3 +80,4 @@
 
     </div>
 </section><!-- End Contact Section -->
+}

@@ -17,10 +17,12 @@
             this.cityAreasRepository = cityAreasRepository;
         }
 
-        public async Task AddAsync(string name)
+        public async Task<string> AddAsync(string name)
         {
             await this.cityAreasRepository.AddAsync(new CityArea { Name = name });
             await this.cityAreasRepository.SaveChangesAsync();
+
+            return this.cityAreasRepository.All().FirstOrDefault(ca => ca.Name == name).Id;
         }
 
         public async Task<IEnumerable<CityAreasViewModel>> GetAllCityAreasAsync()

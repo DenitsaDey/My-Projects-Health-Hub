@@ -35,7 +35,7 @@
                         else if (appointment.HasBeenVoted == false && appointment.AppointmentStatus.ToString() == "Completed")
                         {
                             <a class="btn btn-outline-danger btn-sm"
-                               asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-id="@appointment.DoctorId">
+                               asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-doctorId="@appointment.DoctorId">
                                 Rate Doctor
                             </a>
                         }

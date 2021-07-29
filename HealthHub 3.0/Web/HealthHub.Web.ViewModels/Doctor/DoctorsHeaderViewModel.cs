@@ -8,6 +8,10 @@
     {
         public IEnumerable<DoctorsViewModel> Doctors { get; set; }
 
+        public IEnumerable<CityAreasViewModel> CityAreas { get; set; }
+
+        public IEnumerable<SpecialtyViewModel> Specialties { get; set; }
+
         public PagingViewModel Paging { get; set; }
 
         public SearchSorting Sorting { get; set; }

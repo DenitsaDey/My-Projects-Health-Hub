@@ -13,32 +13,21 @@
         <nav id="navbar" class="navbar order-last order-lg-0">
             <form asp-area="" asp-controller="Doctors" asp-action="All" method="get" class="navbar order-last order-lg-0">
                 <ul>
-                    <li><a class="nav-link scrollto" asp-area="" asp-controller="Clinics" asp-action="Index">Clinics</a></li>
                     <li class="dropdown">
-                        <a href="#"><span>Specialties</span> <i class="bi bi-chevron-down"></i></a>
+                        <a href="#"><span>Clinics</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            @foreach (var specialty in Model.Specialties)
+                            @foreach (var clinic in Model.Clinics)
                             {
                                 <a class="page-link"
-                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-specialtyId="@specialty.Id">
-                                    @specialty.Name
+                                   asp-area="" asp-controller="Clinics" asp-action="Index" asp-route-clinicId="@clinic.Id">
+                                    @clinic.Name
                                 </a>
                             }
                         </ul>
                     </li>
-                    <li class="dropdown">
-                        <a href="#"><span>City Areas</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            @foreach (var cityArea in Model.CityAreas)
-                            {
-                                <a class="page-link"
-                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-cityAreaId="@cityArea.Id">
-                                    @cityArea.Name
-                                </a>
 
-                            }
-                        </ul>
-                    </li>
+                    <li><a class="nav-link scrollto" asp-area="" asp-controller="Doctors" asp-action="All">Doctors</a></li>
+                    
                     <li class="search_container_input">
                         <input type="text" asp-for="SearchName" class="form-control" placeholder="or search by name">
                     </li>
@@ -50,6 +39,7 @@
         <!-- .navbar -->
 
         <a asp-area="" asp-controller="Doctors" asp-action="All" class="appointment-btn scrollto" area-hidden="true"><span>Find a </span>Doctor</a>
+        <a asp-area="" asp-controller="Appointment" asp-action="Index" class="appointment-btn scrollto" area-hidden="true"><span>My </span>Appointments</a>
         
     </div>
 </header><!-- End Header -->

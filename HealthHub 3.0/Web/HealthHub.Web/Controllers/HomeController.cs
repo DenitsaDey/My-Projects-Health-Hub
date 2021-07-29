@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using HealthHub.Services.Data;
+    using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
@@ -11,28 +12,25 @@
     public class HomeController : BaseController
     {
         private readonly IGetCountsService getCountsService;
-        private readonly ISpecialtiesService specialtiesService;
-        private readonly ICityAreasService cityAreasService;
+        private readonly IClinicsService clinicsService;
         private readonly IDoctorsService doctorsService;
 
         public HomeController(
             IGetCountsService getCountsService,
-            ISpecialtiesService specialtiesService,
-            ICityAreasService cityAreasService,
+            IClinicsService clinicsService,
             IDoctorsService doctorsService)
         {
           this.getCountsService = getCountsService;
-          this.specialtiesService = specialtiesService;
-          this.cityAreasService = cityAreasService;
+          this.clinicsService = clinicsService;
           this.doctorsService = doctorsService;
         }
 
         public async Task<IActionResult> Index()
         {
             var viewModel = new HomeHeaderViewModel();
+
+            viewModel.Clinics = await this.clinicsService.GetAllClinicsAsync();
             viewModel.DataCounts = this.getCountsService.GetCounts();
-            viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync();
-            viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync();
             viewModel.Doctors = this.doctorsService.GetAll();
 
             return this.View(viewModel);

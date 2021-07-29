@@ -1,0 +1,55 @@
+﻿@*@model HeaderSearchQueryModel*@
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+
+
+        <nav id="navbar" class="navbar order-last order-lg-0">
+            <form asp-area="" asp-controller="Doctors" asp-action="All" method="get" class="navbar order-last order-lg-0">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#"><span>Specialties</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            @foreach (var specialty in Model.Specialties)
+                            {
+                                <a class="page-link"
+                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-specialtyId="@specialty.Id">
+                                    @specialty.Name
+                                </a>
+                            }
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#"><span>City Areas</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            @foreach (var cityArea in Model.CityAreas)
+                            {
+                                <a class="page-link"
+                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-cityAreaId="@cityArea.Id">
+                                    @cityArea.Name
+                                </a>
+
+                            }
+                        </ul>
+                    <li class="dropdown">
+                        <a href="#"><span>Insurance</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            @foreach (var insurance in Model.Insurance)
+                            {
+                                <a class="page-link"
+                                   asp-area="" asp-controller="Doctors" asp-action="All" asp-route-insuranceId="@insurance.Id">
+                                    @insurance.Name
+                                </a>
+
+                            }
+                        </ul>
+                    </li> 
+                    </ul>
+            </form>
+        </nav>
+        <!-- .navbar -->
+
+        <a asp-area="" asp-controller="Doctors" asp-action="All" class="appointment-btn scrollto" area-hidden="true"><span>Find a </span>Doctor</a>
+
+    </div>
+</header><!-- End Header -->

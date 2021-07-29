@@ -6,7 +6,7 @@
 
     public interface ICityAreasService
     {
-        Task AddAsync(string name);
+        Task<string> AddAsync(string name);
 
         Task<IEnumerable<CityAreasViewModel>> GetAllCityAreasAsync();
 

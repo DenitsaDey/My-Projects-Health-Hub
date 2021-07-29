@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using HealthHub.Web.ViewModels;
 
     public interface ISpecialtiesService

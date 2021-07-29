@@ -10,6 +10,7 @@
     using HealthHub.Data.Seeding;
     using HealthHub.Services;
     using HealthHub.Services.Data;
+    using HealthHub.Services.Data.Clinics;
     using HealthHub.Services.Mapping;
     using HealthHub.Services.Messaging;
     using HealthHub.Web.ViewModels;
@@ -68,6 +69,7 @@
             services.AddTransient<IAppointmentsService, AppointmentsService>();
             services.AddTransient<IDateTimeParserService, DateTimeParserService>();
             services.AddTransient<ICityAreasService, CityAreasService>();
+            services.AddTransient<IClinicsService, ClinicsService>();
             services.AddTransient<IDoctorsService, DoctorsService>();
             services.AddTransient<IGetCountsService, GetCountsService>();
             services.AddTransient<IRatingService, RatingService>();

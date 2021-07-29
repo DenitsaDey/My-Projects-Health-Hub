@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using HealthHub.Services.Data;
+    using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
@@ -13,25 +14,29 @@
         private readonly ICityAreasService cityAreasService;
         private readonly IGetCountsService getCountsService;
         private readonly IInsuranceService insuranceService;
+        private readonly IClinicsService clinicsService;
 
         public DoctorsController(
             IDoctorsService doctorsService,
             ISpecialtiesService specialtiesService,
             ICityAreasService cityAreasService,
             IGetCountsService getCountsService,
-            IInsuranceService insuranceService)
+            IInsuranceService insuranceService,
+            IClinicsService clinicsService)
         {
             this.doctorsService = doctorsService;
             this.specialtiesService = specialtiesService;
             this.cityAreasService = cityAreasService;
             this.getCountsService = getCountsService;
             this.insuranceService = insuranceService;
+            this.clinicsService = clinicsService;
         }
 
         //[Route("Doctors/All/{specialtyId}&{cityAreaId}&{name}&{pageNumber}")]
         public async Task<IActionResult> All(
             string specialtyId, // specialtyId, cityAreaId
             string cityAreaId, // specialtyId, cityAreaId
+            string clinicId,
             string currentFilter,
             string searchName,
             //string insuranceId,
@@ -43,6 +48,20 @@
             {
                 return this.NotFound();
             }
+
+            if (!string.IsNullOrEmpty(clinicId))
+            {
+                var clinic = await this.clinicsService.GetByIdAsync(clinicId);
+
+                if (clinic == null)
+                {
+                    return new StatusCodeResult(404);
+                }
+
+                this.ViewData["ClinicName"] = clinic.Name;
+            }
+
+            this.ViewData["CurrentSort"] = clinicId;
 
             if (!string.IsNullOrEmpty(specialtyId))
             {
@@ -75,7 +94,7 @@
 
             const int ItemsPerPage = 8;
 
-            var viewModel = await this.doctorsService.GetAllSearchedAsync(specialtyId, cityAreaId, searchName, pageId);  /*sorting, gender, insuranceId*/
+            var viewModel = await this.doctorsService.GetAllSearchedAsync(specialtyId, cityAreaId, clinicId, searchName, pageId);  /*sorting, gender, insuranceId*/
 
             viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync();
             viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync();

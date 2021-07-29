@@ -10,6 +10,7 @@
         Task<DoctorsHeaderViewModel> GetAllSearchedAsync(
             string specialtyId,
             string cityAreaId,
+            string clinicId,
             string name,
             int pageNumber,
             //SearchSorting sorting,

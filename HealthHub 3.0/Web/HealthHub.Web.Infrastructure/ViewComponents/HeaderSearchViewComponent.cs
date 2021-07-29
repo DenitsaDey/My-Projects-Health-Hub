@@ -3,26 +3,23 @@
     using System.Threading.Tasks;
 
     using HealthHub.Services.Data;
+    using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
     public class HeaderSearchViewComponent : ViewComponent
     {
-        private readonly ICityAreasService cityAreasService;
-        private readonly ISpecialtiesService specialtiesService;
+        private readonly IClinicsService clinicsService;
 
-        public HeaderSearchViewComponent(ICityAreasService cityAreasService, ISpecialtiesService specialtiesService)
+        public HeaderSearchViewComponent(IClinicsService clinicsService)
         {
-            this.cityAreasService = cityAreasService;
-            this.specialtiesService = specialtiesService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var viewModel = new HeaderSearchQueryModel
             {
-                Specialties = await this.specialtiesService.GetAllSpecialtiesAsync(),
-                CityAreas = await this.cityAreasService.GetAllCityAreasAsync(),
+                Clinics = await this.clinicsService.GetAllClinicsAsync(),
             };
 
             return this.View(viewModel);

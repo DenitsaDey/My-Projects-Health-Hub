@@ -1,4 +1,38 @@
-﻿@model HealthHub.Web.ViewModels.Clinics.ClinicListViewModel
+﻿@model IEnumerable<ClinicViewModel>
 @{
     this.ViewData["Title"] = "Clinics";
 }
+<section id="doctors" class="doctors">
+    <div class="container">
+        <div class="row">
+            @if (!Model.Any())
+            {
+                <h2 class="text-center"> No doctors found by the given criteria!</h2>
+            }
+            @foreach (var clinic in Model)
+            {
+                <div class="col-lg-6">
+                    <div class="member d-flex align-items-start">
+                        <div class="pic">
+                            <img src="@clinic.MapUrl" class="img-fluid" alt="">
+                            <a asp-area="" asp-controller="Clinics" asp-action="Details" asp-route-clinicId="@clinic.Id"></a>
+                        </div>
+                        <div class="member-info">
+                            <h4>@clinic.Name</h4>
+                            <span>@clinic.Address</span>
+                            <p>@clinic.AverageRating</p>
+                            <div class="form-group" style="padding-top:30px">
+                                <a asp-area="" asp-controller="Doctors" asp-action="All"
+                                   asp-route-clinicId="@clinic.Id">
+                                    <i class="appointment-btn scrollto">
+                                        <span>See the Doctors</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

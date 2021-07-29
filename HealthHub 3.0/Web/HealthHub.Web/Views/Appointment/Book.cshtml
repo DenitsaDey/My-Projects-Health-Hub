@@ -6,7 +6,7 @@
     <link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
 }
 
-<div class="container-fluid ">
+<div class="container-fluid" style="background-color:white">
     <div class="row justify-content-center mx-0">
         <div class="col-lg-6">
             <div class="card">
@@ -138,7 +138,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Comment</label>
                     <div class="col-sm-10">
-                        <input type="text" asp-for="@Model.Message" value="" class="form-control" placeholder="Optional notes to the doctor" />
+                        <input type="text" asp-for="@Model.Message" value="" class="form-control" placeholder="Notes to the doctor (optional)" />
                         <span asp-validation-for="Message" class="text-danger"></span>
                     </div>
                 </div>

@@ -28,6 +28,7 @@
         public async Task<DoctorsHeaderViewModel> GetAllSearchedAsync(
             string specialtyId,
             string cityAreaId,
+            string clinicId,
             string searchName,
             int pageNumber,
             //SearchSorting sorting,
@@ -48,6 +49,12 @@
             {
                 doctorsQuery = doctorsQuery
                     .Where(d => d.Clinic.Area.Id == cityAreaId);
+            }
+
+            if (!string.IsNullOrEmpty(clinicId))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Clinic.Id == clinicId);
             }
 
             if (!string.IsNullOrWhiteSpace(searchName))
