@@ -50,18 +50,22 @@
             await this.clinicsRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ClinicViewModel>> GetAllClinicsAsync()
+        public IEnumerable<ClinicViewModel> GetAllClinics()
         {
-            var allClinics = await this.clinicsRepository.All()
+            var allClinics = this.clinicsRepository.All()
                 .Select(c => new ClinicViewModel
                 {
                     Id = c.Id,
                     Name = c.Name,
                     MapUrl = c.MapUrl,
                     Address = c.Address,
+                    AreaId = c.AreaId,
+                    AreaName = c.Area.Name,
+                    MedicalStaff = new List<DoctorsViewModel>(),
+                    InsuranceCompanies = new List<InsuranceClinicsViewModel>(),
                 })
                 .OrderBy(x => x.Name)
-                .ToListAsync();
+                .ToList();
 
             foreach (var clinic in allClinics)
             {
@@ -93,16 +97,16 @@
                 .ToList();
         }
 
-        public async Task<ClinicViewModel> GetByIdAsync(string clinicId)
+        public ClinicViewModel GetById(string clinicId)
         {
-            var clinic = await this.clinicsRepository.All()
-                .Where(s => s.Id == clinicId)
-                .Select(s => new ClinicViewModel
+            var clinic = this.clinicsRepository.All()
+                .Where(c => c.Id == clinicId)
+                .Select(c => new ClinicViewModel
                 {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Address = s.Address,
-                    MapUrl = s.MapUrl,
+                    Id = c.Id,
+                    Name = c.Name,
+                    Address = c.Address,
+                    MapUrl = c.MapUrl,
                     MedicalStaff = this.doctorsRepository.All()
                     .Where(d => d.ClinicId == clinicId)
                     .Select(d => new DoctorsViewModel
@@ -111,20 +115,51 @@
                         FirstName = d.FirstName,
                         LastName = d.LastName,
                         Specialty = d.Specialty.Name,
+                        AverageRating = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
+                        RatingCount = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
                     })
                     .ToList(),
                     InsuranceCompanies = this.insuranceClinicsRepository.All()
                     .Where(ic => ic.ClinicId == clinicId)
-                    .Select(ic => new InsuranceViewModel
+                    .Select(ic => new InsuranceClinicsViewModel
                     {
-                        Id = ic.InsuranceID,
-                        Name = ic.Insurance.Name,
+                        Id = ic.Id,
+                        InsuranceId = ic.InsuranceId,
                     })
                     .ToList(),
                 })
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
+            clinic.AverageRating = clinic.MedicalStaff.Select(x => x.AverageRating).Average();
+            clinic.RatingCount = clinic.MedicalStaff.Select(x => x.RatingCount).Sum();
 
             return clinic;
+        }
+
+        public ClinicHeaderViewModel GetHeader()
+        {
+            var allClinics = this.clinicsRepository.All()
+                .Select(c => new ClinicViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    MapUrl = c.MapUrl,
+                    Address = c.Address,
+                    AreaId = c.AreaId,
+                    AreaName = c.Area.Name,
+                    MedicalStaff = new List<DoctorsViewModel>(),
+                    InsuranceCompanies = new List<InsuranceClinicsViewModel>(),
+                })
+                .OrderBy(x => x.Name)
+                .ToList();
+
+            var result = new ClinicHeaderViewModel();
+            result.Clinics = allClinics;
+
+            return result;
         }
     }
 }

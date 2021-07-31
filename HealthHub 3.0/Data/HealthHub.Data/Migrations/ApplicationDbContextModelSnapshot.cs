@@ -466,7 +466,7 @@ namespace HealthHub.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InsuranceID")
+                    b.Property<string>("InsuranceId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
@@ -479,7 +479,7 @@ namespace HealthHub.Data.Migrations
 
                     b.HasIndex("ClinicId");
 
-                    b.HasIndex("InsuranceID");
+                    b.HasIndex("InsuranceId");
 
                     b.HasIndex("IsDeleted");
 
@@ -810,7 +810,7 @@ namespace HealthHub.Data.Migrations
 
                     b.HasOne("HealthHub.Data.Models.Insurance", "Insurance")
                         .WithMany("Clinics")
-                        .HasForeignKey("InsuranceID");
+                        .HasForeignKey("InsuranceId");
 
                     b.Navigation("Clinic");
 

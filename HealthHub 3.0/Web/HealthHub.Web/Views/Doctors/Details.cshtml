@@ -1,5 +1,8 @@
 ﻿@model HealthHub.Web.ViewModels.Doctor.DoctorsViewModel
-@{ this.ViewData["Title"] = "Dr. " + Model.FirstName + " " + Model.LastName; }
+@{ 
+    this.ViewData["Title"] = "Dr. " + Model.FirstName + " " + Model.LastName; 
+    }
+
 <div class="row row-eq-height">
     <!-- Info Box -->
     <div class="col-lg-4 info_box_col">
@@ -44,7 +47,7 @@
                            asp-route-doctorId="@Model.Id">
                             @*asp-route-serviceId="@Model.ServiceId"*@
                             <i class="appointment-btn scrollto">
-                                <span>Book An Appointment</span></i>
+                                <h7>Book An Appointment</h7></i>
                         </a>
                     </div>
                 </div>

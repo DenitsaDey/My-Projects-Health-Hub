@@ -25,11 +25,11 @@
           this.doctorsService = doctorsService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var viewModel = new HomeHeaderViewModel();
 
-            viewModel.Clinics = await this.clinicsService.GetAllClinicsAsync();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             viewModel.DataCounts = this.getCountsService.GetCounts();
             viewModel.Doctors = this.doctorsService.GetAll();
 

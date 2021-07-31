@@ -112,7 +112,8 @@
                 HasBeenVoted = false,
             });
 
-            await dbContext.AddRangeAsync(appointments);
+            await dbContext.Appointments.AddRangeAsync(appointments);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

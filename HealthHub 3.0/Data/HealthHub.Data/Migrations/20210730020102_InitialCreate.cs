@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace HealthHub.Data.Migrations
+﻿namespace HealthHub.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -348,7 +349,7 @@ namespace HealthHub.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InsuranceID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    InsuranceId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -365,8 +366,8 @@ namespace HealthHub.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_InsuranceClinics_Insurances_InsuranceID",
-                        column: x => x.InsuranceID,
+                        name: "FK_InsuranceClinics_Insurances_InsuranceId",
+                        column: x => x.InsuranceId,
                         principalTable: "Insurances",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -592,9 +593,9 @@ namespace HealthHub.Data.Migrations
                 column: "ClinicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InsuranceClinics_InsuranceID",
+                name: "IX_InsuranceClinics_InsuranceId",
                 table: "InsuranceClinics",
-                column: "InsuranceID");
+                column: "InsuranceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InsuranceClinics_IsDeleted",

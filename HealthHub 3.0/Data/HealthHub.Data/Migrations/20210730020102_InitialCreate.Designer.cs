@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210725024456_InitialCreate")]
+    [Migration("20210730020102_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -468,7 +468,7 @@ namespace HealthHub.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InsuranceID")
+                    b.Property<string>("InsuranceId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
@@ -481,7 +481,7 @@ namespace HealthHub.Data.Migrations
 
                     b.HasIndex("ClinicId");
 
-                    b.HasIndex("InsuranceID");
+                    b.HasIndex("InsuranceId");
 
                     b.HasIndex("IsDeleted");
 
@@ -812,7 +812,7 @@ namespace HealthHub.Data.Migrations
 
                     b.HasOne("HealthHub.Data.Models.Insurance", "Insurance")
                         .WithMany("Clinics")
-                        .HasForeignKey("InsuranceID");
+                        .HasForeignKey("InsuranceId");
 
                     b.Navigation("Clinic");
 

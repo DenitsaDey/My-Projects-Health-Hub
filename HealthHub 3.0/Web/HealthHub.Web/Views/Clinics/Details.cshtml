@@ -1,6 +1,79 @@
-﻿@model HealthHub.Web.ViewModels.Clinics.ClinicViewModel
-@{ 
-    this.ViewData["Title"] = "Clinics"; 
-    }
+﻿@model HealthHub.Web.ViewModels.Clinics.ClinicHeaderViewModel
+@{ this.ViewData["Title"] = Model.Clinic.Name; }
+<partial name="_HeaderPartial" />
 
-<partial name="_ClinicDetailsPartial" />
+@*<partial name="_ClinicDetailsPartial" />*@
+
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+
+    <div>
+        <iframe style="border:0; width: 100%; height: 350px;" src="@Model.Clinic.MapUrl" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <div class="container">
+        <div class="row mt-5">
+
+            <div class="col-lg-4">
+                <div class="info">
+                    <div class="email">
+                        <i class="bi bi-house"></i>
+                        <h4>Clinic:</h4>
+                    </div>
+
+                    <div class="email">
+                        <i class="bi bi-geo-alt"></i>
+                        <h4>Location:</h4>
+                    </div>
+
+                    <div class="phone">
+                        <i class="bi bi-star-fill"></i>
+                        <h4>Average Doctors' Rating:</h4>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+                <div class="info">
+                    <div class="email">
+                        <h4>@Model.Clinic.Name</h4>
+                    </div>
+
+                    <div class="email">
+                        <h4>@Model.Clinic.Address</h4>
+                    </div>
+
+                    <div class="phone">
+                        <h4 class="star-rating">
+                            <span class="fa fa-star-o" data-rating="1"></span>
+                            <span class="fa fa-star-o" data-rating="2"></span>
+                            <span class="fa fa-star-o" data-rating="3"></span>
+                            <span class="fa fa-star-o" data-rating="4"></span>
+                            <span class="fa fa-star-o" data-rating="5"></span>
+                            <input type="hidden" name="whatever1" class="rating-value" value="@Model.Clinic.AverageRating">
+                        </h4>
+                        <h4>( @Model.Clinic.AverageRating.ToString("F") / 5.00 ) from @Model.Clinic.RatingCount votes</h4>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4" style="padding-top:80px; padding-left:50px">
+                
+                <div class="appointment-btn">
+                    <a class="appointment-btn scrollto" asp-area="" asp-controller="Doctors" asp-action="All"
+                       asp-route-clinicId="@Model.Clinic.Id">
+                            <span>See the Doctors</span>
+                    </a>
+                </div>
+                
+            </div>
+            </div>
+    </div>
+</section>
+@section Scripts {
+    <script src="~/js/rating-static.js" asp-append-version="true"></script>
+}

@@ -20,11 +20,9 @@
                             <span>@doctor.Specialty</span>
                             <p>@doctor.Clinic</p>
                             <div class="form-group" style="padding-top:30px">
-                                <a asp-area="" asp-controller="Doctors" asp-action="Details"
+                                <a class="appointment-btn scrollto" asp-area="" asp-controller="Doctors" asp-action="Details"
                                    asp-route-doctorId="@doctor.Id">
-                                    <i class="appointment-btn scrollto">
-                                        <span>Book an Appointment</span>
-                                    </i>
+                                        <h7>Book an Appointment</h7>
                                 </a>
                             </div>
                         </div>

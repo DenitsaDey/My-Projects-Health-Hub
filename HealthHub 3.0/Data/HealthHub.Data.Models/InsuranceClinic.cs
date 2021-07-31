@@ -4,7 +4,7 @@ namespace HealthHub.Data.Models
 {
     public class InsuranceClinic : BaseDeletableModel<int>
     {
-        public string InsuranceID { get; set; }
+        public string InsuranceId { get; set; }
 
         public virtual Insurance Insurance { get; set; }
 

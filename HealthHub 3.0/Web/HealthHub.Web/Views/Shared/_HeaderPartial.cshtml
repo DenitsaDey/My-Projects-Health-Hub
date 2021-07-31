@@ -19,7 +19,7 @@
                             @foreach (var clinic in Model.Clinics)
                             {
                                 <a class="page-link"
-                                   asp-area="" asp-controller="Clinics" asp-action="Index" asp-route-clinicId="@clinic.Id">
+                                   asp-area="" asp-controller="Clinics" asp-action="Details" asp-route-clinicId="@clinic.Id">
                                     @clinic.Name
                                 </a>
                             }

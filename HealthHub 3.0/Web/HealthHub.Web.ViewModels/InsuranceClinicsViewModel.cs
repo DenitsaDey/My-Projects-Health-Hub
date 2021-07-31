@@ -6,7 +6,7 @@ namespace HealthHub.Web.ViewModels
 {
     public class InsuranceClinicsViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string ClinicId { get; set; }
 

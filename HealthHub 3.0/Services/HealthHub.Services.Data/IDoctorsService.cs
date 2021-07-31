@@ -21,5 +21,7 @@
         IEnumerable<DoctorsViewModel> GetAll();
 
         Task<DoctorsViewModel> GetByIdAsync(string doctorId);
+
+        Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId);
     }
 }

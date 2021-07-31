@@ -9,10 +9,12 @@
     {
         Task AddAsync(ClinicInputModel input);
 
-        Task<IEnumerable<ClinicViewModel>> GetAllClinicsAsync();
+        IEnumerable<ClinicViewModel> GetAllClinics();
 
         IEnumerable<string> GetAllClinicsNames();
 
-        Task<ClinicViewModel> GetByIdAsync(string clinicId);
+        ClinicViewModel GetById(string clinicId);
+
+        ClinicHeaderViewModel GetHeader();
     }
 }

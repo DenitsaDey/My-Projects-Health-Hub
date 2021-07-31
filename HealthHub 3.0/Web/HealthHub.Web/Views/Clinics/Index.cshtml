@@ -1,35 +1,34 @@
-﻿@model IEnumerable<ClinicViewModel>
+﻿@model ClinicHeaderViewModel
 @{
     this.ViewData["Title"] = "Clinics";
 }
+
+<partial name="_HeaderPartial" />
+
 <section id="doctors" class="doctors">
     <div class="container">
         <div class="row">
-            @if (!Model.Any())
+            @if (!Model.Clinics.Any())
             {
                 <h2 class="text-center"> No doctors found by the given criteria!</h2>
             }
-            @foreach (var clinic in Model)
+            @foreach (var clinic in Model.Clinics)
             {
                 <div class="col-lg-6">
                     <div class="member d-flex align-items-start">
-                        <div class="pic">
-                            <img src="@clinic.MapUrl" class="img-fluid" alt="">
-                            <a asp-area="" asp-controller="Clinics" asp-action="Details" asp-route-clinicId="@clinic.Id"></a>
-                        </div>
+                        <iframe style="border:0; width: 100%; height: 300px;" src="@clinic.MapUrl" allowfullscreen="" loading="lazy"></iframe>
+                        <a asp-area="" asp-controller="Clinics" asp-action="Details" asp-route-clinicId="@clinic.Id"></a>
                         <div class="member-info">
                             <h4>@clinic.Name</h4>
                             <span>@clinic.Address</span>
-                            <p>@clinic.AverageRating</p>
+                            <p>Average Doctors' Rating: @clinic.AverageRating.ToString("F") / 5.00  from @clinic.RatingCount votes</p>
                             <div class="form-group" style="padding-top:30px">
-                                <a asp-area="" asp-controller="Doctors" asp-action="All"
+                                <a class="appointment-btn scrollto" asp-area="" asp-controller="Doctors" asp-action="All"
                                    asp-route-clinicId="@clinic.Id">
-                                    <i class="appointment-btn scrollto">
-                                        <span>See the Doctors</span>
-                                    </i>
+                                    <h7>See the Doctors</h7>
                                 </a>
                             </div>
-                        </div>
+                        </div>          
                     </div>
                 </div>
             }

@@ -34,6 +34,7 @@
                               new InsuranceSeeder(),
                               new DoctorsSeeder(),
                               new AppointmentsSeeder(),
+                              new InsuranceClinicsSeeder(),
                           };
 
             foreach (var seeder in seeders)

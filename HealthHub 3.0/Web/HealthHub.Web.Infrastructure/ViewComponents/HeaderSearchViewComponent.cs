@@ -19,7 +19,7 @@
         {
             var viewModel = new HeaderSearchQueryModel
             {
-                Clinics = await this.clinicsService.GetAllClinicsAsync(),
+                Clinics = this.clinicsService.GetAllClinics(),
             };
 
             return this.View(viewModel);

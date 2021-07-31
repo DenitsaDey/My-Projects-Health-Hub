@@ -176,5 +176,35 @@
 
             return currentDoctor;
         }
+
+        public async Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId)
+        {
+            var doctorsInClinic = await this.doctorsRepository.All()
+                .Where(d => d.ClinicId == clinicId)
+                .Select(d => new DoctorsViewModel
+                {
+                    Id = d.Id,
+                    FirstName = d.FirstName,
+                    LastName = d.LastName,
+                    Age = DateTime.Now.Year - d.DateOfBirth.Year,
+                    PhoneNumber = d.PhoneNumber,
+                    ImageUrl = d.ImageUrl,
+                    Clinic = d.Clinic.Name,
+                    Specialty = d.Specialty.Name,
+                    YearsOFExperience = d.YearsOFExperience,
+                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
+                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
+                    AverageRating = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
+                    RatingCount = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                    About = d.About,
+                })
+                .ToListAsync();
+
+            return doctorsInClinic;
+        }
     }
 }

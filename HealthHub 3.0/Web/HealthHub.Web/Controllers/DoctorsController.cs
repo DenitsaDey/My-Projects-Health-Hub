@@ -51,7 +51,7 @@
 
             if (!string.IsNullOrEmpty(clinicId))
             {
-                var clinic = await this.clinicsService.GetByIdAsync(clinicId);
+                var clinic = this.clinicsService.GetById(clinicId);
 
                 if (clinic == null)
                 {
@@ -96,6 +96,7 @@
 
             var viewModel = await this.doctorsService.GetAllSearchedAsync(specialtyId, cityAreaId, clinicId, searchName, pageId);  /*sorting, gender, insuranceId*/
 
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync();
             viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync();
             viewModel.Paging = new PagingViewModel

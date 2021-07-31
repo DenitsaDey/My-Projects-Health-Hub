@@ -14,16 +14,13 @@
 
         public string AreaId { get; set; }
 
-        public CityAreasViewModel Area { get; set; }
+        public string AreaName { get; set; }
 
         public string Address { get; set; }
 
-        public string DoctorId { get; set; }
-
         public IEnumerable<DoctorsViewModel> MedicalStaff { get; set; }
 
-        //collection of Insurance companies the clicl works with
-        public IEnumerable<InsuranceViewModel> InsuranceCompanies { get; set; }
+        public IEnumerable<InsuranceClinicsViewModel> InsuranceCompanies { get; set; }
 
         public double AverageRating { get; set; }
 
