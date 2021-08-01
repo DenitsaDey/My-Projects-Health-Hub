@@ -285,35 +285,6 @@ namespace HealthHub.Data.Migrations
                     b.ToTable("Clinics");
                 });
 
-            modelBuilder.Entity("HealthHub.Data.Models.Diagnosis", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Diagnoses");
-                });
-
             modelBuilder.Entity("HealthHub.Data.Models.Doctor", b =>
                 {
                     b.Property<string>("Id")
@@ -509,6 +480,9 @@ namespace HealthHub.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
@@ -519,6 +493,8 @@ namespace HealthHub.Data.Migrations
                         .HasFilter("[AppointmentId] IS NOT NULL");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Ratings");
                 });
@@ -582,48 +558,6 @@ namespace HealthHub.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Specialties");
-                });
-
-            modelBuilder.Entity("HealthHub.Data.Models.UserDiagnosis", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AdditionalDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CurrentStatus")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DiagnosisId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DiagnosisId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("UsersDiagnoses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -823,20 +757,11 @@ namespace HealthHub.Data.Migrations
                         .WithOne("Rating")
                         .HasForeignKey("HealthHub.Data.Models.Rating", "AppointmentId");
 
-                    b.Navigation("Appointment");
-                });
-
-            modelBuilder.Entity("HealthHub.Data.Models.UserDiagnosis", b =>
-                {
-                    b.HasOne("HealthHub.Data.Models.Diagnosis", "Diagnosis")
-                        .WithMany("Patients")
-                        .HasForeignKey("DiagnosisId");
-
                     b.HasOne("HealthHub.Data.Models.ApplicationUser", "Patient")
-                        .WithMany("MedicalHistory")
+                        .WithMany("Ratings")
                         .HasForeignKey("PatientId");
 
-                    b.Navigation("Diagnosis");
+                    b.Navigation("Appointment");
 
                     b.Navigation("Patient");
                 });
@@ -900,7 +825,7 @@ namespace HealthHub.Data.Migrations
 
                     b.Navigation("Logins");
 
-                    b.Navigation("MedicalHistory");
+                    b.Navigation("Ratings");
 
                     b.Navigation("Roles");
                 });
@@ -920,11 +845,6 @@ namespace HealthHub.Data.Migrations
                     b.Navigation("InsuranceCompanies");
 
                     b.Navigation("MedicalStaff");
-                });
-
-            modelBuilder.Entity("HealthHub.Data.Models.Diagnosis", b =>
-                {
-                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("HealthHub.Data.Models.Doctor", b =>

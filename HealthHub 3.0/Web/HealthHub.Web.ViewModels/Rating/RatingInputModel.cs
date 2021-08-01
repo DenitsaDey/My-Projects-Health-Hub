@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace HealthHub.Web.ViewModels.Rating
+﻿namespace HealthHub.Web.ViewModels.Rating
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class RatingInputModel
     {
         [Required]

@@ -44,7 +44,7 @@
                                 @if (@Model.RatingValue == 0 && @Model.AppointmentStatus.ToString() == "Completed")
                                 {
                                     <a class="btn btn-outline-danger btn-sm"
-                                       asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-id="@Model.Id">
+                                       asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-appointmentId="@Model.Id">
                                         Rate this appointment
                                     </a>
                                 }

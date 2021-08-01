@@ -22,6 +22,8 @@
 
         Task<DoctorsViewModel> GetByIdAsync(string doctorId);
 
+        DoctorsViewModel GetByAppointment(string appointmentId);
+
         Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId);
     }
 }

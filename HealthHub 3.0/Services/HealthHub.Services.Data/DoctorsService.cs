@@ -9,6 +9,7 @@
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Appointment;
     using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.EntityFrameworkCore;
 
@@ -177,7 +178,37 @@
             return currentDoctor;
         }
 
-        public async Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId)
+        public DoctorsViewModel GetByAppointment(string appointmentId)
+        {
+            var currentDoctor = this.doctorsRepository.All()
+                .Where(d => d.ScheduledAppointments.Any(a => a.Id == appointmentId))
+                .Select(d => new DoctorsViewModel
+                {
+                    Id = d.Id,
+                    FirstName = d.FirstName,
+                    LastName = d.LastName,
+                    Age = DateTime.Now.Year - d.DateOfBirth.Year,
+                    PhoneNumber = d.PhoneNumber,
+                    ImageUrl = d.ImageUrl,
+                    Clinic = d.Clinic.Name,
+                    Specialty = d.Specialty.Name,
+                    YearsOFExperience = d.YearsOFExperience,
+                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
+                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
+                    AverageRating = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
+                    RatingCount = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                    About = d.About,
+                })
+                .FirstOrDefault();
+
+            return currentDoctor;
+        }
+
+            public async Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId)
         {
             var doctorsInClinic = await this.doctorsRepository.All()
                 .Where(d => d.ClinicId == clinicId)

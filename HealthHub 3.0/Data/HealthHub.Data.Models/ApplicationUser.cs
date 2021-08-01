@@ -43,7 +43,7 @@ namespace HealthHub.Data.Models
 
         public virtual ICollection<Appointment> BookedAppointments { get; set; } = new HashSet<Appointment>();
 
-        public virtual ICollection<UserDiagnosis> MedicalHistory { get; set; } = new HashSet<UserDiagnosis>();
+        public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

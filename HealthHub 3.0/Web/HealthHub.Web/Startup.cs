@@ -11,6 +11,7 @@
     using HealthHub.Services;
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
+    using HealthHub.Services.Data.Ratings;
     using HealthHub.Services.Mapping;
     using HealthHub.Services.Messaging;
     using HealthHub.Web.ViewModels;
@@ -72,10 +73,10 @@
             services.AddTransient<IClinicsService, ClinicsService>();
             services.AddTransient<IDoctorsService, DoctorsService>();
             services.AddTransient<IGetCountsService, GetCountsService>();
-            services.AddTransient<IRatingService, RatingService>();
             services.AddTransient<IServicesService, ServicesService>();
             services.AddTransient<ISpecialtiesService, SpecialtiesService>();
             services.AddTransient<IInsuranceService, InsuranceService>();
+            services.AddTransient<IRatingsService, RatingsService>();
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
             services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();

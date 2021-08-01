@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HealthHub.Web.ViewModels.Rating
+﻿namespace HealthHub.Web.ViewModels.Rating
 {
     public class RatingViewModel
     {

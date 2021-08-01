@@ -30,8 +30,6 @@
 
         public DbSet<Clinic> Clinics { get; set; }
 
-        public DbSet<Diagnosis> Diagnoses { get; set; }
-
         public DbSet<Doctor> Doctors { get; set; }
 
         public DbSet<DoctorPatient> DoctorsPatients { get; set; }
@@ -45,8 +43,6 @@
         public DbSet<Rating> Ratings { get; set; }
 
         public DbSet<Specialty> Specialties { get; set; }
-
-        public DbSet<UserDiagnosis> UsersDiagnoses { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

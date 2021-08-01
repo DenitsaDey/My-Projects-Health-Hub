@@ -1,8 +1,8 @@
 ﻿@model HealthHub.Web.ViewModels.Clinics.ClinicHeaderViewModel
 @{ this.ViewData["Title"] = Model.Clinic.Name; }
+
 <partial name="_HeaderPartial" />
 
-@*<partial name="_ClinicDetailsPartial" />*@
 
 <!-- ======= Contact Section ======= -->
 <section id="contact" class="contact">
@@ -38,23 +38,23 @@
             <div class="col-lg-4">
                 <div class="info">
                     <div class="email">
-                        <h4>@Model.Clinic.Name</h4>
+                        <h5>@Model.Clinic.Name</h5>
                     </div>
 
                     <div class="email">
-                        <h4>@Model.Clinic.Address</h4>
+                        <h5>@Model.Clinic.Address</h5>
                     </div>
 
                     <div class="phone">
-                        <h4 class="star-rating">
+                        <h5 class="star-rating">
                             <span class="fa fa-star-o" data-rating="1"></span>
                             <span class="fa fa-star-o" data-rating="2"></span>
                             <span class="fa fa-star-o" data-rating="3"></span>
                             <span class="fa fa-star-o" data-rating="4"></span>
                             <span class="fa fa-star-o" data-rating="5"></span>
                             <input type="hidden" name="whatever1" class="rating-value" value="@Model.Clinic.AverageRating">
-                        </h4>
-                        <h4>( @Model.Clinic.AverageRating.ToString("F") / 5.00 ) from @Model.Clinic.RatingCount votes</h4>
+                        </h5>
+                        <h5>( @Model.Clinic.AverageRating.ToString("F") / 5.00 ) from @Model.Clinic.RatingCount votes</h5>
                     </div>
 
                 </div>
