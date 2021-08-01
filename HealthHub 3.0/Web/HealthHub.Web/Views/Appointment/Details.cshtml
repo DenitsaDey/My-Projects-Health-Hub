@@ -32,7 +32,7 @@
                             <td>@Model.Clinic</td>
                             <td>@Model.Address</td>
                             <td>
-                                <iframe style="border:0; width: 100%; height: 350px;" src="@Model.Location" frameborder="0" allowfullscreen></iframe>
+                                <iframe style="border:0; width: 100%; height: 150px;" src="@Model.Location" frameborder="0" allowfullscreen></iframe>
                             </td>
                             <td>@Model.AppointmentStatus</td>
                             <td>@Model.ProcedureBooked</td>
@@ -44,7 +44,7 @@
                                 @if (@Model.RatingValue == 0 && @Model.AppointmentStatus.ToString() == "Completed")
                                 {
                                     <a class="btn btn-outline-danger btn-sm"
-                                       asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-appointmentId="@Model.Id">
+                                       asp-area="" asp-controller="Rating" asp-action="RatePastAppointment" asp-route-appointmentId="@Model.Id">
                                         Rate this appointment
                                     </a>
                                 }

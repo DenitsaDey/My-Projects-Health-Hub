@@ -208,7 +208,7 @@
             return currentDoctor;
         }
 
-            public async Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId)
+        public async Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId)
         {
             var doctorsInClinic = await this.doctorsRepository.All()
                 .Where(d => d.ClinicId == clinicId)
@@ -236,6 +236,29 @@
                 .ToListAsync();
 
             return doctorsInClinic;
+        }
+
+        public async Task RateDoctorAsync(string doctorId, int rateValue)
+        {
+            var doctor =
+                await this.doctorsRepository
+                .All()
+                .Where(x => x.Id == doctorId)
+                .FirstOrDefaultAsync();
+
+            // might not need old and new in my case (depending on the view)
+            var oldRating = doctor.ScheduledAppointments
+                .Where(sa => sa.HasBeenVoted).Any() ? 0 :
+                doctor.ScheduledAppointments
+                .Where(sa => sa.HasBeenVoted)
+                .Average(sa => sa.Rating.Value);
+            var oldRatersCount = doctor.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ? 0 :
+                doctor.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count();
+
+            var newRatersCount = oldRatersCount + 1;
+            var newRating = (oldRating + rateValue) / newRatersCount;
+
+            await this.doctorsRepository.SaveChangesAsync();
         }
     }
 }

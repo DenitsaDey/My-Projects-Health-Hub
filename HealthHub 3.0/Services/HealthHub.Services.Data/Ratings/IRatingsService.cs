@@ -4,7 +4,7 @@
 
     public interface IRatingsService
     {
-        Task SetRatingAsync(string appointmentId, string patientId, int value, string additionalComments);
+        Task SetRatingAsync(string appointmentId, int value, string additionalComments);
 
         double GetDoctorAverageRating(string doctorId);
 

@@ -53,19 +53,19 @@
                 <td>@appointment.AppointmentStatus.ToString()</td>
                 <td>
                     <a class="btn btn-outline-success btn-sm"
-                       asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-id="@appointment.Id">
+                       asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@appointment.Id">
                         Details
                     </a>
                 </td>
                 <td>
                     <a class="btn btn-outline-info btn-sm"
-                       asp-area="" asp-controller="Appointment" asp-action="Reschedule" asp-route-id="@appointment.Id">
+                       asp-area="" asp-controller="Appointment" asp-action="Reschedule" asp-route-appointmentId="@appointment.Id">
                         Reschedule
                     </a>
                 </td>
                 <td>
                     <a class="btn btn-outline-danger btn-sm"
-                       asp-area="" asp-controller="Appointment" asp-action="Cancel" asp-route-id="@appointment.Id">
+                       asp-area="" asp-controller="Appointment" asp-action="Cancel" asp-route-appointmentId="@appointment.Id">
                         Cancel
                     </a>
                 </td>

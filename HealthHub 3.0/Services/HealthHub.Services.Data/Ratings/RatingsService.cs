@@ -5,6 +5,7 @@
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
+    using HealthHub.Data.Models.Enums;
 
     public class RatingsService : IRatingsService
     {
@@ -25,11 +26,11 @@
             this.clinicRepository = clinicRepository;
         }
 
-        public async Task SetRatingAsync(string appointmentId, string patientId, int value, string additionalComments)
+        public async Task SetRatingAsync(string appointmentId, int value, string additionalComments)
         {
             var ratingToBeSet = this.ratingRepository.All()
                 .FirstOrDefault(r => r.AppointmentId == appointmentId
-                && r.PatientId == patientId
+                && r.Appointment.AppointmentStatus == AppointmentStatus.Completed
                 && !r.Appointment.HasBeenVoted);
 
             if (ratingToBeSet == null)
@@ -37,7 +38,6 @@
                 ratingToBeSet = new Rating
                 {
                     AppointmentId = appointmentId,
-                    PatientId = patientId,
                 };
 
                 await this.ratingRepository.AddAsync(ratingToBeSet);
@@ -53,6 +53,9 @@
             this.appointmentRepository.All()
                 .FirstOrDefault(a => a.Id == appointmentId)
                 .HasBeenVoted = true;
+            this.appointmentRepository.All()
+                .FirstOrDefault(a => a.Id == appointmentId)
+                .RatingId = ratingToBeSet.Id;
 
             await this.ratingRepository.SaveChangesAsync();
             await this.appointmentRepository.SaveChangesAsync();
@@ -62,9 +65,11 @@
         {
             return this.ratingRepository.All()
                 .Where(r => r.Appointment.DoctorId == doctorId && r.Appointment.HasBeenVoted)
-                .Average(r => r.Value);
+                .Count() == 0 ? 0 :
+                this.ratingRepository.All()
+                .Where(r => r.Appointment.DoctorId == doctorId && r.Appointment.HasBeenVoted).Average(r => r.Value);
 
-            //return this.doctorRepository.All()
+            // return this.doctorRepository.All()
             //    .Where(d => d.Id == doctorId && d.ScheduledAppointments.Where(a => a.HasBeenVoted).Any())
             //    .Average(d => d.ScheduledAppointments.Average(sa => sa.Rating.Value));
         }
@@ -73,9 +78,11 @@
         {
             return this.ratingRepository.All()
                 .Where(r => r.Appointment.Doctor.ClinicId == clinicId && r.Appointment.HasBeenVoted)
-                .Average(r => r.Value);
+                .Count() == 0 ? 0 :
+                this.ratingRepository.All()
+                .Where(r => r.Appointment.Doctor.ClinicId == clinicId && r.Appointment.HasBeenVoted).Average(r => r.Value);
 
-            //return this.clinicRepository.All()
+            // return this.clinicRepository.All()
             //    .Where(c => c.Id == clinicId)
             //    .Average(c => c.MedicalStaff
             //                .Average(ms => ms.ScheduledAppointments

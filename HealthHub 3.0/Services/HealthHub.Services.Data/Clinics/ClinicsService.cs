@@ -161,5 +161,30 @@
 
             return result;
         }
+
+        public async Task RateCLinicAsync(string clinicId, int rateValue)
+        {
+            var clinic =
+                await this.clinicsRepository
+                .All()
+                .Where(x => x.Id == clinicId)
+                .FirstOrDefaultAsync();
+
+            // might not need old and new in my case (depending on the view)
+            var oldRating = clinic.MedicalStaff.Select(ms => ms.ScheduledAppointments
+                .Where(sa => sa.HasBeenVoted)).Any() ? 0 :
+                clinic.MedicalStaff.Select(ms => ms.ScheduledAppointments
+                .Where(sa => sa.HasBeenVoted)
+                .Average(sa => sa.Rating.Value)).Average();
+            var oldRatersCount = clinic.MedicalStaff.Select(ms => ms.ScheduledAppointments.Where(sa => sa.HasBeenVoted)).Any() ? 0 :
+                clinic.MedicalStaff.Select(ms => ms.ScheduledAppointments
+                .Where(sa => sa.HasBeenVoted)
+                .Average(sa => sa.Rating.Value)).Count();
+
+            var newRatersCount = oldRatersCount + 1;
+            var newRating = (oldRating + rateValue) / newRatersCount;
+
+            await this.clinicsRepository.SaveChangesAsync();
+        }
     }
 }

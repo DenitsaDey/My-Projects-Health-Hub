@@ -133,8 +133,7 @@
         {
             var allAppointments = await this.appointmentsRepository.All()
                 .Where(a => a.PatientId == patientId
-                && a.AppointmentTime.Date < DateTime.UtcNow.Date
-                && a.AppointmentStatus == AppointmentStatus.Completed)
+                && a.AppointmentTime.Date < DateTime.UtcNow.Date)
                 .OrderByDescending(a => a.AppointmentTime)
                 .Select(a => new AppointmentViewModel
                 {

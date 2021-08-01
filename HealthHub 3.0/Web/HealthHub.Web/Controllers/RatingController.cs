@@ -9,45 +9,50 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [ApiController]
-    [Route("api/[controller]")]
+    // [ApiController]
+    // [Route("api/[controller]")]
+    [Authorize]
     public class RatingController : BaseController
     {
         private readonly IRatingsService ratingsService;
         private readonly IDoctorsService doctorsService;
+        private readonly IAppointmentsService appointmentsService;
 
         public RatingController(
             IRatingsService ratingsService,
-            IDoctorsService doctorsService)
+            IDoctorsService doctorsService,
+            IAppointmentsService appointmentsService)
         {
             this.ratingsService = ratingsService;
             this.doctorsService = doctorsService;
+            this.appointmentsService = appointmentsService;
         }
 
-        public IActionResult Rate()
+        public async Task<IActionResult> RatePastAppointment(RatingInputModel input)
         {
-            var viewModel = new RatingInputModel();
+            var viewModel = await this.appointmentsService.GetByIdAsync(input.AppointmentId);
             return this.View(viewModel);
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<ActionResult<RatingResponseViewModel>> Rate(RatingInputModel input)
+        public async Task<IActionResult> Rate(RatingInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(input);
+                return this.RedirectToAction("RatePastAppointment", input);
             }
 
-            var patientId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            await this.ratingsService.SetRatingAsync(input.AppointmentId, input.RateValue, input.AdditionalComments);
 
-            await this.ratingsService.SetRatingAsync(input.AppointmentId, patientId, input.Value, input.AdditionalComments);
+            return this.RedirectToAction("Details", "Doctors", new { id = this.doctorsService.GetByAppointment(input.AppointmentId).Id });
 
-            var doctorId = this.doctorsService.GetByAppointment(input.AppointmentId).Id;
+            // Niki's template
 
-            var docsAverage = this.ratingsService.GetDoctorAverageRating(doctorId);
+            // var doctorId = this.doctorsService.GetByAppointment(input.AppointmentId).Id;
 
-            return new RatingResponseViewModel { AverageRating = docsAverage };
+            // var docsAverage = this.ratingsService.GetDoctorAverageRating(doctorId);
+
+            // return new RatingResponseViewModel { AverageRating = docsAverage };
         }
     }
 }

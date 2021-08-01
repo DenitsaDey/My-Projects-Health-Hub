@@ -1,8 +1,8 @@
 ﻿namespace HealthHub.Web.Controllers
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using HealthHub.Data.Models;
     using HealthHub.Services;
     using HealthHub.Services.Data;
@@ -120,7 +120,7 @@
 
             this.appointmentService.EditMessageAsync(appointmentId, message);
             //TODO return message "You have successfully edited your appointment"
-            return this.Redirect("/Appointment/All");
+            return this.Redirect("/Appointment/Index");
         }
     }
 }
