@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HealthHub.Web.ViewModels.Appointment
+﻿namespace HealthHub.Web.ViewModels.Appointment
 {
+    using System.Collections.Generic;
+
     public class AppointmentListViewModel
     {
         public IEnumerable<AppointmentViewModel> AppointmentList { get; set; }

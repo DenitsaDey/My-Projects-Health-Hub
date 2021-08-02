@@ -1,17 +1,28 @@
-﻿@{
+﻿@model AppointmentViewModel
+@{
     this.ViewData["Title"] = "Edit your appointment message";
 }
 
-<div class="container">
+<section id="appointment" class="appointment section-bg">
 
-    <div class="section-title">
-        <form method="post" class="col-md-6 offset-md-3"
-              enctype="multipart/form-data">
-            <h1>@this.ViewData["Title"]</h1>
-            <div class="form-group mt-3">
-                <textarea class="form-control" rows="5" placeholder="Your Message Here"></textarea>
+    <div class="row row-eq-height">
+
+        <div class="container">
+
+            <div class="section-title">
+                <form method="post" class="col-md-6 offset-md-3"
+                      enctype="multipart/form-data">
+                    <h1>Type your new message:</h1>
+                    <div class="form-group mt-3">
+                        <textarea asp-for="Message" class="form-control" rows="5" placeholder="Your Message Here"></textarea>
+                        <span asp-validation-for="Message" class="small text-danger"></span>
+                    </div>
+                    <input class="appointment-btn scrollto" type="submit" asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@Model.Id" value="Submit" />
+                    @*<a class="appointment-btn scrollto" asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@Model.Id">
+                        <h7>Submit</h7>
+                    </a>*@
+                </form>
             </div>
-            <input type="submit" class="btn btn-primary" />
-        </form>
+        </div>
     </div>
-</div>
+    </section>

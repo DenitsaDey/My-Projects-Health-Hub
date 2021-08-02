@@ -111,52 +111,59 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Service</label>
                     <div class="col-sm-10">
-                        <div class="dropdown">All<i class="bi bi-chevron-down"></i></div>
+                        <div class="form-group">
+                            <select asp-for="@Model.ServiceId" class="form-control">
+                                <option value="">All</option>
 
-                        @foreach (var service in @Model.ServicesItems)
-                        {
-                            <div>@service.Name</div>
-                        }
+                                @foreach (var service in Model.ServicesItems)
+                                {
+                                    <option value="@service.Id">@service.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Date</label>
-                    <div class="col-sm-10">
-                        <div id="selectedDate" asp-for="@Model.AppointmentDate" class="form-control" hidden></div>
-                        <input asp-for="@Model.AppointmentDate" value="" class="form-control" required readonly />
-                        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Time</label>
-                    <div class="col-sm-10">
-                        <div id="selectedTime" asp-for="@Model.AppointmentTime" class="form-control" hidden></div>
-                        <input asp-for="@Model.AppointmentTime" value="" class="form-control" required readonly />
-                        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Date</label>
+                        <div class="col-sm-10">
+                            <div id="selectedDate" asp-for="@Model.AppointmentDate" class="form-control" hidden></div>
+                            <input asp-for="@Model.AppointmentDate" value="" class="form-control" required readonly />
+                            <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Comment</label>
-                    <div class="col-sm-10">
-                        <input type="text" asp-for="@Model.Message" value="" class="form-control" placeholder="Notes to the doctor (optional)" />
-                        <span asp-validation-for="Message" class="text-danger"></span>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Time</label>
+                        <div class="col-sm-10">
+                            <div id="selectedTime" asp-for="@Model.AppointmentTime" class="form-control" hidden></div>
+                            <input asp-for="@Model.AppointmentTime" value="" class="form-control" required readonly />
+                            <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label"> </label>
-                    <div class="col-sm-10">
-                        <button type="submit" class="appointment-btn scrollto"
-                                asp-area="" asp-controller="Appointment" asp-action="Book">
-                            Make An Appointment
-                        </button>
-                        <button type="submit" class="appointment-btn scrollto"
-                                asp-area="" asp-controller="Doctors" asp-action="All">
-                            Cancel
-                        </button>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Comment</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="@Model.Message" value="" class="form-control" placeholder="Notes to the doctor (optional)" />
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> </label>
+                        <div class="col-sm-10">
+                            <button type="submit" class="appointment-btn scrollto"
+                                    asp-area="" asp-controller="Appointment" asp-action="Book">
+                                Make An Appointment
+                            </button>
+                            <button type="submit" class="appointment-btn scrollto"
+                                    asp-area="" asp-controller="Doctors" asp-action="All">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
             </form>
-            
+
             <div asp-validation-summary="All" data-valmsg-summary="true"></div>
         </div>
 
@@ -171,7 +178,8 @@
 @section Scripts {
     <script src="~/js/bootstrap-datepicker.js" asp-append-version="true"></script>
     <script src="~/js/date-picker.js" asp-append-version="true"></script>
-    <script type="text/javascript">$.validator.setDefaults({
+    <script type="text/javascript">
+        $.validator.setDefaults({
             ignore: ""
         })</script>
 }
@@ -187,29 +195,29 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ServiceId"></label>-->
-                    @*<vc:CategoriesDropDown name="CategoryId"></vc:CategoriesDropDown>*@
-                    <!--<select asp-for="ServiceId" class="form-control">
-                        foreach (var service in Model.ServicesItems)
-                        {
-                            <option value="service.Id"> service.Name</option>
-                        }
-                    </select>
-                    <span asp-validation-for="ServiceId" class="text-danger"></span>
-                </div>
+@*<vc:CategoriesDropDown name="CategoryId"></vc:CategoriesDropDown>*@<vc:CategoriesDropDown name="CategoryId"></vc:CategoriesDropDown>
+<!--<select asp-for="ServiceId" class="form-control">
+                    foreach (var service in Model.ServicesItems)
+                    {
+                        <option value="service.Id"> service.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+            </div>
 
-                <div class="form-group">
-                    <label asp-for="AppointmentTime"></label>
-                    <input asp-for="AppointmentTime" class="form-control" placeholder="Choose your appointment time" />
-                    <span asp-validation-for="AppointmentTime" class="text-danger"></span>
-                </div>
-                <div class="form-group mt-3">
-                    <label asp-for="Message"></label>
-                    <textarea asp-for="Message" class="form-control" rows="5" placeholder="Message (Optional)"></textarea>
-                    <span asp-validation-for="Message" class="text-danger"></span>
-                </div>
-            </form>
-        </div>
-        <div class="text-center"><button type="submit">Book an Appointment</button></div>
-    </div>-->
+            <div class="form-group">
+                <label asp-for="AppointmentTime"></label>
+                <input asp-for="AppointmentTime" class="form-control" placeholder="Choose your appointment time" />
+                <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label asp-for="Message"></label>
+                <textarea asp-for="Message" class="form-control" rows="5" placeholder="Message (Optional)"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+        </form>
+    </div>
+    <div class="text-center"><button type="submit">Book an Appointment</button></div>
+</div>-->
 @*</section>*@
 

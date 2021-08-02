@@ -103,9 +103,10 @@
             return this.Redirect("/Appointment/All");
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(string appointmentId)
         {
-            return this.View();
+            var model = await this.appointmentService.GetByIdAsync(appointmentId);
+            return this.View(model);
         }
 
         [HttpPost]

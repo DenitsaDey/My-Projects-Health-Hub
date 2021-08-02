@@ -26,7 +26,7 @@
             <td>@appointment.Clinic</td>
             <td>@appointment.AppointmentStatus.ToString()</td>
             <td>
-                @if (appointment.HasBeenVoted == true)
+                @if (appointment.RatingValue != 0)
                 {
 <p>Already Rated!</p> }
 else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() == "Completed")

@@ -12,9 +12,13 @@
 
         public string DoctorName { get; set; }
 
+        public string DoctorImg { get; set; }
+
         public string ClinicId { get; set; }
 
         public string Clinic { get; set; }
+
+        public string ClinicMapUrl { get; set; }
 
         public string Address { get; set; }
 
