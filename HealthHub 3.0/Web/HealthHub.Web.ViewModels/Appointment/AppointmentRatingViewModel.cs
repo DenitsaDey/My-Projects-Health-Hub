@@ -23,5 +23,8 @@
         [Required]
         [Range(1, 5, ErrorMessage = GlobalConstants.ErrorMessages.Rating)]
         public int RateValue { get; set; }
+
+        [MaxLength(200)]
+        public string AdditionalComments { get; set; }
     }
 }

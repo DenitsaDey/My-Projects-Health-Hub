@@ -15,6 +15,5 @@
 
         ClinicViewModel GetById(string clinicId);
 
-        ClinicHeaderViewModel GetHeader();
     }
 }

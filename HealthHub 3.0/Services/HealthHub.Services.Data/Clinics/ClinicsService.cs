@@ -139,29 +139,6 @@
             return clinic;
         }
 
-        public ClinicHeaderViewModel GetHeader()
-        {
-            var allClinics = this.clinicsRepository.All()
-                .Select(c => new ClinicViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    MapUrl = c.MapUrl,
-                    Address = c.Address,
-                    AreaId = c.AreaId,
-                    AreaName = c.Area.Name,
-                    MedicalStaff = new List<DoctorsViewModel>(),
-                    InsuranceCompanies = new List<InsuranceClinicsViewModel>(),
-                })
-                .OrderBy(x => x.Name)
-                .ToList();
-
-            var result = new ClinicHeaderViewModel();
-            result.Clinics = allClinics;
-
-            return result;
-        }
-
         public async Task RateCLinicAsync(string clinicId, int rateValue)
         {
             var clinic =

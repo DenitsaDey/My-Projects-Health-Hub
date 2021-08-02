@@ -110,18 +110,19 @@
         }
 
         [HttpPost]
-        public IActionResult Edit(string appointmentId, string message)
+        public async Task<IActionResult> Edit(string appointmentId, string message)
         {
             //TODO if user is not signed in redirect to login page
 
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                var model = await this.appointmentService.GetByIdAsync(appointmentId);
+                return this.View(model);
             }
 
             this.appointmentService.EditMessageAsync(appointmentId, message);
             //TODO return message "You have successfully edited your appointment"
-            return this.Redirect("/Appointment/Index");
+            return this.Redirect("/Appointment/Details/{appointmentId}");
         }
     }
 }

@@ -15,21 +15,20 @@
                             <span>Denitsa Dey Health Hub</span>
                     </p>
                 </div>
-                <div>
-                    <nav id="navbar" class="navbar order-last order-lg-10">
-                        <ul>
-                            <li><a class="nav-link scrollto" href="#hero">Home</a></li>
-                            <li><a class="nav-link scrollto" href="#about">About</a></li>
-                            <li><a class="nav-link scrollto" href="#doctors">Doctors</a></li>
-                            <li><a class="nav-link scrollto" href="#contact">Clinics</a></li>
-                            <li><a class="nav-link scrollto" href="#appointment">Appointments</a></li>
-                            <li><a class="nav-link scrollto" href="#faq">FAQs</a></li>
-                        </ul>
-                    </nav>
-                </div>
+                <nav id="navbar" class="navbar order-last order-lg-10">
+                    <ul>
+                        <li><a class="nav-link scrollto" href="#home">     </a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link scrollto">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link scrollto">About</a></li>
+                        <li><a asp-area="" asp-controller="Doctors" asp-action="All" class="nav-link scrollto">Doctors</a></li>
+                        <li><a asp-area="" asp-controller="Clinics" asp-action="Index"class="nav-link scrollto">Clinics</a></li>
+                        <li><a asp-area="" asp-controller="Appointment" asp-action="Index"class="nav-link scrollto">Appointments</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link scrollto">FAQs</a></li>
+                    </ul>
+                </nav>
+            </div>
 
-            </div>
-            </div>
+        </div>
     </div>
 
     <div class="container d-md-flex py-4">

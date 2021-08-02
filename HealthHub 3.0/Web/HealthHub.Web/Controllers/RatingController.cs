@@ -5,6 +5,7 @@
 
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Ratings;
+    using HealthHub.Web.ViewModels.Appointment;
     using HealthHub.Web.ViewModels.Rating;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,9 @@
             this.appointmentsService = appointmentsService;
         }
 
-        public async Task<IActionResult> RatePastAppointment(RatingInputModel input)
+        public async Task<IActionResult> RatePastAppointment(AppointmentRatingViewModel model)
         {
-            var viewModel = await this.appointmentsService.GetByIdAsync(input.AppointmentId);
+            var viewModel = await this.appointmentsService.GetByIdAsync(model.Id);
             return this.View(viewModel);
         }
 

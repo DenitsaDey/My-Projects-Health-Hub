@@ -1,5 +1,5 @@
-﻿@model HealthHub.Web.ViewModels.Clinics.ClinicHeaderViewModel
-@{ this.ViewData["Title"] = Model.Clinic.Name; }
+﻿@model ClinicViewModel
+@{ this.ViewData["Title"] = Model.Name; }
 
 <partial name="_HeaderPartial" />
 
@@ -8,7 +8,7 @@
 <section id="contact" class="contact">
 
     <div>
-        <iframe style="border:0; width: 100%; height: 350px;" src="@Model.Clinic.MapUrl" allowfullscreen="" loading="lazy"></iframe>
+        <iframe style="border:0; width: 100%; height: 350px;" src="@Model.MapUrl" allowfullscreen="" loading="lazy"></iframe>
     </div>
 
     <div class="container">
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="phone">
-                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
                         <h4>Average Doctors' Rating:</h4>
                     </div>
 
@@ -38,11 +38,11 @@
             <div class="col-lg-4">
                 <div class="info">
                     <div class="email">
-                        <h5>@Model.Clinic.Name</h5>
+                        <h5>@Model.Name</h5>
                     </div>
 
                     <div class="email">
-                        <h5>@Model.Clinic.Address</h5>
+                        <h5>@Model.Address</h5>
                     </div>
 
                     <div class="phone">
@@ -52,9 +52,9 @@
                             <span class="fa fa-star-o" data-rating="3"></span>
                             <span class="fa fa-star-o" data-rating="4"></span>
                             <span class="fa fa-star-o" data-rating="5"></span>
-                            <input type="hidden" name="whatever1" class="rating-value" value="@Model.Clinic.AverageRating">
+                            <input type="hidden" name="whatever1" class="rating-value" value="@Model.AverageRating">
                         </h5>
-                        <h5>( @Model.Clinic.AverageRating.ToString("F") / 5.00 ) from @Model.Clinic.RatingCount votes</h5>
+                        <h5>( @Model.AverageRating.ToString("F") / 5.00 ) from @Model.RatingCount votes</h5>
                     </div>
 
                 </div>
@@ -65,7 +65,7 @@
                 
                 <div class="appointment-btn">
                     <a class="appointment-btn scrollto" asp-area="" asp-controller="Doctors" asp-action="All"
-                       asp-route-clinicId="@Model.Clinic.Id">
+                       asp-route-clinicId="@Model.Id">
                             <span>See the Doctors</span>
                     </a>
                 </div>

@@ -44,7 +44,9 @@
         [Route("/Home/Error/404")]
         public IActionResult Error404()
         {
-            return this.View();
+            var viewModel = new HomeHeaderViewModel();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            return this.View(viewModel);
         }
 
         [Route("/Home/Error/{code:int}")]

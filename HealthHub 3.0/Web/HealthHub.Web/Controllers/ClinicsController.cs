@@ -2,6 +2,7 @@
 {
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
+    using HealthHub.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
     public class ClinicsController : BaseController
@@ -19,20 +20,21 @@
 
         public IActionResult Index()
         {
-            var viewModel = this.clinicsService.GetHeader();
+            var viewModel = new HeaderSearchQueryModel();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             return this.View(viewModel);
         }
 
         public IActionResult Details(string clinicId)
         {
-            var viewModel = this.clinicsService.GetHeader();
-            viewModel.Clinic = this.clinicsService.GetById(clinicId);
+            var viewModel = this.clinicsService.GetById(clinicId);
 
-            if (viewModel.Clinic == null)
+            if (viewModel == null)
             {
                 return new StatusCodeResult(404);
             }
 
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             return this.View(viewModel);
         }
     }

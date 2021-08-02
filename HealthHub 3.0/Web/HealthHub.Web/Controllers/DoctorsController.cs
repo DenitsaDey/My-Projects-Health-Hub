@@ -119,6 +119,7 @@
                 return new StatusCodeResult(404);
             }
 
+            model.Clinics = this.clinicsService.GetAllClinics();
             return this.View(model);
         }
     }
