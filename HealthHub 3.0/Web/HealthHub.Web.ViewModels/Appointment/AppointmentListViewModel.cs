@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class AppointmentListViewModel
+    public class AppointmentListViewModel : HeaderSearchQueryModel
     {
         public IEnumerable<AppointmentViewModel> AppointmentList { get; set; }
     }

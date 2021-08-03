@@ -1,1 +1,46 @@
 ﻿
+@model HealthHub.Web.ViewModels.Appointment.AppointmentViewModel
+@{ this.ViewData["Title"] = "Reschedule Appointment"; }
+
+<h3><strong>Are you sure you want to reschedule this appointment?</strong></h3>
+<h5>The appointment status will become "Requested" until the Doctor confirms it once again.</h5>
+<form class="col-6 mt-5">
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Date and Time</label>
+        <div class="col-sm-7">
+            <div class="form-control">@Model.AppointmentTime</div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Doctor</label>
+        <div class="col-sm-7">
+            <div class="form-control">@Model.DoctorName</div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Clinic</label>
+        <div class="col-sm-7">
+            <div class="form-control">@Model.ClinicName, @Model.ClinicAddress</div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Service</label>
+        <div class="col-sm-7">
+            <div class="form-control">@Model.ProcedureBooked</div>
+        </div>
+    </div>
+</form>
+
+<div class="col-6 mt-5 ml-5">
+    <div class="row ml-5">
+        <form method="post">
+            <button type="submit" class="btn btn-outline-success"
+                    asp-area="" asp-controller="Appointment" asp-action="Delete" asp-route-appointmentId="@Model.Id" asp-route-doctorId="@Model.DoctorId">
+                Yes, Reschedule it!
+            </button>
+        </form>
+        <div class="ml-5">
+            <a class="btn btn-danger" asp-area="" asp-controller="Appointment" asp-action="Index">No! Go Back</a>
+        </div>
+    </div>
+</div>
