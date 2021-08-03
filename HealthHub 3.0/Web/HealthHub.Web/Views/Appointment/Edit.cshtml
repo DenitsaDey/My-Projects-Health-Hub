@@ -1,4 +1,4 @@
-﻿@model AppointmentViewModel
+﻿@model AppointmentEditInputModel
 @{
     this.ViewData["Title"] = "Edit your appointment message";
 }
@@ -17,7 +17,7 @@
                         <textarea asp-for="Message" class="form-control" rows="5" placeholder="Your Message Here"></textarea>
                         <span asp-validation-for="Message" class="small text-danger"></span>
                     </div>
-                    <input class="appointment-btn scrollto" type="submit" asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@Model.Id" value="Submit" />
+                    <input class="appointment-btn scrollto" type="submit" asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" value="Submit" />
                     @*<a class="appointment-btn scrollto" asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@Model.Id">
                         <h7>Submit</h7>
                     </a>*@

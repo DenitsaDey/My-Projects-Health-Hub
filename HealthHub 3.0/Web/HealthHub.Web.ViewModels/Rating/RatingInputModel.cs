@@ -28,6 +28,6 @@
 
         public string DoctorImg { get; set; }
 
-        public bool? HasBeenVoted { get; set; }
+        public bool HasBeenVoted { get; set; }
     }
 }

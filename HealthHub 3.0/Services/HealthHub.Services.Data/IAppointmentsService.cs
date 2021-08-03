@@ -1,5 +1,6 @@
 ﻿namespace HealthHub.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -7,21 +8,21 @@
 
     public interface IAppointmentsService
     {
-        Task<AppointmentViewModel> GetByIdAsync(string id);
+        Task<T> GetByIdAsync<T>(string id);
 
-        IEnumerable<AppointmentViewModel> GetAll();
+        IEnumerable<T> GetAll<T>();
 
-        public IEnumerable<AppointmentViewModel> GetAllByDoctor(string doctorId);
+        IEnumerable<T> GetAllByDoctor<T>(string doctorId);
 
-        IEnumerable<AppointmentViewModel> GetUpcomingByPatient(string patientId);
+        IEnumerable<T> GetUpcomingByPatient<T>(string patientId);
 
-        Task<IEnumerable<AppointmentViewModel>> GetPastByPatientAsync(string patientId);
+        Task<IEnumerable<T>> GetPastByPatientAsync<T>(string patientId);
 
-        Task AddAppointmentAsync(AppointmentInputModel input, string patientId);
+        Task AddAppointmentAsync(string patientId, string doctorId, string serviceId, string message, DateTime dateTime);
 
         Task ChangeAppointmentStatusAsync(string appointmentId, string status);
 
-        Task RescheduleAppointmentAsync(string appointmentId, string newDate);
+        Task RescheduleAppointmentAsync(string appointmentId);
 
         Task EditMessageAsync(string appointmentId, string message);
     }

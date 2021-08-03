@@ -13,6 +13,7 @@
 
         public HeaderSearchViewComponent(IClinicsService clinicsService)
         {
+            this.clinicsService = clinicsService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()

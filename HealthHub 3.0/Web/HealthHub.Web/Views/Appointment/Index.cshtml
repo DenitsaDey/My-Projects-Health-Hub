@@ -1,4 +1,4 @@
-﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentListViewModel
+﻿@model AppointmentListViewModel
 @{
     this.ViewData["Title"] = "My Appointments";
 }
@@ -49,7 +49,7 @@
             <tr>
                 <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
                 <td>@appointment.DoctorName</td>
-                <td>@appointment.Clinic</td>
+                <td>@appointment.ClinicName</td>
                 <td>@appointment.AppointmentStatus.ToString()</td>
                 <td>
                     <a class="btn btn-outline-success btn-sm"

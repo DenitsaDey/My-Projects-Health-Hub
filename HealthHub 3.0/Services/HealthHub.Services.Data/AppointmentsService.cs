@@ -10,6 +10,7 @@
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
     using HealthHub.Services;
+    using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels.Appointment;
     using Microsoft.EntityFrameworkCore;
 
@@ -29,145 +30,71 @@
             this.dateTimeParserService = dateTimeParserService;
         }
 
-        public async Task<AppointmentViewModel> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync<T>(string id)
         {
             var currentAppointment = await this.appointmentsRepository.All()
                 .Where(a => a.Id == id)
                 .OrderByDescending(a => a.AppointmentTime)
-                .Select(a => new AppointmentViewModel
-                {
-                    Id = a.Id,
-                    DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FirstName + " " + a.Doctor.LastName,
-                    DoctorImg = a.Doctor.ImageUrl,
-                    Clinic = a.Doctor.Clinic.Name,
-                    ClinicId = a.Doctor.Clinic.Id,
-                    ClinicMapUrl = a.Doctor.Clinic.MapUrl,
-                    Address = a.Doctor.Clinic.Address,
-                    Location = a.Doctor.Clinic.MapUrl,
-                    ServiceId = a.ServiceId,
-                    Message = a.Message,
-                    ProcedureBooked = a.ProcedureBooked.Name,
-                    AppointmentTime = a.AppointmentTime,
-                    AppointmentStatus = a.AppointmentStatus.ToString(),
-                    RatingValue = a.HasBeenVoted ? a.Rating.Value : 0,
-                })
+                .To<T>()
                 .FirstOrDefaultAsync();
 
             return currentAppointment;
         }
 
-        public IEnumerable<AppointmentViewModel> GetAll()
+        public IEnumerable<T> GetAll<T>()
         {
             var allAppointments = this.appointmentsRepository.All()
                 .OrderByDescending(a => a.AppointmentTime)
-                .Select(a => new AppointmentViewModel
-                {
-                    Id = a.Id,
-                    DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FirstName + " " + a.Doctor.LastName,
-                    Clinic = a.Doctor.Clinic.Name,
-                    ClinicId = a.Doctor.Clinic.Id,
-                    Address = a.Doctor.Clinic.Address,
-                    Location = a.Doctor.Clinic.MapUrl,
-                    ServiceId = a.ServiceId,
-                    ProcedureBooked = a.ProcedureBooked.Name,
-                    AppointmentTime = a.AppointmentTime,
-                    AppointmentStatus = a.AppointmentStatus.ToString(),
-                    RatingValue = a.HasBeenVoted ? a.Rating.Value : 0,
-                })
+                .To<T>()
                 .ToList();
 
             return allAppointments;
         }
 
-        public IEnumerable<AppointmentViewModel> GetAllByDoctor(string doctorId)
+        public IEnumerable<T> GetAllByDoctor<T>(string doctorId)
         {
             var allAppointments = this.appointmentsRepository.All()
                 .Where(a => a.DoctorId == doctorId)
                 .OrderByDescending(a => a.AppointmentTime)
-                .Select(a => new AppointmentViewModel
-                {
-                    Id = a.Id,
-                    DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FirstName + " " + a.Doctor.LastName,
-                    Clinic = a.Doctor.Clinic.Name,
-                    ClinicId = a.Doctor.Clinic.Id,
-                    Address = a.Doctor.Clinic.Address,
-                    Location = a.Doctor.Clinic.MapUrl,
-                    ServiceId = a.ServiceId,
-                    ProcedureBooked = a.ProcedureBooked.Name,
-                    AppointmentTime = a.AppointmentTime,
-                    AppointmentStatus = a.AppointmentStatus.ToString(),
-                    RatingValue = a.HasBeenVoted ? a.Rating.Value : 0,
-                })
+                .To<T>()
                 .ToList();
 
             return allAppointments;
         }
 
-        public IEnumerable<AppointmentViewModel> GetUpcomingByPatient(string patientId)
+        public IEnumerable<T> GetUpcomingByPatient<T>(string patientId)
         {
             var allAppointments = this.appointmentsRepository.All()
                 .Where(a => a.PatientId == patientId
                 && a.AppointmentTime.Date > DateTime.UtcNow.Date)
                 .OrderBy(a => a.AppointmentTime)
-                .Select(a => new AppointmentViewModel
-                {
-                    Id = a.Id,
-                    DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FirstName + " " + a.Doctor.LastName,
-                    Clinic = a.Doctor.Clinic.Name,
-                    ClinicId = a.Doctor.Clinic.Id,
-                    Address = a.Doctor.Clinic.Address,
-                    Location = a.Doctor.Clinic.MapUrl,
-                    ServiceId = a.ServiceId,
-                    ProcedureBooked = a.ProcedureBooked.Name,
-                    AppointmentTime = a.AppointmentTime,
-                    AppointmentStatus = a.AppointmentStatus.ToString(),
-                    RatingValue = a.HasBeenVoted ? a.Rating.Value : 0,
-                })
+                .To<T>()
                 .ToList();
 
             return allAppointments;
         }
 
-        public async Task<IEnumerable<AppointmentViewModel>> GetPastByPatientAsync(string patientId)
+        public async Task<IEnumerable<T>> GetPastByPatientAsync<T>(string patientId)
         {
             var allAppointments = await this.appointmentsRepository.All()
                 .Where(a => a.PatientId == patientId
                 && a.AppointmentTime.Date < DateTime.UtcNow.Date)
                 .OrderByDescending(a => a.AppointmentTime)
-                .Select(a => new AppointmentViewModel
-                {
-                    Id = a.Id,
-                    DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FirstName + " " + a.Doctor.LastName,
-                    Clinic = a.Doctor.Clinic.Name,
-                    ClinicId = a.Doctor.Clinic.Id,
-                    Address = a.Doctor.Clinic.Address,
-                    Location = a.Doctor.Clinic.MapUrl,
-                    ServiceId = a.ServiceId,
-                    ProcedureBooked = a.ProcedureBooked.Name,
-                    AppointmentTime = a.AppointmentTime,
-                    AppointmentStatus = a.AppointmentStatus.ToString(),
-                    RatingValue = a.HasBeenVoted ? a.Rating.Value : 0,
-                })
+                .To<T>()
                 .ToListAsync();
 
             return allAppointments;
         }
 
-        public async Task AddAppointmentAsync(AppointmentInputModel input, string patientId)
+        public async Task AddAppointmentAsync(string patientId, string doctorId, string serviceId, string message, DateTime dateTime)
         {
-            var dateTime = this.dateTimeParserService.ConvertStrings(input.AppointmentDate, input.AppointmentTime);
-
             var newAppointment = new Appointment
             {
                 AppointmentTime = dateTime,
-                ProcedureBooked = this.proceduresRepository.All().Where(p => p.Id == input.ServiceId).FirstOrDefault(),
+                ServiceId = serviceId,
                 PatientId = patientId,
-                DoctorId = input.DoctorId,
+                DoctorId = doctorId,
+                Message = message,
                 AppointmentStatus = AppointmentStatus.Requested,
                 HasBeenVoted = false,
             };
@@ -195,15 +122,13 @@
             await this.appointmentsRepository.SaveChangesAsync();
         }
 
-        public async Task RescheduleAppointmentAsync(string appointmentId, string newDate)
+        public async Task RescheduleAppointmentAsync(string appointmentId)
         {
             var appointment = this.appointmentsRepository.All()
                  .Where(a => a.Id == appointmentId)
                  .FirstOrDefault();
 
-            appointment.AppointmentTime = DateTime.ParseExact(newDate, "ddMMyyyy HH:mm", CultureInfo.InvariantCulture);
-
-            appointment.AppointmentStatus = AppointmentStatus.Requested;
+            this.appointmentsRepository.Delete(appointment);
 
             await this.appointmentsRepository.SaveChangesAsync();
         }

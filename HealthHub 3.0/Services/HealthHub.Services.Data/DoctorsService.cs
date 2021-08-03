@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
@@ -32,10 +33,11 @@
             string clinicId,
             string searchName,
             int pageNumber,
-            //SearchSorting sorting,
-            //Gender gender,
-            //string insuranceId,
             int itemsPerPage = 8)
+
+        // SearchSorting sorting,
+        // Gender gender,
+        // string insuranceId,
         {
             var doctorsQuery = this.doctorsRepository.AllAsNoTracking()
                 .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
@@ -64,27 +66,26 @@
                     .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(searchName.ToLower()));
             }
 
-            //doctorsQuery = sorting switch
-            //{
+            // doctorsQuery = sorting switch
+            // {
             //    SearchSorting.DateCreated => doctorsQuery.OrderByDescending(d => d.Id),
             //    SearchSorting.Rating => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average()),
             //    SearchSorting.AppointmentsCount => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Count),
             //    _ => doctorsQuery.OrderByDescending(d => d.Id),
-            //};
+            // };
 
-            //doctorsQuery = gender switch
-            //{
+            // doctorsQuery = gender switch
+            // {
             //    Gender.Male => doctorsQuery.Where(d => d.Gender == Gender.Male).OrderByDescending(d => d.Id),
             //    Gender.Female => doctorsQuery.Where(d => d.Gender == Gender.Female).OrderByDescending(d => d.Id),
             //    _ => doctorsQuery.OrderByDescending(d => d.Id),
-            //};
+            // };
 
-            //if (!string.IsNullOrWhiteSpace(insuranceId))
-            //{
+            // if (!string.IsNullOrWhiteSpace(insuranceId))
+            // {
             //    doctorsQuery = doctorsQuery
             //        .Where(d => d.Clinic.InsuranceCompanies.Any(ic => ic.InsuranceID == insuranceId));
-            //}
-
+            // }
             var allDoctors = await doctorsQuery
                 .Skip((pageNumber - 1) * itemsPerPage).Take(itemsPerPage)
                 .Select(d => new DoctorsViewModel
@@ -243,12 +244,12 @@
 
             // might not need old and new in my case (depending on the view)
             var oldRating = doctor.ScheduledAppointments
-                .Where(sa => sa.HasBeenVoted).Any() ? 0 :
+                .Where(sa => (bool)sa.HasBeenVoted).Any() ? 0 :
                 doctor.ScheduledAppointments
-                .Where(sa => sa.HasBeenVoted)
+                .Where(sa => (bool)sa.HasBeenVoted)
                 .Average(sa => sa.Rating.Value);
-            var oldRatersCount = doctor.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ? 0 :
-                doctor.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count();
+            var oldRatersCount = doctor.ScheduledAppointments.Where(sa => (bool)sa.HasBeenVoted).Any() ? 0 :
+                doctor.ScheduledAppointments.Where(sa => (bool)sa.HasBeenVoted).Count();
 
             var newRatersCount = oldRatersCount + 1;
             var newRating = (oldRating + rateValue) / newRatersCount;

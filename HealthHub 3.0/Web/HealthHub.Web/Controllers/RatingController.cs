@@ -31,21 +31,21 @@
 
         public async Task<IActionResult> RatePastAppointment(AppointmentRatingViewModel model)
         {
-            var viewModel = await this.appointmentsService.GetByIdAsync(model.Id);
+            var viewModel = await this.appointmentsService.GetByIdAsync<AppointmentViewModel>(model.Id);
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Rate(RatingInputModel input)
+        public async Task<IActionResult> Rate(AppointmentRatingViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("RatePastAppointment", input);
+                return this.RedirectToAction("RatePastAppointment", model);
             }
 
-            await this.ratingsService.SetRatingAsync(input.AppointmentId, input.RateValue, input.AdditionalComments);
+            await this.ratingsService.SetRatingAsync(model.Id, model.RateValue, model.AdditionalComments);
 
-            return this.RedirectToAction("Details", "Doctors", new { id = this.doctorsService.GetByAppointment(input.AppointmentId).Id });
+            return this.RedirectToAction("Details", "Doctors", new { id = this.doctorsService.GetByAppointment(model.Id).Id });
 
             // Niki's template
 
