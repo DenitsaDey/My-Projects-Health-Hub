@@ -54,7 +54,7 @@
 
             if (!string.IsNullOrEmpty(clinicId))
             {
-                var clinic = this.clinicsService.GetById<ClinicViewModel>(clinicId);
+                var clinic = this.clinicsService.GetById(clinicId);
 
                 if (clinic == null)
                 {

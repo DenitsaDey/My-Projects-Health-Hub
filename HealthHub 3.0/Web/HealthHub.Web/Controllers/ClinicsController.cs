@@ -28,8 +28,7 @@
 
         public IActionResult Details(string clinicId)
         {
-            var viewModel = new ClinicHeaderViewModel();
-            viewModel.Clinic = this.clinicsService.GetById<ClinicViewModel>(clinicId);
+            var viewModel = this.clinicsService.GetById(clinicId);
 
             if (viewModel == null)
             {

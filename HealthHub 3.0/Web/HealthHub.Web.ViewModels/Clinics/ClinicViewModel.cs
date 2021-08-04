@@ -9,7 +9,7 @@
     using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels.Doctor;
 
-    public class ClinicViewModel : IMapFrom<Clinic>, IHaveCustomMappings
+    public class ClinicViewModel : HeaderSearchQueryModel, IMapFrom<Clinic>, IHaveCustomMappings
     {
         public string Id { get; set; }
 

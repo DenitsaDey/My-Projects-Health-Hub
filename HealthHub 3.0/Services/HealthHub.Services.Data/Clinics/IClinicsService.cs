@@ -13,7 +13,7 @@
 
         IEnumerable<string> GetAllClinicsNames();
 
-        T GetById<T>(string clinicId);
+        ClinicViewModel GetById(string clinicId);
 
     }
 }

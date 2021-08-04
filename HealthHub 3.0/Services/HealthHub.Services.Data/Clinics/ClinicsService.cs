@@ -99,12 +99,44 @@
                 .ToList();
         }
 
-        public T GetById<T>(string clinicId)
+        public ClinicViewModel GetById(string clinicId)
         {
             var clinic = this.clinicsRepository.All()
                 .Where(c => c.Id == clinicId)
-                .To<T>()
+                .Select(c => new ClinicViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Address = c.Address,
+                    MapUrl = c.MapUrl,
+                    MedicalStaff = this.doctorsRepository.All()
+                    .Where(d => d.ClinicId == clinicId)
+                    .Select(d => new DoctorsViewModel
+                    {
+                        Id = d.Id,
+                        FirstName = d.FirstName,
+                        LastName = d.LastName,
+                        SpecialtyName = d.Specialty.Name,
+                        AverageRating = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
+                        RatingCount = d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
+                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                    })
+                    .ToList(),
+                    InsuranceCompanies = this.insuranceClinicsRepository.All()
+                    .Where(ic => ic.ClinicId == clinicId)
+                    .Select(ic => new InsuranceClinicsViewModel
+                    {
+                        Id = ic.Id,
+                        InsuranceId = ic.InsuranceId,
+                    })
+                    .ToList(),
+                })
                 .FirstOrDefault();
+            clinic.AverageRating = clinic.MedicalStaff.Select(x => x.AverageRating).Average();
+            clinic.RatingCount = clinic.MedicalStaff.Select(x => x.RatingCount).Sum();
 
             return clinic;
         }
