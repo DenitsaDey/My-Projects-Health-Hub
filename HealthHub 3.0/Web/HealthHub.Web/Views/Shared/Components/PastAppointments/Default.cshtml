@@ -1,10 +1,9 @@
 ﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentListViewModel
 @{ this.ViewData["Title"] = "Default"; }
 
+<h2><strong>Past Appointments</strong></h2>
 @if (@Model.AppointmentList.Count() > 0)
 {
-<h2>Past Appointments</h2>
-
                 <table class="table table-bordered table-light">
                     <thead class="thead-light">
                         <tr>

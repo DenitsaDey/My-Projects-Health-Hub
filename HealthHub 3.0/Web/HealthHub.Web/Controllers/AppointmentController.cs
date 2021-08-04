@@ -123,13 +123,13 @@
         public async Task<IActionResult> Delete(string appointmentId, string doctorId)
         {
             await this.appointmentService.RescheduleAppointmentAsync(appointmentId);
-            return this.RedirectToAction("Book", "Doctors", new { doctorId });
+            return this.RedirectToAction(nameof(this.Book), new { doctorId });
         }
 
         public async Task<IActionResult> Cancel(string appointmentId)
         {
             await this.appointmentService.ChangeAppointmentStatusAsync(appointmentId, "Cancelled");
-            return this.View();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public IActionResult Edit()

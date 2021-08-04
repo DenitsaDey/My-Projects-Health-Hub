@@ -29,7 +29,7 @@
 
 @if (@Model.AppointmentList.Count() > 0)
 {
-    <h2>Due Appointments</h2>
+    <h2><strong>Due Appointments</strong></h2>
 
     <table class="table table-bordered table-light">
         <thead class="thead-light">
@@ -44,63 +44,64 @@
             </tr>
         </thead>
         <tbody>
+            @Html.Hidden("item-to-cancel", "", new { @id = "item-to-cancel" })
             @foreach (var appointment in this.Model.AppointmentList)
             {
-            <tr>
-                <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
-                <td>@appointment.DoctorName</td>
-                <td>@appointment.ClinicName</td>
-                <td>@appointment.AppointmentStatus.ToString()</td>
-                <td>
-                    <a class="btn btn-outline-success btn-sm"
-                       asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@appointment.Id">
-                        Details
-                    </a>
-                </td>
-                <td>
-                    <a class="btn btn-outline-info btn-sm"
-                       asp-area="" asp-controller="Appointment" asp-action="Reschedule" asp-route-appointmentId="@appointment.Id">
-                        Reschedule
-                    </a>
-                </td>
-                <td>
-                    <a class="btn btn-outline-danger btn-sm"
-                       asp-area="" asp-controller="Appointment" asp-action="Cancel" asp-route-appointmentId="@appointment.Id">
-                        Cancel
-                    </a>
-                </td>
-            </tr>
-}
+                <tr>
+                    <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
+                    <td>@appointment.DoctorName</td>
+                    <td>@appointment.ClinicName</td>
+                    <td>@appointment.AppointmentStatus.ToString()</td>
+                    <td>
+                        <a class="btn btn-outline-success btn-sm"
+                           asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@appointment.Id">
+                            Details
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-info btn-sm"
+                           asp-area="" asp-controller="Appointment" asp-action="Reschedule" asp-route-appointmentId="@appointment.Id">
+                            Reschedule
+                        </a>
+                    </td>
+                    <td>
+                        <a href="" class="btn btn-outline-danger btn-sm" 
+                           data-toggle="modal" data-target="#modalCancel" data-id="@appointment.Id">
+                            Cancel
+                        </a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 
     <div class="row">
-        <div class="col-lg-10 ml-lg-5">
-            <div class="about_text_highlight">
-                Your Appointmen Status
-            </div>
-            <div class="about_text_2">
-                <ul>
-                    <li>
-                        <span class="title">Requested</span>
-                        <span class="description">- Waiting for the Doctor's confirmation.</span>
-                    </li>
-                    <li>
-                        <span class="title">Confirmed</span>
-                        <span class="description">
-                            - Good! Your appointment is confirmed.
-                            They are expecting you on the set date and time.
-                        </span>
-                    </li>
-                    <li>
-                        <span class="title">Cancelled</span>
-                        <span class="description">- Sorry, the appointment can't happen on the set date and time.</span>
-                    </li>
-                </ul>
-            </div>
+        <div class="col-lg-10 ml-lg-5" style="padding-top:20px">
+            @*<div class="about_text_highlight">
+                    Your Appointmen Status
+                </div>
+                <div class="about_text_2">
+                    <ul>
+                        <li>
+                            <span class="title">Requested</span>
+                            <span class="description">- Waiting for the Doctor's confirmation.</span>
+                        </li>
+                        <li>
+                            <span class="title">Confirmed</span>
+                            <span class="description">
+                                - Good! Your appointment is confirmed.
+                                They are expecting you on the set date and time.
+                            </span>
+                        </li>
+                        <li>
+                            <span class="title">Cancelled</span>
+                            <span class="description">- Sorry, the appointment can't happen on the set date and time.</span>
+                        </li>
+                    </ul>
+                </div>*@
             <strong>Need another appointment?</strong>
-            <div class="btn-get-started scrollto">
-                <a asp-area="" asp-controller="Doctors" asp-action="All">
+            <div class="appointment-btn scrollto">
+                <a class="appointment-btn scrollto" asp-area="" asp-controller="Doctors" asp-action="All">
                     <span>Find a Doctor</span>
                 </a>
             </div>
@@ -113,5 +114,61 @@
     @await Component.InvokeAsync("PastAppointments")
 </div>
 
+<!-- Modal -->
+<div class="modal" id="modalCancel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm cancellation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you want to cancel this appointment?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back!</button>
+                <button type="button" class="btn btn-primary" id="mySubmit">Yes, cancel it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        //Everytime we press delete in the table row
+        $('.cancel').click(function (e) {
+            e.preventDefault();
+
+            //Update the item to delete id so our model knows which one to delete
+            var id = $(this).data('id');
+            $('#item-to-cancel').val(id);
+
+        });
+
+        //Everytime we press sumbit on the modal form...
+        $('#mySubmit').click(function() {
+
+        //Get the id to delete from the hidden field
+        var id = $('#item-to-cancel').val();
 
 
+        //Call our delete actionresult and pass over this id
+        $.post(@Url.Action("Cancel", "Appointment"), { id : id } , function (data) {
+            alert("Cancelled");
+        });
+
+
+    });
+
+        @*$(function() {
+    $("#Yes").click(function () {
+        $.get('/Appointment/Cancel/@Model.Id', function( data ) {
+        window.location.href='@Url.Action("Cancel","Appointment")'
+     });
+});*@
+    </script>
+}
