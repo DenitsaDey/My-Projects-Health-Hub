@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
+    using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels;
     using Microsoft.EntityFrameworkCore;
 
@@ -25,27 +26,19 @@
             return this.cityAreasRepository.All().FirstOrDefault(ca => ca.Name == name).Id;
         }
 
-        public async Task<IEnumerable<CityAreasViewModel>> GetAllCityAreasAsync()
+        public async Task<IEnumerable<T>> GetAllCityAreasAsync<T>()
         {
             return await this.cityAreasRepository.All()
-                .Select(p => new CityAreasViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                })
                 .OrderBy(x => x.Id)
+                .To<T>()
                 .ToListAsync();
         }
 
-        public async Task<CityAreasViewModel> GetByIdAsync(string cityAreaId)
+        public async Task<T> GetByIdAsync<T>(string cityAreaId)
         {
             var cityArea = await this.cityAreasRepository.All()
                 .Where(s => s.Id == cityAreaId)
-                .Select(s => new CityAreasViewModel
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                })
+                .To<T>()
                 .FirstOrDefaultAsync();
 
             return cityArea;

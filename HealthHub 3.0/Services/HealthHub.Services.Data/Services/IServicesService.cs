@@ -6,6 +6,6 @@
 
     public interface IServicesService
     {
-        IEnumerable<ServicesViewModel> GetAllServices();
+        IEnumerable<T> GetAllServices<T>();
     }
 }

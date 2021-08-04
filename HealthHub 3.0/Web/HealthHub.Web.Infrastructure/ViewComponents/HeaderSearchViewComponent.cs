@@ -5,6 +5,7 @@
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Clinics;
     using Microsoft.AspNetCore.Mvc;
 
     public class HeaderSearchViewComponent : ViewComponent

@@ -7,11 +7,11 @@
 
     public interface ISpecialtiesService
     {
-        Task<IEnumerable<SpecialtyViewModel>> GetAllSpecialtiesAsync();
+        Task<IEnumerable<T>> GetAllSpecialtiesAsync<T>();
 
         IEnumerable<string> GetAllSpecialtiesNames();
 
-        Task<SpecialtyViewModel> GetByIdAsync(string specialtyId);
+        Task<T> GetByIdAsync<T>(string specialtyId);
 
         Task AddAsync(string name);
     }

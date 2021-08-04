@@ -3,6 +3,7 @@
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Clinics;
     using Microsoft.AspNetCore.Mvc;
 
     public class ClinicsController : BaseController
@@ -27,7 +28,8 @@
 
         public IActionResult Details(string clinicId)
         {
-            var viewModel = this.clinicsService.GetById(clinicId);
+            var viewModel = new ClinicHeaderViewModel();
+            viewModel.Clinic = this.clinicsService.GetById<ClinicViewModel>(clinicId);
 
             if (viewModel == null)
             {

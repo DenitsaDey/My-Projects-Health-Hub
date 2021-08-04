@@ -5,6 +5,8 @@
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Clinics;
+    using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.AspNetCore.Mvc;
 
     public class DoctorsController : BaseController
@@ -32,17 +34,18 @@
             this.clinicsService = clinicsService;
         }
 
-        //[Route("Doctors/All/{specialtyId}&{cityAreaId}&{name}&{pageNumber}")]
+        // [Route("Doctors/All/{specialtyId}&{cityAreaId}&{name}&{pageNumber}")]
         public async Task<IActionResult> All(
             string specialtyId, // specialtyId, cityAreaId
             string cityAreaId, // specialtyId, cityAreaId
             string clinicId,
             string currentFilter,
             string searchName,
-            //string insuranceId,
-            //SearchSorting sorting = SearchSorting.DateCreated,
-            //Gender gender = Gender.Female,
             int pageId = 1)
+
+        // string insuranceId,
+        // SearchSorting sorting = SearchSorting.DateCreated,
+        // Gender gender = Gender.Female,
         {
             if (pageId <= 0)
             {
@@ -51,7 +54,7 @@
 
             if (!string.IsNullOrEmpty(clinicId))
             {
-                var clinic = this.clinicsService.GetById(clinicId);
+                var clinic = this.clinicsService.GetById<ClinicViewModel>(clinicId);
 
                 if (clinic == null)
                 {
@@ -65,7 +68,7 @@
 
             if (!string.IsNullOrEmpty(specialtyId))
             {
-                var specialty = await this.specialtiesService.GetByIdAsync(specialtyId);
+                var specialty = await this.specialtiesService.GetByIdAsync<SpecialtyViewModel>(specialtyId);
 
                 if (specialty == null)
                 {
@@ -79,7 +82,7 @@
 
             if (!string.IsNullOrEmpty(cityAreaId))
             {
-                var cityArea = await this.cityAreasService.GetByIdAsync(cityAreaId);
+                var cityArea = await this.cityAreasService.GetByIdAsync<CityAreasViewModel>(cityAreaId);
 
                 if (cityArea == null)
                 {
@@ -97,22 +100,22 @@
             var viewModel = await this.doctorsService.GetAllSearchedAsync(specialtyId, cityAreaId, clinicId, searchName, pageId);  /*sorting, gender, insuranceId*/
 
             viewModel.Clinics = this.clinicsService.GetAllClinics();
-            viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync();
-            viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync();
+            viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
+            viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync<CityAreasViewModel>();
             viewModel.Paging = new PagingViewModel
             {
                 ItemsPerPage = ItemsPerPage,
                 PageNumber = pageId,
                 DataCount = this.getCountsService.GetCounts().DoctorsCount,
             };
-            viewModel.InsuranceCompanies = this.insuranceService.GetAllInsuranceCompanies();
+            viewModel.InsuranceCompanies = this.insuranceService.GetAllInsuranceCompanies<InsuranceViewModel>();
 
             return this.View(viewModel);
         }
 
         public async Task<IActionResult> Details(string doctorId)
         {
-            var model = await this.doctorsService.GetByIdAsync(doctorId);
+            var model = await this.doctorsService.GetByIdAsync<DoctorsViewModel>(doctorId);
 
             if (model == null)
             {

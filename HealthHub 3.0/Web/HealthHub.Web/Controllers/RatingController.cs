@@ -6,6 +6,7 @@
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Ratings;
     using HealthHub.Web.ViewModels.Appointment;
+    using HealthHub.Web.ViewModels.Doctor;
     using HealthHub.Web.ViewModels.Rating;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@
 
             await this.ratingsService.SetRatingAsync(model.Id, model.RateValue, model.AdditionalComments);
 
-            return this.RedirectToAction("Details", "Doctors", new { id = this.doctorsService.GetByAppointment(model.Id).Id });
+            return this.RedirectToAction("Details", "Doctors", new { id = this.doctorsService.GetByAppointment<DoctorsViewModel>(model.Id).Id });
 
             // Niki's template
 

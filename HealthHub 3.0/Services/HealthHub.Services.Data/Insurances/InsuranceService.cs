@@ -5,6 +5,7 @@
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
+    using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels;
 
     public class InsuranceService : IInsuranceService
@@ -16,17 +17,12 @@
             this.insuranceRepository = insuranceRepository;
         }
 
-        public IEnumerable<InsuranceViewModel> GetAllInsuranceCompanies()
+        public IEnumerable<T> GetAllInsuranceCompanies<T>()
         {
             return this.insuranceRepository.All()
-                .Select(p => new InsuranceViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                }).ToList()
-                .OrderBy(x => x.Name);
+                .OrderBy(x => x.Name)
+                .To<T>()
+                .ToList();
         }
-
-
     }
 }

@@ -18,12 +18,12 @@
             //string insuranceId,
             int itemsPerPage = 8);
 
-        IEnumerable<DoctorsViewModel> GetAll();
+        IEnumerable<T> GetAll<T>();
 
-        Task<DoctorsViewModel> GetByIdAsync(string doctorId);
+        Task<T> GetByIdAsync<T>(string doctorId);
 
-        DoctorsViewModel GetByAppointment(string appointmentId);
+        T GetByAppointment<T>(string appointmentId);
 
-        Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId);
+        Task<IEnumerable<T>> GetByClinicAsync<T>(string clinicId);
     }
 }

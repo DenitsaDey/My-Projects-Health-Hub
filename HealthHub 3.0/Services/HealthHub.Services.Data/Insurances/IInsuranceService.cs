@@ -6,6 +6,6 @@
 
     public interface IInsuranceService
     {
-        IEnumerable<InsuranceViewModel> GetAllInsuranceCompanies();
+        IEnumerable<T> GetAllInsuranceCompanies<T>();
     }
 }

@@ -8,7 +8,9 @@
     using HealthHub.Services;
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
+    using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Appointment;
+    using HealthHub.Web.ViewModels.Clinics;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -52,7 +54,7 @@
         {
             var viewModel = new AppointmentInputModel();
             viewModel.DoctorId = doctorId;
-            viewModel.ServicesItems = this.servicesService.GetAllServices();
+            viewModel.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
             return this.View(viewModel);
         }
 
@@ -64,14 +66,14 @@
                 return this.RedirectToAction("Book", input);
             }
 
-            if (!this.servicesService.GetAllServices().Any(s => s.Id == input.ServiceId))
+            if (!this.servicesService.GetAllServices<ServicesViewModel>().Any(s => s.Id == input.ServiceId))
             {
                 this.ModelState.AddModelError(nameof(input.ServiceId), "Service does not exist.");
             }
 
             if (!this.ModelState.IsValid)
             {
-                input.ServicesItems = this.servicesService.GetAllServices();
+                input.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
                 return this.View(input);
             }
 
@@ -89,7 +91,7 @@
             var patientId = await this.userManager.GetUserIdAsync(patient);
 
             await this.appointmentService.AddAppointmentAsync(patientId, input.DoctorId, input.ServiceId, input.Message, dateTime);
- 
+
             // TODO return message "You have successfully requested an appointment"
             return this.RedirectToAction(nameof(this.Index));
         }

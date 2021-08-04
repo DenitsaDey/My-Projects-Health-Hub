@@ -1,6 +1,9 @@
 ﻿namespace HealthHub.Web.ViewModels
 {
-    public class CityAreasViewModel
+    using HealthHub.Data.Models;
+    using HealthHub.Services.Mapping;
+
+    public class CityAreasViewModel : IMapFrom<CityArea>
     {
         public string Id { get; set; }
 

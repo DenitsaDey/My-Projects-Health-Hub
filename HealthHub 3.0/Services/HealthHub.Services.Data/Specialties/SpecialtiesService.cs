@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
+    using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels;
     using Microsoft.EntityFrameworkCore;
 
@@ -23,15 +24,11 @@
             await this.specialtiesRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<SpecialtyViewModel>> GetAllSpecialtiesAsync()
+        public async Task<IEnumerable<T>> GetAllSpecialtiesAsync<T>()
         {
             return await this.specialtiesRepository.All()
-                .Select(s => new SpecialtyViewModel
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                })
                 .OrderBy(x => x.Name)
+                .To<T>()
                 .ToListAsync();
         }
 
@@ -43,15 +40,11 @@
                 .ToList();
         }
 
-        public async Task<SpecialtyViewModel> GetByIdAsync(string specialtyId)
+        public async Task<T> GetByIdAsync<T>(string specialtyId)
         {
             var specialty = await this.specialtiesRepository.All()
                 .Where(s => s.Id == specialtyId)
-                .Select(s => new SpecialtyViewModel
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                })
+                .To<T>()
                 .FirstOrDefaultAsync();
 
             return specialty;

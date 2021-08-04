@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using HealthHub.Services.Data;
+    using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.AspNetCore.Mvc;
 
     public class DoctorDetailsViewComponent : ViewComponent
@@ -16,7 +17,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync(string doctorId)
         {
-            var viewModel = await this.doctorsService.GetByIdAsync(doctorId);
+            var viewModel = await this.doctorsService.GetByIdAsync<DoctorsViewModel>(doctorId);
 
             return this.View(viewModel);
         }

@@ -1,6 +1,9 @@
 ﻿namespace HealthHub.Web.ViewModels
 {
-    public class InsuranceViewModel
+    using HealthHub.Data.Models;
+    using HealthHub.Services.Mapping;
+
+    public class InsuranceViewModel : IMapFrom<Insurance>
     {
         public string Id { get; set; }
 

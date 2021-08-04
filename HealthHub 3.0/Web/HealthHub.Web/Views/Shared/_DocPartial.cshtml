@@ -17,8 +17,8 @@
                         </div>
                         <div class="member-info">
                             <h4>@doctor.FirstName @doctor.LastName</h4>
-                            <span>@doctor.Specialty</span>
-                            <p>@doctor.Clinic</p>
+                            <span>@doctor.SpecialtyName</span>
+                            <p>@doctor.ClinicName</p>
                             <div class="form-group" style="padding-top:30px">
                                 <a class="appointment-btn scrollto" asp-area="" asp-controller="Doctors" asp-action="Details"
                                    asp-route-doctorId="@doctor.Id">

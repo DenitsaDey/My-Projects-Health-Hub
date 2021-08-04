@@ -2,14 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using HealthHub.Web.ViewModels;
 
     public interface ICityAreasService
     {
         Task<string> AddAsync(string name);
 
-        Task<IEnumerable<CityAreasViewModel>> GetAllCityAreasAsync();
+        Task<IEnumerable<T>> GetAllCityAreasAsync<T>();
 
-        Task<CityAreasViewModel> GetByIdAsync(string cityAreaId);
+        Task<T> GetByIdAsync<T>(string cityAreaId);
     }
 }

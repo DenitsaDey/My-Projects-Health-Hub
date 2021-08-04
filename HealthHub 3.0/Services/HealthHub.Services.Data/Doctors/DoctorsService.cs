@@ -1,15 +1,13 @@
 ﻿namespace HealthHub.Services.Data
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
-    using HealthHub.Web.ViewModels;
+    using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels.Appointment;
     using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.EntityFrameworkCore;
@@ -95,8 +93,8 @@
                     LastName = d.LastName,
                     PhoneNumber = d.PhoneNumber,
                     ImageUrl = d.ImageUrl,
-                    Clinic = d.Clinic.Name,
-                    Specialty = d.Specialty.Name,
+                    ClinicName = d.Clinic.Name,
+                    SpecialtyName = d.Specialty.Name,
                     YearsOFExperience = d.YearsOFExperience,
                     WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
                     OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
@@ -118,117 +116,40 @@
             return result;
         }
 
-        public IEnumerable<DoctorsViewModel> GetAll()
+        public IEnumerable<T> GetAll<T>()
         {
             var allDoctors = this.doctorsRepository.All()
                 .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
-                .Select(d => new DoctorsViewModel
-                {
-                    Id = d.Id,
-                    FirstName = d.FirstName,
-                    LastName = d.LastName,
-                    PhoneNumber = d.PhoneNumber,
-                    ImageUrl = d.ImageUrl,
-                    Clinic = d.Clinic.Name,
-                    Specialty = d.Specialty.Name,
-                    YearsOFExperience = d.YearsOFExperience,
-                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
-                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
-                    AverageRating = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
-                    RatingCount = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
-                    About = d.About,
-                })
+                .To<T>()
                 .ToList();
 
             return allDoctors;
         }
 
-        public async Task<DoctorsViewModel> GetByIdAsync(string doctorId)
+        public async Task<T> GetByIdAsync<T>(string doctorId)
         {
             var currentDoctor = await this.doctorsRepository.All()
                 .Where(d => d.Id == doctorId)
-                .Select(d => new DoctorsViewModel
-                {
-                    Id = d.Id,
-                    FirstName = d.FirstName,
-                    LastName = d.LastName,
-                    PhoneNumber = d.PhoneNumber,
-                    ImageUrl = d.ImageUrl,
-                    Clinic = d.Clinic.Name,
-                    Specialty = d.Specialty.Name,
-                    YearsOFExperience = d.YearsOFExperience,
-                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
-                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
-                    AverageRating = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
-                    RatingCount = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
-                    About = d.About,
-                })
+                .To<T>()
                 .FirstOrDefaultAsync();
 
             return currentDoctor;
         }
 
-        public DoctorsViewModel GetByAppointment(string appointmentId)
+        public T GetByAppointment<T>(string appointmentId)
         {
             var currentDoctor = this.doctorsRepository.All()
                 .Where(d => d.ScheduledAppointments.Any(a => a.Id == appointmentId))
-                .Select(d => new DoctorsViewModel
-                {
-                    Id = d.Id,
-                    FirstName = d.FirstName,
-                    LastName = d.LastName,
-                    PhoneNumber = d.PhoneNumber,
-                    ImageUrl = d.ImageUrl,
-                    Clinic = d.Clinic.Name,
-                    Specialty = d.Specialty.Name,
-                    YearsOFExperience = d.YearsOFExperience,
-                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
-                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
-                    AverageRating = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
-                    RatingCount = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
-                    About = d.About,
-                })
+                .To<T>()
                 .FirstOrDefault();
 
             return currentDoctor;
         }
 
-        public async Task<IEnumerable<DoctorsViewModel>> GetByClinicAsync(string clinicId)
+        public async Task<IEnumerable<T>> GetByClinicAsync<T>(string clinicId)
         {
-            var doctorsInClinic = await this.doctorsRepository.All()
-                .Where(d => d.ClinicId == clinicId)
-                .Select(d => new DoctorsViewModel
-                {
-                    Id = d.Id,
-                    FirstName = d.FirstName,
-                    LastName = d.LastName,
-                    PhoneNumber = d.PhoneNumber,
-                    ImageUrl = d.ImageUrl,
-                    Clinic = d.Clinic.Name,
-                    Specialty = d.Specialty.Name,
-                    YearsOFExperience = d.YearsOFExperience,
-                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
-                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
-                    AverageRating = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
-                    RatingCount = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
-                    About = d.About,
-                })
+            var doctorsInClinic = await this.doctorsRepository.All().Where(d => d.ClinicId == clinicId)
+                .To<T>()
                 .ToListAsync();
 
             return doctorsInClinic;

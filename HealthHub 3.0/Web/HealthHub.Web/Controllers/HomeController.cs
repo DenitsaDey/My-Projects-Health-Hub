@@ -6,6 +6,8 @@
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Clinics;
+    using HealthHub.Web.ViewModels.Doctor;
     using HealthHub.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +33,7 @@
 
             viewModel.Clinics = this.clinicsService.GetAllClinics();
             viewModel.DataCounts = this.getCountsService.GetCounts();
-            viewModel.Doctors = this.doctorsService.GetAll();
+            viewModel.Doctors = this.doctorsService.GetAll<DoctorsViewModel>();
 
             return this.View(viewModel);
         }
