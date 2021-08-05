@@ -107,19 +107,19 @@
 
         public async Task<IActionResult> Details(string appointmentId)
         {
-            var model = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
-            return this.View(model);
+            var viewModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            return this.View(viewModel);
         }
 
         public async Task<IActionResult> Reschedule(string appointmentId)
         {
             var viewModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
-
             if (viewModel == null)
             {
                 return new StatusCodeResult(404);
             }
-
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             return this.View(viewModel);
         }
 
@@ -132,15 +132,19 @@
 
         public async Task<IActionResult> Cancel(string appointmentId)
         {
+            var viewModel = new HeaderSearchQueryModel();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             await this.appointmentService.ChangeAppointmentStatusAsync(appointmentId, "Cancelled");
-            return this.RedirectToAction(nameof(this.Index));
+            return this.View(viewModel);
+
+            // return this.RedirectToAction(nameof(this.Index));
         }
 
         public IActionResult Edit()
         {
-            var model = new AppointmentEditInputModel();
-            model.Clinics = this.clinicsService.GetAllClinics();
-            return this.View(model);
+            var viewModel = new AppointmentEditInputModel();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            return this.View(viewModel);
         }
 
         [HttpPost]

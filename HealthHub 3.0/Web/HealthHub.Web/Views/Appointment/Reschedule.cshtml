@@ -1,6 +1,8 @@
-﻿
-@model HealthHub.Web.ViewModels.Appointment.AppointmentViewModel
-@{ this.ViewData["Title"] = "Reschedule Appointment"; }
+﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentViewModel
+@{
+    this.ViewData["Title"] = "Reschedule Appointment";
+}
+<partial name="_HeaderPartial" />
 
 <h3><strong>Are you sure you want to reschedule this appointment?</strong></h3>
 <h5>The appointment status will become "Requested" until the Doctor confirms it once again.</h5>

@@ -7,7 +7,7 @@
     using HealthHub.Data.Models.Enums;
     using HealthHub.Services.Mapping;
 
-    public class AppointmentViewModel : IMapFrom<Appointment>, IHaveCustomMappings
+    public class AppointmentViewModel : HeaderSearchQueryModel, IMapFrom<Appointment>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
