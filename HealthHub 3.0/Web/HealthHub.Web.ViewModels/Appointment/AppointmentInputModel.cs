@@ -6,7 +6,7 @@
     using HealthHub.Common;
     using HealthHub.Web.ViewModels.Common.CustomValidationAttributes;
 
-    public class AppointmentInputModel
+    public class AppointmentInputModel : HeaderSearchQueryModel
     {
         public string DoctorId { get; set; }
 

@@ -1,19 +1,20 @@
-﻿using HealthHub.Services;
-using HealthHub.Web.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HealthHub.Web.Areas.Administration.Controllers
+﻿namespace HealthHub.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
+    using HealthHub.Services;
+    using HealthHub.Services.Data.Clinics;
+    using HealthHub.Web.Controllers;
+    using Microsoft.AspNetCore.Mvc;
+
     public class GatherInsuranceCompaniesController : BaseController
     {
         private readonly IInsuranceScraperService insuranceScraperService;
 
-        public GatherInsuranceCompaniesController(IInsuranceScraperService insuranceScraperService)
-         => this.insuranceScraperService = insuranceScraperService;
+        public GatherInsuranceCompaniesController(IClinicsService clinicsService, IInsuranceScraperService insuranceScraperService)
+        {
+            this.insuranceScraperService = insuranceScraperService;
+        }
 
         public IActionResult Index()
         {

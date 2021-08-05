@@ -1,6 +1,7 @@
 ﻿namespace HealthHub.Web.Areas.Administration.Controllers
 {
     using HealthHub.Common;
+    using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.Controllers;
 
     using Microsoft.AspNetCore.Authorization;
@@ -10,5 +11,9 @@
     [Area("Administration")]
     public class AdministrationController : BaseController
     {
+        public AdministrationController(IClinicsService clinicsService)
+        {
+        }
+
     }
 }

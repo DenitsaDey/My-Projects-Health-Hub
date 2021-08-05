@@ -5,7 +5,7 @@
         <h2>We help you find the right medical professional</h2>
         @if (User.IsInRole("Admin"))
         {
-                <a href="" class="btn-get-started scrollto" asp-controller="GatherInsuranceCompanies" asp-action="Add">Add Insurance Companies Data</a>           
+                <a class="btn-get-started scrollto" asp-controller="Appointment" asp-action="Index">All Appointments</a>           
         }
         @if (User.IsInRole("Patient"))
         {

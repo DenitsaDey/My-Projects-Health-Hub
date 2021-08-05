@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using HealthHub.Services.Data;
+    using HealthHub.Services.Data.Clinics;
     using HealthHub.Services.Data.Ratings;
     using HealthHub.Web.ViewModels.Appointment;
     using HealthHub.Web.ViewModels.Doctor;
@@ -23,7 +24,8 @@
         public RatingController(
             IRatingsService ratingsService,
             IDoctorsService doctorsService,
-            IAppointmentsService appointmentsService)
+            IAppointmentsService appointmentsService,
+            IClinicsService clinicsService)
         {
             this.ratingsService = ratingsService;
             this.doctorsService = doctorsService;

@@ -40,13 +40,15 @@
 
         public IActionResult Privacy()
         {
-            return this.View();
+            var viewModel = new HeaderSearchQueryModel();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            return this.View(viewModel);
         }
 
         [Route("/Home/Error/404")]
         public IActionResult Error404()
         {
-            var viewModel = new HomeHeaderViewModel();
+            var viewModel = new HeaderSearchQueryModel();
             viewModel.Clinics = this.clinicsService.GetAllClinics();
             return this.View(viewModel);
         }
@@ -56,7 +58,9 @@
         {
             // Could handle different codes here
             // or just return the default error view
-            return this.View();
+            var viewModel = new HeaderSearchQueryModel();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            return this.View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

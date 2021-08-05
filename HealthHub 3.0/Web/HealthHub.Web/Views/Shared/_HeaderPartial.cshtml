@@ -1,4 +1,8 @@
-﻿@model HeaderSearchQueryModel
+﻿@model HeaderSearchQueryModel 
+@{
+    var model = (HeaderSearchQueryModel)ViewBag.HeaderSearchQueryModel;
+}
+
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
@@ -27,7 +31,7 @@
                     </li>
 
                     <li><a class="nav-link scrollto" asp-area="" asp-controller="Doctors" asp-action="All">Doctors</a></li>
-                    
+
                     <li class="search_container_input">
                         <input type="text" asp-for="SearchName" class="form-control" placeholder="or search by name">
                     </li>
@@ -40,9 +44,6 @@
 
         <a asp-area="" asp-controller="Doctors" asp-action="All" class="appointment-btn scrollto" area-hidden="true"><span>Find a </span>Doctor</a>
         <a asp-area="" asp-controller="Appointment" asp-action="Index" class="appointment-btn scrollto" area-hidden="true"><span>My </span>Appointments</a>
-        
+
     </div>
 </header><!-- End Header -->
-
-
-

@@ -1,8 +1,7 @@
 ﻿namespace HealthHub.Web.Controllers
 {
-    using System.Threading.Tasks;
-
     using HealthHub.Services;
+    using HealthHub.Services.Data.Clinics;
     using Microsoft.AspNetCore.Mvc;
 
     public class PopulateDatabaseController : BaseController
@@ -12,9 +11,10 @@
 
         public PopulateDatabaseController(
             ICityAreasScraperService cityAreasScraperService,
-            IInsuranceScraperService insuranceScraperService)
+            IInsuranceScraperService insuranceScraperService,
+            IClinicsService clinicsService)
         {
-            //this.cityAreasScraperService = cityAreasScraperService;
+            this.cityAreasScraperService = cityAreasScraperService;
             this.insuranceScraperService = insuranceScraperService;
         }
 
@@ -23,12 +23,11 @@
             return this.View();
         }
 
-        public async Task<IActionResult> Add()
-        {
-            //await this.cityAreasScraperService.ImportCityAreas();
-            await this.insuranceScraperService.ImportInsuranceCompanies();
-
-            return this.View();
-        }
+        // public async Task<IActionResult> Add()
+        // {
+        //    // await this.cityAreasScraperService.ImportCityAreas();
+        //    // await this.insuranceScraperService.ImportInsuranceCompanies();
+        //    return this.View();
+        // }
     }
 }

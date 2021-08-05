@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using HealthHub.Services;
+    using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.Controllers;
     using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +11,10 @@
     {
         private readonly ICityAreasScraperService cityAreasScraperService;
 
-        public GatherCityAreasController(ICityAreasScraperService cityAreasScraperService)
-         => this.cityAreasScraperService = cityAreasScraperService;
+        public GatherCityAreasController(IClinicsService clinicsService, ICityAreasScraperService cityAreasScraperService)
+        {
+            this.cityAreasScraperService = cityAreasScraperService;
+        }
 
         public IActionResult Index()
         {

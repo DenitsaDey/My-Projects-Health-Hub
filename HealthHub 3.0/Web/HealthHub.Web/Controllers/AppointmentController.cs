@@ -53,6 +53,7 @@
         public IActionResult Book(string doctorId)
         {
             var viewModel = new AppointmentInputModel();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             viewModel.DoctorId = doctorId;
             viewModel.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
             return this.View(viewModel);
@@ -99,6 +100,7 @@
         public IActionResult All(string patientId)
         {
             var viewModel = new AppointmentListViewModel();
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             viewModel.AppointmentList = this.appointmentService.GetUpcomingByPatient<AppointmentViewModel>(patientId);
             return this.View(viewModel);
         }
