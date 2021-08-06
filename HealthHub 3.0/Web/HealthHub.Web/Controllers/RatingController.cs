@@ -20,6 +20,7 @@
         private readonly IRatingsService ratingsService;
         private readonly IDoctorsService doctorsService;
         private readonly IAppointmentsService appointmentsService;
+        private readonly IClinicsService clinicsService;
 
         public RatingController(
             IRatingsService ratingsService,
@@ -30,11 +31,13 @@
             this.ratingsService = ratingsService;
             this.doctorsService = doctorsService;
             this.appointmentsService = appointmentsService;
+            this.clinicsService = clinicsService;
         }
 
         public async Task<IActionResult> RatePastAppointment(AppointmentRatingViewModel model)
         {
             var viewModel = await this.appointmentsService.GetByIdAsync<AppointmentViewModel>(model.Id);
+            viewModel.Clinics = this.clinicsService.GetAllClinics();
             return this.View(viewModel);
         }
 

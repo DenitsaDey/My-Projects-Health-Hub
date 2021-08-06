@@ -4,7 +4,7 @@
 
     using HealthHub.Common;
 
-    public class AppointmentRatingViewModel
+    public class AppointmentRatingViewModel : HeaderSearchQueryModel
     {
         public string Id { get; set; }
 

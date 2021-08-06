@@ -21,6 +21,8 @@
                 userManager,
                 roleManager,
                 GlobalConstants.AccountsSeeding.AdminEmail,
+                GlobalConstants.AccountsSeeding.AdminFirstName,
+                GlobalConstants.AccountsSeeding.AdminLastName,
                 GlobalConstants.AdministratorRoleName);
 
             // Create Doctor
@@ -28,6 +30,8 @@
                 userManager,
                 roleManager,
                 GlobalConstants.AccountsSeeding.DoctorEmail,
+                GlobalConstants.AccountsSeeding.DoctorFirstName,
+                GlobalConstants.AccountsSeeding.DoctorLastName,
                 GlobalConstants.DoctorRoleName);
 
             // Create Patient
@@ -35,16 +39,20 @@
                 userManager,
                 roleManager,
                 GlobalConstants.AccountsSeeding.PatientEmail,
+                GlobalConstants.AccountsSeeding.PatientFirstName,
+                GlobalConstants.AccountsSeeding.PatientLastName,
                 GlobalConstants.PatientRoleName);
         }
 
         private static async Task CreateUser(
-            UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, string email, string roleName = null)
+            UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, string email, string firstName, string lastName, string roleName = null)
         {
             var user = new ApplicationUser
             {
                 UserName = email,
                 Email = email,
+                FirstName = firstName,
+                LastName = lastName,
             };
 
             var password = GlobalConstants.AccountsSeeding.Password;

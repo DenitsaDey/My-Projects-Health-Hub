@@ -11,9 +11,11 @@
     using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Appointment;
     using HealthHub.Web.ViewModels.Clinics;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class AppointmentController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -119,6 +121,7 @@
             {
                 return new StatusCodeResult(404);
             }
+
             viewModel.Clinics = this.clinicsService.GetAllClinics();
             return this.View(viewModel);
         }

@@ -23,7 +23,7 @@
             var patientId = dbContext.Users.Where(x => x.Email == GlobalConstants.AccountsSeeding.PatientEmail).FirstOrDefault().Id;
 
             // Get Doctors Ids
-            var doctorsId = dbContext.Doctors.Select(x => x.Id).Take(6).ToList();
+            var doctorsId = dbContext.Doctors.OrderByDescending(x => x.CreatedOn).Select(x => x.Id).Take(6).ToList();
 
             // Add Upcoming Appointments
             appointments.Add(new Appointment
@@ -75,7 +75,6 @@
                 HasBeenVoted = false,
             });
 
-            // More Past Appointments for testing the Voting functionality
             appointments.Add(new Appointment
             {
                 Id = Guid.NewGuid().ToString(),
@@ -109,6 +108,79 @@
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
                 AppointmentStatus = Models.Enums.AppointmentStatus.NoShow,
                 Message = "appointment test 7",
+                HasBeenVoted = false,
+            });
+
+            // More Past Appointments for testing the Rating functionality
+            appointments.Add(new Appointment
+            {
+                Id = Guid.NewGuid().ToString(),
+                AppointmentTime = DateTime.UtcNow.AddDays(-5),
+                PatientId = patientId,
+                DoctorId = doctorsId[3],
+                ProcedureBooked = dbContext.Services.Where(x => x.Name == "Vaccination").FirstOrDefault(),
+                AppointmentStatus = Models.Enums.AppointmentStatus.Completed,
+                Message = "test voting 1",
+                HasBeenVoted = false,
+            });
+
+            appointments.Add(new Appointment
+            {
+                Id = Guid.NewGuid().ToString(),
+                AppointmentTime = DateTime.UtcNow.AddDays(-5),
+                PatientId = patientId,
+                DoctorId = doctorsId[3],
+                ProcedureBooked = dbContext.Services.Where(x => x.Name == "Medical document").FirstOrDefault(),
+                AppointmentStatus = Models.Enums.AppointmentStatus.Completed,
+                Message = "test voting 2",
+                HasBeenVoted = false,
+            });
+
+            appointments.Add(new Appointment
+            {
+                Id = Guid.NewGuid().ToString(),
+                AppointmentTime = DateTime.UtcNow.AddDays(-5),
+                PatientId = patientId,
+                DoctorId = doctorsId[3],
+                ProcedureBooked = dbContext.Services.Where(x => x.Name == "Follow-up").FirstOrDefault(),
+                AppointmentStatus = Models.Enums.AppointmentStatus.Completed,
+                Message = "test voting 3",
+                HasBeenVoted = false,
+            });
+
+            appointments.Add(new Appointment
+            {
+                Id = Guid.NewGuid().ToString(),
+                AppointmentTime = DateTime.UtcNow.AddDays(-7),
+                PatientId = patientId,
+                DoctorId = doctorsId[4],
+                ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
+                AppointmentStatus = Models.Enums.AppointmentStatus.Completed,
+                Message = "test voting 4",
+                HasBeenVoted = false,
+            });
+
+            appointments.Add(new Appointment
+            {
+                Id = Guid.NewGuid().ToString(),
+                AppointmentTime = DateTime.UtcNow.AddDays(-7),
+                PatientId = patientId,
+                DoctorId = doctorsId[4],
+                ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
+                AppointmentStatus = Models.Enums.AppointmentStatus.Completed,
+                Message = "test voting 5",
+                HasBeenVoted = false,
+            });
+
+            appointments.Add(new Appointment
+            {
+                Id = Guid.NewGuid().ToString(),
+                AppointmentTime = DateTime.UtcNow.AddDays(-9),
+                PatientId = patientId,
+                DoctorId = doctorsId[5],
+                ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
+                AppointmentStatus = Models.Enums.AppointmentStatus.Completed,
+                Message = "test voting 6",
                 HasBeenVoted = false,
             });
 

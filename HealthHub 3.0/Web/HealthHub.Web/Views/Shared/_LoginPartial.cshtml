@@ -7,7 +7,7 @@
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li>
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @this.User.Identity.Name!</a>
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @((await UserManager.GetUserAsync(User)).FirstName)!</a>
         </li>
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

@@ -16,9 +16,21 @@
 
             public const string AdminEmail = "admin@admin.com";
 
+            public const string AdminFirstName = "Admin";
+
+            public const string AdminLastName = "AdminLastName";
+
             public const string DoctorEmail = "doctor@doctor.com";
 
+            public const string DoctorFirstName = "Doctor";
+
+            public const string DoctorLastName = "DoctorLastName";
+
             public const string PatientEmail = "patient@patient.com";
+
+            public const string PatientFirstName = "Patient";
+
+            public const string PatientLastName = "PatientLastName";
         }
 
         public static class DateTimeFormats

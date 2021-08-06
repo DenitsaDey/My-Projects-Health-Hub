@@ -35,12 +35,6 @@ namespace HealthHub.Data.Models
 
         public string LastName { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
-
-        public Gender Gender { get; set; }
-
-        public string ImageUrl { get; set; }
-
         public virtual ICollection<Appointment> BookedAppointments { get; set; } = new HashSet<Appointment>();
 
         public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
