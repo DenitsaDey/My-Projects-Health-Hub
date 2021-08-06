@@ -25,13 +25,13 @@
         private readonly IClinicsService clinicsService;
 
         public AppointmentController(
-            UserManager<ApplicationUser> userManger,
+            UserManager<ApplicationUser> userManager,
             IDateTimeParserService dateTimeParserService,
             IServicesService servicesService,
             IAppointmentsService appointmentService,
             IClinicsService clinicsService)
         {
-            this.userManager = userManger;
+            this.userManager = userManager;
             this.dateTimeParserService = dateTimeParserService;
             this.servicesService = servicesService;
             this.appointmentService = appointmentService;

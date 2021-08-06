@@ -1,14 +1,15 @@
-﻿using AngleSharp;
-using HealthHub.Data.Common.Repositories;
-using HealthHub.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HealthHub.Services
+﻿namespace HealthHub.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using AngleSharp;
+    using HealthHub.Data.Common.Repositories;
+    using HealthHub.Data.Models;
+
     public class InsuranceScraperService : IInsuranceScraperService
     {
         private readonly IBrowsingContext context;

@@ -80,6 +80,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
             services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();
+            services.AddTransient<IRatingPopulatingService, RatingPopulatingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

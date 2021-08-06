@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HealthHub.Services
+﻿namespace HealthHub.Services
 {
-    class IRatingPopulatingService
+    using System.Threading.Tasks;
+
+    public interface IRatingPopulatingService
     {
+        Task ImportRatings(string patientId);
     }
 }
