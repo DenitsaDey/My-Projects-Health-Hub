@@ -126,6 +126,7 @@
             return this.View(viewModel);
         }
 
+        // rescheduling appointment by deleting completely the appointment and redirecting to the same doctor to book a new one
         [HttpPost]
         public async Task<IActionResult> Delete(string appointmentId, string doctorId)
         {
@@ -133,12 +134,13 @@
             return this.RedirectToAction(nameof(this.Book), new { doctorId });
         }
 
+        [HttpPost]
         public async Task<IActionResult> Cancel(string appointmentId)
         {
             var viewModel = new HeaderSearchQueryModel();
             viewModel.Clinics = this.clinicsService.GetAllClinics();
             await this.appointmentService.ChangeAppointmentStatusAsync(appointmentId, "Cancelled");
-            return this.View(viewModel);
+            return this.RedirectToAction(nameof(this.Index));
 
             // return this.RedirectToAction(nameof(this.Index));
         }

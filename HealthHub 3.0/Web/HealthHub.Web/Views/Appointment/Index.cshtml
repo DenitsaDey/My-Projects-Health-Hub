@@ -66,10 +66,14 @@
                         </a>
                     </td>
                     <td>
-                        <a href="" class="btn btn-outline-danger btn-sm"
-                           data-toggle="modal" data-target="#modalCancel" data-id="@appointment.Id">
+                        @if (@appointment.AppointmentStatus.ToString() != "Cancelled") { 
+                        <form method="post" asp-area="" asp-controller="Appointment" asp-action="Cancel" id="cancelAppointment" asp-route-appointmentId="@appointment.Id">
+                        </form>
+                        <a class="btn btn-outline-danger btn-sm"
+                            data-toggle="modal" data-target="#modalCancel">
                             Cancel
                         </a>
+                        }
                     </td>
                 </tr>
             }
@@ -78,28 +82,6 @@
 
     <div class="row">
         <div class="col-lg-10 ml-lg-5" style="padding-top:20px">
-            @*<div class="about_text_highlight">
-                    Your Appointmen Status
-                </div>
-                <div class="about_text_2">
-                    <ul>
-                        <li>
-                            <span class="title">Requested</span>
-                            <span class="description">- Waiting for the Doctor's confirmation.</span>
-                        </li>
-                        <li>
-                            <span class="title">Confirmed</span>
-                            <span class="description">
-                                - Good! Your appointment is confirmed.
-                                They are expecting you on the set date and time.
-                            </span>
-                        </li>
-                        <li>
-                            <span class="title">Cancelled</span>
-                            <span class="description">- Sorry, the appointment can't happen on the set date and time.</span>
-                        </li>
-                    </ul>
-                </div>*@
             <strong>Need another appointment?</strong>
             <div class="appointment-btn scrollto">
                 <a class="appointment-btn scrollto" asp-area="" asp-controller="Doctors" asp-action="All">
@@ -114,6 +96,7 @@
 <div>
     @await Component.InvokeAsync("PastAppointments")
 </div>
+
 
 <!-- Modal -->
 <div class="modal" id="modalCancel" tabindex="-1" role="dialog">
@@ -132,16 +115,16 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back!</button>
-                <button type="button" class="btn btn-primary" id="mySubmit">Yes, cancel it!</button>
+                <button type="button" class="btn btn-primary" onclick="cancelAppointment.submit()">Yes, cancel it!</button>
             </div>
         </div>
     </div>
-</div>
-
+</div> 
+    
 @section Scripts {
     <script type="text/javascript">
         //Everytime we press delete in the table row
-        $('.cancel').click(function (e) {
+        $(this).click(function (el) {
             e.preventDefault();
 
             //Update the item to delete id so our model knows which one to delete
@@ -164,3 +147,4 @@
 
     </script>
 }
+
