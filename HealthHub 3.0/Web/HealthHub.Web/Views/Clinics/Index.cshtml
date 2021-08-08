@@ -1,4 +1,4 @@
-﻿@model HeaderSearchQueryModel
+﻿@model ClinicHeaderViewModel
 @{
     this.ViewData["Title"] = "Clinics";
 }
@@ -28,10 +28,12 @@
                                     <h7>See the Doctors</h7>
                                 </a>
                             </div>
-                        </div>          
+                        </div>
                     </div>
                 </div>
             }
         </div>
     </div>
 </section>
+
+<partial name="_PagingPartial" model="@Model.Paging" />

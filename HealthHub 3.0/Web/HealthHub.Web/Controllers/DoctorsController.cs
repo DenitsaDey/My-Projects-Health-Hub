@@ -108,7 +108,6 @@
                 ItemsPerPage = ItemsPerPage,
                 PageNumber = pageId,
                 DataCount = viewModel.DoctorsCount,
-                // this.getCountsService.GetCounts().DoctorsCount,
             };
             viewModel.InsuranceCompanies = this.insuranceService.GetAllInsuranceCompanies<InsuranceViewModel>();
 
