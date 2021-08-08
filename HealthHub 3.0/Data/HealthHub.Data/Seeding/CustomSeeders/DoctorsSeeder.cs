@@ -221,7 +221,7 @@
                 "Kandeel",
                 Gender.Female,
                 "+974000014",
-                "https://dohaclinichospital.com/assets/admin/images/doctors/MY_1602571405.jpg",
+                "https://media.istockphoto.com/photos/portrait-of-female-african-american-doctor-standing-in-her-office-at-picture-id1193303828?k=6&m=1193303828&s=612x612&w=0&h=4SKhCVHMF7BSet6cJVJr0FpA78Cy7RGO5TB6Lfyz_X8=",
                 "Doha Clinic Hospital",
                 "Internal Medicine",
                 13,

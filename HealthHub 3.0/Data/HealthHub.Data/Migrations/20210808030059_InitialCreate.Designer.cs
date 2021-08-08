@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210806024036_InitialCreate")]
+    [Migration("20210808030059_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -470,9 +470,6 @@ namespace HealthHub.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
@@ -483,8 +480,6 @@ namespace HealthHub.Data.Migrations
                         .HasFilter("[AppointmentId] IS NOT NULL");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("PatientId");
 
                     b.ToTable("Ratings");
                 });
@@ -747,13 +742,7 @@ namespace HealthHub.Data.Migrations
                         .WithOne("Rating")
                         .HasForeignKey("HealthHub.Data.Models.Rating", "AppointmentId");
 
-                    b.HasOne("HealthHub.Data.Models.ApplicationUser", "Patient")
-                        .WithMany("Ratings")
-                        .HasForeignKey("PatientId");
-
                     b.Navigation("Appointment");
-
-                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -814,8 +803,6 @@ namespace HealthHub.Data.Migrations
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");
-
-                    b.Navigation("Ratings");
 
                     b.Navigation("Roles");
                 });

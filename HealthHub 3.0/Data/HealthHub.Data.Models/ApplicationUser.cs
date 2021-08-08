@@ -37,8 +37,6 @@ namespace HealthHub.Data.Models
 
         public virtual ICollection<Appointment> BookedAppointments { get; set; } = new HashSet<Appointment>();
 
-        public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
-
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }

@@ -21,6 +21,11 @@
         [MaxLength(DefaultMaxLength)]
         public string LastName { get; set; }
 
+        public string FullName
+        {
+            get { return this.FirstName + " " + this.LastName; }
+        }
+
         public Gender Gender { get; set; }
 
         public string PhoneNumber { get; set; }

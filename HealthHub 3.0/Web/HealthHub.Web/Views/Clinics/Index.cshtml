@@ -21,7 +21,7 @@
                         <div class="member-info">
                             <h4>@clinic.Name</h4>
                             <span>@clinic.Address</span>
-                            <p>Average Doctors' Rating: @clinic.AverageRating.ToString("F") / 5.00  from @clinic.RatingCount votes</p>
+                            <p>Average Doctors' Rating: @clinic.AverageRating.ToString("F") / 5.00  from @clinic.RatingsCount votes</p>
                             <div class="form-group" style="padding-top:30px">
                                 <a class="appointment-btn scrollto" asp-area="" asp-controller="Doctors" asp-action="All"
                                    asp-route-clinicId="@clinic.Id">

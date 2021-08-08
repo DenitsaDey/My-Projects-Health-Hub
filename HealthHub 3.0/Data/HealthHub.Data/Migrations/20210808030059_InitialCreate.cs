@@ -398,7 +398,6 @@ namespace HealthHub.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<int>(type: "int", nullable: false),
                     AppointmentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AdditionalComments = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -412,12 +411,6 @@ namespace HealthHub.Data.Migrations
                         name: "FK_Ratings_Appointments_AppointmentId",
                         column: x => x.AppointmentId,
                         principalTable: "Appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Ratings_AspNetUsers_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -567,11 +560,6 @@ namespace HealthHub.Data.Migrations
                 name: "IX_Ratings_IsDeleted",
                 table: "Ratings",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ratings_PatientId",
-                table: "Ratings",
-                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Services_IsDeleted",

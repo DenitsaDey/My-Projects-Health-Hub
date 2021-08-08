@@ -6,23 +6,25 @@
     {
         @if (this.ViewData["Title"].ToString() == "Import Data")
         {
-            <div class="container">
-                <h1>@this.ViewData["Title"]</h1>
-                <a class="btn-get-started scrollto" asp-controller="PopulateDatabase" asp-action="Add">Add Appointment Ratings</a>
-                </div>
-                }
+    <div class="container">
+        <h1>@this.ViewData["Title"]</h1>
+        <h2>Appointment Ratings imported successfully!</h2>
+        <a class="btn-get-started scrollto" asp-controller="Appointment" asp-action="Index">All Appointments</a>
+    </div>
+        }
 
-                else
-                {
+        else
+        {
                 <div class="container">
                     <h1>Welcome to Health Hub</h1>
                     <h2>We help you find the right medical professional</h2>
                     <a class="btn-get-started scrollto" asp-controller="Appointment" asp-action="Index">All Appointments</a>
                     <a class="btn-get-started scrollto" asp-controller="PopulateDatabase" asp-action="Index">Import Ratings</a>
                 </div>
-                }
-                }
-                @if (User.IsInRole("Patient"))
+        }
+        } 
+    
+                else
                 {
                     <div class="container">
                         <h1>Welcome to Health Hub</h1>
@@ -31,5 +33,4 @@
                         <a asp-area="" asp-controller="Doctors" asp-action="All" class="btn-get-started scrollto">Find a doctor</a>
                     </div>
                 }
-            </div>
         </section><!-- End Hero -->

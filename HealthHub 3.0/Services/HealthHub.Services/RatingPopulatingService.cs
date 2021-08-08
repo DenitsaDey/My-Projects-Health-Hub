@@ -21,7 +21,7 @@
             this.appointmentRepository = appointmentRepository;
         }
 
-        public async Task ImportRatings(string patientId)
+        public async Task ImportRatings()
         {
             if (this.ratingRepository.All().Any())
             {
@@ -34,7 +34,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 5,
-                PatientId = patientId,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 1").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
             });
@@ -43,7 +42,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 4,
-                PatientId = patientId,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 2").FirstOrDefault().Id,
                 AdditionalComments = "very good service",
             });
@@ -52,7 +50,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 4,
-                PatientId = patientId,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 3").FirstOrDefault().Id,
                 AdditionalComments = "very good service",
             });
@@ -61,7 +58,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 5,
-                PatientId = patientId,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 4").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
             });
@@ -70,7 +66,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 2,
-                PatientId = patientId,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 5").FirstOrDefault().Id,
                 AdditionalComments = "average service",
             });
@@ -79,7 +74,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 5,
-                PatientId = patientId,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 6").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
             });

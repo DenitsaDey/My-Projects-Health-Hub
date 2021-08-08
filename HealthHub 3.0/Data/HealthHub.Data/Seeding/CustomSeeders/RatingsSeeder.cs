@@ -26,7 +26,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 5,
-                PatientId = patientId,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 1").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
             });
@@ -35,7 +34,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 4,
-                PatientId = patientId,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 2").FirstOrDefault().Id,
                 AdditionalComments = "vwry good service",
             });
@@ -44,7 +42,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 4,
-                PatientId = patientId,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 3").FirstOrDefault().Id,
                 AdditionalComments = "very good service",
             });
@@ -53,7 +50,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 5,
-                PatientId = patientId,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 4").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
             });
@@ -62,7 +58,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 2,
-                PatientId = patientId,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 5").FirstOrDefault().Id,
                 AdditionalComments = "average service",
             });
@@ -71,7 +66,6 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 5,
-                PatientId = patientId,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 6").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
             });

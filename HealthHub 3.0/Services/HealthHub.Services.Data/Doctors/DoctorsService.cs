@@ -61,7 +61,7 @@
             if (!string.IsNullOrWhiteSpace(searchName))
             {
                 doctorsQuery = doctorsQuery
-                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(searchName.ToLower()));
+                    .Where(d => d.FullName.ToLower().Contains(searchName.ToLower()));
             }
 
             // doctorsQuery = sorting switch
@@ -89,8 +89,7 @@
                 .Select(d => new DoctorsViewModel
                 {
                     Id = d.Id,
-                    FirstName = d.FirstName,
-                    LastName = d.LastName,
+                    FullName = d.FullName,
                     PhoneNumber = d.PhoneNumber,
                     ImageUrl = d.ImageUrl,
                     ClinicName = d.Clinic.Name,
@@ -98,12 +97,10 @@
                     YearsOFExperience = d.YearsOFExperience,
                     WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
                     OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
-                    AverageRating = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
-                    RatingCount = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                    AverageRating = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
+                                   d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Average(sa => sa.Rating.Value) : 0,
+                    RatingsCount = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
+                                   d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
                     About = d.About,
                 })
                 .ToListAsync();
@@ -119,7 +116,8 @@
         public IEnumerable<T> GetAll<T>()
         {
             var allDoctors = this.doctorsRepository.All()
-                .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
+                .OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
+                .ThenByDescending(d => d.CreatedOn)
                 .To<T>()
                 .ToList();
 

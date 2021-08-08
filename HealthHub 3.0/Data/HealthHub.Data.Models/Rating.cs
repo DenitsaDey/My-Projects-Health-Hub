@@ -16,10 +16,6 @@
 
         public virtual Appointment Appointment { get; set; }
 
-        public string PatientId { get; set; }
-
-        public virtual ApplicationUser Patient { get; set; }
-
         public string AdditionalComments { get; set; }
     }
 }

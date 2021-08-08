@@ -76,16 +76,28 @@
                     .Select(d => new DoctorsViewModel
                     {
                         Id = d.Id,
-                        AverageRating = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
-                        RatingCount = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                        AverageRating = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
+                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted)
+                                        .Select(sa => sa.Rating.Value).Average() : 0,
+                        RatingsCount = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
+                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
                     })
                     .ToList();
 
-                clinic.RatingCount = clinic.MedicalStaff.Select(x => x.RatingCount).Sum();
+                clinic.InsuranceCompanies = this.insuranceClinicsRepository.All()
+                    .Where(ic => ic.ClinicId == clinic.Id)
+                    .Select(ic => new InsuranceClinicsViewModel
+                    {
+                        Id = ic.Id,
+                        InsuranceId = ic.InsuranceId,
+                    })
+                    .ToList();
+
+                clinic.AverageRating = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
+                    clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.AverageRating).Average() : 0;
+
+                clinic.RatingsCount = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
+                    clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.RatingsCount).Sum() : 0;
             }
 
             return allClinics;
@@ -114,15 +126,13 @@
                     .Select(d => new DoctorsViewModel
                     {
                         Id = d.Id,
-                        FirstName = d.FirstName,
-                        LastName = d.LastName,
+                        FullName = d.FullName,
                         SpecialtyName = d.Specialty.Name,
-                        AverageRating = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0,
-                        RatingCount = d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? d.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0,
+                        AverageRating = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
+                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted)
+                                        .Select(sa => sa.Rating.Value).Average() : 0,
+                        RatingsCount = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
+                                       d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
                     })
                     .ToList(),
                     InsuranceCompanies = this.insuranceClinicsRepository.All()
@@ -135,8 +145,13 @@
                     .ToList(),
                 })
                 .FirstOrDefault();
-            clinic.AverageRating = clinic.MedicalStaff.Select(x => x.AverageRating).Average();
-            clinic.RatingCount = clinic.MedicalStaff.Select(x => x.RatingCount).Sum();
+            clinic.AverageRating =
+                    clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
+                    clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.AverageRating).Average() : 0;
+
+            clinic.RatingsCount =
+                clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
+                clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.RatingsCount).Sum() : 0;
 
             return clinic;
         }

@@ -4,6 +4,6 @@
 
     public interface IRatingPopulatingService
     {
-        Task ImportRatings(string patientId);
+        Task ImportRatings();
     }
 }

@@ -11,9 +11,7 @@
     {
         public string Id { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string FullName { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -31,23 +29,25 @@
 
         public double AverageRating { get; set; }
 
-        public int RatingCount { get; set; }
+        public int RatingsCount { get; set; }
 
         public string About { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Doctor, DoctorsViewModel>()
-                .ForMember(x => x.AverageRating, opt =>
+            .ForMember(x => x.AverageRating, opt =>
                 opt.MapFrom(x =>
-                x.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? x.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Select(sa => sa.Rating.Value).Average() : 0))
-                .ForMember(x => x.RatingCount, opt =>
+                (x.ScheduledAppointments == null ||
+                    !x.ScheduledAppointments.Any() ||
+                    !x.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any()) ? 0 :
+                    x.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Average(sa => sa.Rating.Value)))
+            .ForMember(x => x.RatingsCount, opt =>
                 opt.MapFrom(x =>
-                x.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Any() ? x.ScheduledAppointments
-                                    .Where(sa => sa.AppointmentStatus == AppointmentStatus.Completed && sa.HasBeenVoted == true).Count() : 0));
+                (x.ScheduledAppointments == null ||
+                    !x.ScheduledAppointments.Any() ||
+                    !x.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any()) ? 0 :
+                    x.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count()));
         }
     }
 }

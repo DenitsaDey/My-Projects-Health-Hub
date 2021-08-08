@@ -1,6 +1,6 @@
 ﻿@model HealthHub.Web.ViewModels.Doctor.DoctorsViewModel
 @{ 
-    this.ViewData["Title"] = "Dr. " + Model.FirstName + " " + Model.LastName; 
+    this.ViewData["Title"] = "Dr. " + Model.FullName; 
     }
 
 <partial name="_HeaderPartial" />
@@ -11,7 +11,7 @@
         <div class="info_box">
             <div class="info_image"><img src="@Model.ImageUrl" width="400" alt=""></div>
             <div class="info_content">
-                <div class="info_title">@Model.FirstName @Model.LastName</div>
+                <div class="info_title">@Model.FullName</div>
                 
                 <div class="info_text">
                     Rating: &nbsp;&nbsp;
@@ -23,7 +23,7 @@
                         <span class="fa fa-star-o" data-rating="5"></span>
                         <input type="hidden" name="whatever1" class="rating-value" value="@Model.AverageRating">
                     </span>
-                    <span>&nbsp; ( @Model.AverageRating.ToString("F") / 5.00 ) from @Model.RatingCount votes</span>
+                    <span>&nbsp; ( @Model.AverageRating.ToString("F") / 5.00 ) from @Model.RatingsCount votes</span>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="tab_panel active">
             <div class="tab_panel_content">
                 <div class="info_content">
-                    <div class="info_title"><strong> Dr. @Model.FirstName @Model.LastName</strong> </div>
+                    <div class="info_title"><strong> Dr. @Model.FullName</strong> </div>
                     <div class="info_text" style="padding-top:20px"><strong>Specialty: </strong>@Model.SpecialtyName</div>
                     <div class="info_text"><strong>Years of Experience: </strong>@Model.YearsOFExperience</div>
                     <div class="info_text"><strong>Clinic: </strong>@Model.ClinicName</div>
