@@ -16,7 +16,7 @@
             //SearchSorting sorting,
             //Gender gender,
             //string insuranceId,
-            int itemsPerPage = 8);
+            int itemsPerPage);
 
         IEnumerable<T> GetAll<T>();
 

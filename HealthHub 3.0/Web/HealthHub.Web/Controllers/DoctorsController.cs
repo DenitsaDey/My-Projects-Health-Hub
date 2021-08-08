@@ -1,5 +1,6 @@
 ﻿namespace HealthHub.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using HealthHub.Services.Data;
@@ -97,7 +98,7 @@
 
             const int ItemsPerPage = 8;
 
-            var viewModel = await this.doctorsService.GetAllSearchedAsync(specialtyId, cityAreaId, clinicId, searchName, pageId);  /*sorting, gender, insuranceId*/
+            var viewModel = await this.doctorsService.GetAllSearchedAsync(specialtyId, cityAreaId, clinicId, searchName, pageId, ItemsPerPage);  /*sorting, gender, insuranceId*/
 
             viewModel.Clinics = this.clinicsService.GetAllClinics();
             viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
@@ -106,7 +107,8 @@
             {
                 ItemsPerPage = ItemsPerPage,
                 PageNumber = pageId,
-                DataCount = this.getCountsService.GetCounts().DoctorsCount,
+                DataCount = viewModel.DoctorsCount,
+                // this.getCountsService.GetCounts().DoctorsCount,
             };
             viewModel.InsuranceCompanies = this.insuranceService.GetAllInsuranceCompanies<InsuranceViewModel>();
 

@@ -31,14 +31,14 @@
             string clinicId,
             string searchName,
             int pageNumber,
-            int itemsPerPage = 8)
+            int itemsPerPage)
 
         // SearchSorting sorting,
         // Gender gender,
         // string insuranceId,
         {
             var doctorsQuery = this.doctorsRepository.AllAsNoTracking()
-                .OrderBy(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
+                .OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
                 .AsQueryable();
             if (!string.IsNullOrEmpty(specialtyId))
             {
@@ -61,7 +61,7 @@
             if (!string.IsNullOrWhiteSpace(searchName))
             {
                 doctorsQuery = doctorsQuery
-                    .Where(d => d.FullName.ToLower().Contains(searchName.ToLower()));
+                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(searchName.ToLower()));
             }
 
             // doctorsQuery = sorting switch
@@ -90,24 +90,16 @@
                 {
                     Id = d.Id,
                     FullName = d.FullName,
-                    PhoneNumber = d.PhoneNumber,
                     ImageUrl = d.ImageUrl,
                     ClinicName = d.Clinic.Name,
                     SpecialtyName = d.Specialty.Name,
-                    YearsOFExperience = d.YearsOFExperience,
-                    WorksWithChildren = d.WorksWithChildren ? "Yes" : "No",
-                    OnlineConsultation = d.OnlineConsultation ? "Yes" : "No",
-                    AverageRating = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
-                                   d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Average(sa => sa.Rating.Value) : 0,
-                    RatingsCount = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
-                                   d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
-                    About = d.About,
                 })
                 .ToListAsync();
 
             var result = new DoctorsHeaderViewModel
             {
                 Doctors = allDoctors,
+                DoctorsCount = doctorsQuery.ToList().Count(),
             };
 
             return result;

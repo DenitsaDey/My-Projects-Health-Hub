@@ -12,6 +12,8 @@
 
         public IEnumerable<SpecialtyViewModel> Specialties { get; set; }
 
+        public int DoctorsCount { get; set; }
+
         public PagingViewModel Paging { get; set; }
 
         public SearchSorting Sorting { get; set; }
