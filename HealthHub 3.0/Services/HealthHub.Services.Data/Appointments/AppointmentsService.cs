@@ -51,13 +51,26 @@
             return allAppointments;
         }
 
-        public IEnumerable<T> GetAllByDoctor<T>(string doctorId)
+        public IEnumerable<T> GetUpcomingByDoctor<T>(string doctorId)
         {
             var allAppointments = this.appointmentsRepository.All()
-                .Where(a => a.DoctorId == doctorId)
-                .OrderByDescending(a => a.AppointmentTime)
+                .Where(a => a.DoctorId == doctorId
+                && a.AppointmentTime.Date > DateTime.UtcNow.Date)
+                .OrderBy(a => a.AppointmentTime)
                 .To<T>()
                 .ToList();
+
+            return allAppointments;
+        }
+
+        public async Task<IEnumerable<T>> GetPastByDoctorAsync<T>(string doctorId)
+        {
+            var allAppointments = await this.appointmentsRepository.All()
+                .Where(a => a.DoctorId == doctorId
+                && a.AppointmentTime.Date < DateTime.UtcNow.Date)
+                .OrderByDescending(a => a.AppointmentTime)
+                .To<T>()
+                .ToListAsync();
 
             return allAppointments;
         }

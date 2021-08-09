@@ -12,7 +12,9 @@
 
         IEnumerable<T> GetAll<T>();
 
-        IEnumerable<T> GetAllByDoctor<T>(string doctorId);
+        IEnumerable<T> GetUpcomingByDoctor<T>(string doctorId);
+
+        Task<IEnumerable<T>> GetPastByDoctorAsync<T>(string doctorId);
 
         IEnumerable<T> GetUpcomingByPatient<T>(string patientId);
 
