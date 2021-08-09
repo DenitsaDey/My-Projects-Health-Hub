@@ -1,0 +1,60 @@
+﻿@model IEnumerable<HealthHub.Web.ViewModels.Appointment.DoctorAppointmentViewModel>
+@{ this.ViewData["Title"] = "Default"; }
+
+<h2><strong>Past Appointments</strong></h2>
+@if (@Model.Count() > 0)
+{
+<table class="table table-bordered table-light">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Date and Time</th>
+            <th scope="col">Patient</th>
+            <th scope="col">Status</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Details</th>
+            <th scope="col">Change Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in this.Model)
+        {
+            <tr>
+                <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
+                <td>@appointment.PatientName</td>
+                <td>
+                    @if (appointment.AppointmentStatus.ToString() == "Requested")
+                    {
+                        <p>Cancelled</p>
+                    }
+                    else if(appointment.AppointmentStatus.ToString() != "Completed")
+                    {
+                        <p>Not Completed!</p>
+                    }
+                </td>
+                <td>
+                    @if (appointment.RatingValue != 0)
+                    {
+                        <p>Already Rated!</p> 
+                    }
+                    else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() == "Completed")
+                    {
+                        <p>Not Rated Yet!</p>
+                    }
+                    else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() != "Completed")
+                    {
+                        <a class="btn btn-outline-danger btn-sm"
+                        asp-area="Doctor" asp-controller="Appointments" asp-action="ChangeStatus" asp-route-appointmentId="@appointment.Id" asp-route-status ="Completed">
+                        Change status to allow rating!
+                    </a>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-outline-success btn-sm"
+                       asp-area="Doctor" asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@appointment.Id">
+                        Details
+                    </a>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>}

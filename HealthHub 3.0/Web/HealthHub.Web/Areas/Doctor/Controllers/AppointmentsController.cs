@@ -1,5 +1,8 @@
 ﻿namespace HealthHub.Web.Areas.Doctor.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Services;
@@ -8,8 +11,6 @@
     using HealthHub.Web.ViewModels.Appointment;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class AppointmentsController : DoctorBaseController
     {
@@ -36,28 +37,46 @@
             this.doctorsRepository = doctorsRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             // var doctor = await this.userManager.GetUserAsync(this.HttpContext.User);
             // var doctorId = await this.userManager.GetUserIdAsync(doctor);
-            // for demo purposes the doctorId will be asigned manually for the doctor who happened to have most seeded appointments
+            // for demo purposes the doctorId will be asigned manually for the doctor who happened to have the most seeded appointments
             var doctorId = this.doctorsRepository.All()
                 .OrderByDescending(d => d.ScheduledAppointments.Count)
                 .FirstOrDefault()
                 .Id;
 
-            var viewModel = new AppointmentListViewModel
-            {
-                AppointmentList = this.appointmentsService.GetUpcomingByDoctor<AppointmentViewModel>(doctorId),
-            };
+            var viewModel = this.appointmentsService.GetUpcomingByDoctor<DoctorAppointmentViewModel>(doctorId);
 
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
             return this.View(viewModel);
         }
 
-        public IActionResult Details()
+        public async Task<IActionResult> Details(string appointmentId)
         {
-            return this.View();
+            var viewModel = await this.appointmentsService.GetByIdAsync<DoctorAppointmentViewModel>(appointmentId);
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Confirm(string appointmentId)
+        {
+            await this.appointmentsService.ChangeAppointmentStatusAsync(appointmentId, "Confirmed");
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Cancel(string appointmentId)
+        {
+            await this.appointmentsService.ChangeAppointmentStatusAsync(appointmentId, "Cancelled");
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(string appointmentId)
+        {
+            await this.appointmentsService.ChangeAppointmentStatusAsync(appointmentId, "Completed");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

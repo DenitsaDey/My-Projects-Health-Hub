@@ -99,14 +99,6 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
-        public IActionResult All(string patientId)
-        {
-            var viewModel = new AppointmentListViewModel();
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
-            viewModel.AppointmentList = this.appointmentService.GetUpcomingByPatient<AppointmentViewModel>(patientId);
-            return this.View(viewModel);
-        }
-
         public async Task<IActionResult> Details(string appointmentId)
         {
             var viewModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
@@ -141,8 +133,6 @@
             viewModel.Clinics = this.clinicsService.GetAllClinics();
             await this.appointmentService.ChangeAppointmentStatusAsync(appointmentId, "Cancelled");
             return this.RedirectToAction(nameof(this.Index));
-
-            // return this.RedirectToAction(nameof(this.Index));
         }
 
         public IActionResult Edit()
@@ -155,7 +145,6 @@
         [HttpPost]
         public async Task<IActionResult> Edit(AppointmentEditInputModel input, string appointmentId)
         {
-            // TODO if user is not signed in redirect to login page
             if (!this.ModelState.IsValid)
             {
                 var model = new AppointmentEditInputModel();
@@ -165,7 +154,6 @@
 
             await this.appointmentService.EditMessageAsync(appointmentId, input.Message);
 
-            // TODO return message "You have successfully edited your appointment"
             return this.RedirectToAction(nameof(this.Details), new { appointmentId });
         }
     }

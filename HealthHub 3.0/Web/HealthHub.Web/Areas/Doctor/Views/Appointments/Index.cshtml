@@ -1,0 +1,184 @@
+﻿@model IEnumerable<HealthHub.Web.ViewModels.Appointment.DoctorAppointmentViewModel>
+@{
+    this.ViewData["Title"] = "My Appointments";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+
+@if (@Model.Count() == 0)
+{
+    <div class="row">
+        <div class="col-lg-4 ml-lg-5">
+            <div class="about_text_2">
+                <p>
+                    You have nothing booked yet...
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+@if (@Model.Count() > 0)
+{
+    <h2><strong>Due Appointments</strong></h2>
+
+    <table class="table table-bordered table-light">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Date and Time</th>
+                <th scope="col">Patient</th>
+                <th scope="col">Status</th>
+                <th scope="col">Details</th>
+                <th scope="col">Confirm</th>
+                <th scope="col">Cancel</th>
+            </tr>
+        </thead>
+        <tbody>
+            @Html.Hidden("item-to-cancel", "", new { @id = "item-to-cancel" })
+            @Html.Hidden("item-to-confirm", "", new { @id = "item-to-confirm" })
+            @foreach (var appointment in this.Model)
+            {
+                <tr>
+                    <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
+                    <td>@appointment.PatientName</td>
+                    <td>@appointment.AppointmentStatus.ToString()</td>
+                    <td>
+                        <a class="btn btn-outline-success btn-sm"
+                           asp-area="Doctor" asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@appointment.Id">
+                            Details
+                        </a>
+                    </td>
+                    <td>
+                        @if (@appointment.AppointmentStatus.ToString() != "Confirmed")
+                        {
+                            <form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="Confirm" id="confirmAppointment" asp-route-appointmentId="@appointment.Id">
+                            </form>
+                            <a class="btn btn-outline-danger btn-sm"
+                               data-toggle="modal" data-target="#modalConfirm">
+                                Confirm
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        @if (@appointment.AppointmentStatus.ToString() != "Cancelled")
+                        {
+                            <form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="Cancel" id="cancelAppointment" asp-route-appointmentId="@appointment.Id">
+                            </form>
+                            <a class="btn btn-outline-danger btn-sm"
+                               data-toggle="modal" data-target="#modalCancel">
+                                Cancel
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<hr class="bg-dark m-4" style="height: 6px;" />
+
+<div>
+    @await Component.InvokeAsync("DoctorPastAppointments")
+</div>
+
+<!-- Modal Confirm-->
+<div class="modal" id="modalConfirm" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm appointment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you want to confirm this appointment?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back!</button>
+                <button type="button" class="btn btn-primary" onclick="confirmAppointment.submit()">Yes, confirm it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        //Everytime we press confirm in the table row
+        $(this).click(function (el) {
+            e.preventDefault();
+
+            //Update the item to confirm id so our model knows which one to confirm
+            var id = $(this).data('id');
+            $('#item-to-confirm').val(id);
+
+        });
+
+        //Everytime we press sumbit on the modal form...
+        $('#mySubmit').click(function() {
+
+        //Get the id to confirm from the hidden field
+        var id = $('#item-to-confirm').val();
+
+
+        //Call our confirm actionresult and pass over this id
+        $.post(@Url.Action("Confirm", "Appointments"), { id : id } , function (data) {
+            alert("Confirmed");
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        //Everytime we press delete in the table row
+        $(this).click(function (el) {
+            e.preventDefault();
+
+            //Update the item to delete id so our model knows which one to delete
+            var id = $(this).data('id');
+            $('#item-to-cancel').val(id);
+
+        });
+
+        //Everytime we press sumbit on the modal form...
+        $('#mySubmit').click(function() {
+
+        //Get the id to delete from the hidden field
+        var id = $('#item-to-cancel').val();
+
+
+        //Call our delete actionresult and pass over this id
+        $.post(@Url.Action("Cancel", "Appointment"), { id : id } , function (data) {
+            alert("Cancelled");
+        });
+
+    </script>
+}
+
+<!-- Modal Cancel-->
+<div class="modal" id="modalCancel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm cancellation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you want to cancel this appointment?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back!</button>
+                <button type="button" class="btn btn-primary" onclick="cancelAppointment.submit()">Yes, cancel it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

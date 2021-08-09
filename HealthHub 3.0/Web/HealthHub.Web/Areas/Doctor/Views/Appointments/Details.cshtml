@@ -1,0 +1,170 @@
+﻿@model HealthHub.Web.ViewModels.Appointment.DoctorAppointmentViewModel
+@{
+    this.ViewData["Title"] = "Appointment Details";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<section id="appointment" class="appointment section-bg">
+
+    <div class="row row-eq-height">
+        <div class="col-lg-4 list-group-item-light">
+        </div>
+        <!-- Panel -->
+        <div class="col-lg-4 list-group-item-light">
+            <h2>Booked for:</h2>
+            <div class="tab_panel active">
+                <div class="tab_panel_content">
+                    <div class="info_content">
+                        <div class="info_title" style="padding-top:10px"><strong> @Model.AppointmentTime.ToString("f")</strong> </div>
+                        <div class="info_text" style="padding-top:20px"><strong>Patient: </strong>@Model.PatientName</div>
+                        <div class="info_text"><strong>Booked for: </strong>@Model.ProcedureBooked</div>
+                        <div class="info_text"><strong>Additional Notes: </strong>@Model.Message</div>
+                        <div class="info_text"><strong>Status: </strong>@Model.AppointmentStatus</div>
+                    </div>
+                    <div class="tab_list">
+                        <div class="info_text">
+                            <strong>Rating:</strong> &nbsp;&nbsp;
+                            <span class="star-rating">
+                                <span class="fa fa-star-o" data-rating="1"></span>
+                                <span class="fa fa-star-o" data-rating="2"></span>
+                                <span class="fa fa-star-o" data-rating="3"></span>
+                                <span class="fa fa-star-o" data-rating="4"></span>
+                                <span class="fa fa-star-o" data-rating="5"></span>
+                                <input type="hidden" name="whatever1" class="rating-value" value="@Model.RatingValue">
+                                <span>&nbsp; ( @Model.RatingValue.ToString("F") / 5.00 )</span>
+                            </span>
+                        </div>
+                    </div>
+                        @if (@Model.AppointmentStatus.ToString() == "Requested")
+                        {
+                            <form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="Confirm" id="confirmAppointment" asp-route-appointmentId="@Model.Id">
+                            </form>
+                            <a class="btn btn-outline-danger btn-sm"
+                               data-toggle="modal" data-target="#modalConfirm">
+                                Confirm
+                            </a>
+                         }
+                         @if (@Model.AppointmentStatus.ToString() == "Requested" || @Model.AppointmentStatus.ToString() == "Confirmed")
+                         {
+                                 <form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="Cancel" id="cancelAppointment" asp-route-appointmentId="@Model.Id">
+                                 </form>
+                                 <a class="btn btn-outline-danger btn-sm"
+                                    data-toggle="modal" data-target="#modalCancel">
+                                     Cancel
+                                 </a>
+                          }
+                    <div class="appointment-btn scrollto">
+                        <a class="appointment-btn scrollto" asp-area="Doctor" asp-controller="Appointments" asp-action="Index">
+                            <h7>My Appointments</h7>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 list-group-item-light">
+        </div>
+    </div>
+</section>
+
+<!-- Modal Confirm-->
+<div class="modal" id="modalConfirm" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm appointment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you want to confirm this appointment?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back!</button>
+                <button type="button" class="btn btn-primary" onclick="confirmAppointment.submit()">Yes, confirm it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    
+    <script src="~/js/rating-static.js" asp-append-version="true"></script>
+
+    <script type="text/javascript">
+        //Everytime we press confirm in the table row
+        $(this).click(function (el) {
+            e.preventDefault();
+
+            //Update the item to confirm id so our model knows which one to confirm
+            var id = $(this).data('id');
+            $('#item-to-confirm').val(id);
+
+        });
+
+        //Everytime we press sumbit on the modal form...
+        $('#mySubmit').click(function() {
+
+        //Get the id to confirm from the hidden field
+        var id = $('#item-to-confirm').val();
+
+
+        //Call our confirm actionresult and pass over this id
+        $.post(@Url.Action("Confirm", "Appointments"), { id : id } , function (data) {
+            alert("Confirmed");
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        //Everytime we press delete in the table row
+        $(this).click(function (el) {
+            e.preventDefault();
+
+            //Update the item to delete id so our model knows which one to delete
+            var id = $(this).data('id');
+            $('#item-to-cancel').val(id);
+
+        });
+
+        //Everytime we press sumbit on the modal form...
+        $('#mySubmit').click(function() {
+
+        //Get the id to delete from the hidden field
+        var id = $('#item-to-cancel').val();
+
+
+        //Call our delete actionresult and pass over this id
+        $.post(@Url.Action("Cancel", "Appointment"), { id : id } , function (data) {
+            alert("Cancelled");
+        });
+
+    </script>
+}
+
+<!-- Modal Cancel-->
+<div class="modal" id="modalCancel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm cancellation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you want to cancel this appointment?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back!</button>
+                <button type="button" class="btn btn-primary" onclick="cancelAppointment.submit()">Yes, cancel it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

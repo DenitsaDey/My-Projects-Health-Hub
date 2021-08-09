@@ -1,0 +1,28 @@
+﻿<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+
+
+        @*Uncomment below if you prefer to use an image logo*@
+        <a href="index.html" class="logo me-auto"><img src="~/img/HH2.png" alt="" class="img-fluid"></a>
+        <h1 class="logo me-auto">
+            <a asp-area="" asp-controller="Home" asp-action="Index">HealthHub</a>
+        </h1>
+
+        @*<nav id="navbar" class="navbar order-last order-lg-0">
+            <form asp-area="Doctor" asp-controller="Appointments" asp-action="Index" method="get" class="navbar order-last order-lg-0">
+                <ul>
+                    <li class="search_container_input">
+                        <input type="text" asp-for="SearchDate" class="form-control" placeholder="search by date">
+                    </li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+
+            </form>
+        </nav>*@
+        <!-- .navbar -->
+
+        <a asp-area="Doctor" asp-controller="Appointments" asp-action="Index" class="appointment-btn scrollto" area-hidden="true"><span>My </span>Appointments</a>
+
+    </div>
+</header><!-- End Header -->
