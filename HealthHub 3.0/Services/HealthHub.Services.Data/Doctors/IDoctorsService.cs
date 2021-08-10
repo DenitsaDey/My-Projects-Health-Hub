@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using HealthHub.Data.Models.Enums;
+
     using HealthHub.Web.ViewModels.Doctor;
 
     public interface IDoctorsService
@@ -20,7 +20,13 @@
 
         IEnumerable<T> GetAll<T>();
 
+        IEnumerable<T> GetAllWithDeleted<T>();
+
+        T GetById<T>(string id);
+
         Task<T> GetByIdAsync<T>(string doctorId);
+
+        string GetIdByMostAppointments();
 
         T GetByAppointment<T>(string appointmentId);
 

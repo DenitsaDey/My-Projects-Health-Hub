@@ -14,5 +14,7 @@
         Task<T> GetByIdAsync<T>(string specialtyId);
 
         Task AddAsync(string name);
+
+        IEnumerable<string> GetAllSpecialtiesIds();
     }
 }

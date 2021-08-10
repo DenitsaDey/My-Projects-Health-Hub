@@ -15,5 +15,6 @@
 
         ClinicViewModel GetById(string clinicId);
 
+        IEnumerable<string> GetAllClinicIds();
     }
 }

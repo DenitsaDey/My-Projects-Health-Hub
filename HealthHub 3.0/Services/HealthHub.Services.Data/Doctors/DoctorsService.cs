@@ -116,6 +116,27 @@
             return allDoctors;
         }
 
+        // for Administration Area/ Doctors Controller/ Index
+        public IEnumerable<T> GetAllWithDeleted<T>()
+        {
+            return this.doctorsRepository.AllWithDeleted()
+                .Include(d => d.Clinic)
+                .Include(d => d.Specialty)
+                .To<T>()
+                .ToList();
+        }
+
+        // for Administration Area/ Doctors Controller/ Index
+        public T GetById<T>(string id)
+        {
+            return this.doctorsRepository.All()
+                .Include(d => d.Clinic)
+                .Include(d => d.Specialty)
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefault();
+        }
+
         public async Task<T> GetByIdAsync<T>(string doctorId)
         {
             var currentDoctor = await this.doctorsRepository.All()
@@ -125,6 +146,16 @@
 
             return currentDoctor;
         }
+
+        // for demo purposes in Doctor Area/ Appointments Controller/ Index
+        public string GetIdByMostAppointments()
+        {
+            return this.doctorsRepository.All()
+                .OrderByDescending(d => d.ScheduledAppointments.Count)
+                .FirstOrDefault()
+                .Id;
+        }
+
 
         public T GetByAppointment<T>(string appointmentId)
         {

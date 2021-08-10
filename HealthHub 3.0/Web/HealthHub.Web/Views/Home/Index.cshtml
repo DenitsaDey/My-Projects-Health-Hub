@@ -1,9 +1,24 @@
-﻿@model HealthHub.Web.ViewModels.Home.HomeHeaderViewModel
+﻿@using HealthHub.Common
+@using HealthHub.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@model HealthHub.Web.ViewModels.Home.HomeHeaderViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
-<partial name="_HeaderPartial" />
+@if (this.User.IsInRole(GlobalConstants.DoctorRoleName))
+{
+    <partial name="_DoctorHeaderPartial" />
+}
+else if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <partial name="_AdminHeaderPartial" />
+}
+else
+{
+    <partial name="_HeaderPartial" />
+}
 <partial name="_WhyUsSection" />
 <partial name="_CountsSectionPartial" model="Model.DataCounts" />
 <partial name="_AboutPartial" />

@@ -10,7 +10,6 @@
 
     public class Service : BaseDeletableModel<string>
     {
-        //списък с процедури от сайта на супердок-> appointments
         public Service() => this.Id = Guid.NewGuid().ToString();
 
         [Required]

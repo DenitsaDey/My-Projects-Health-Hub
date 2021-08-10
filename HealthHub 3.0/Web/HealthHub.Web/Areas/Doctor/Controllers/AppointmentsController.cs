@@ -19,7 +19,7 @@
         private readonly IServicesService servicesService;
         private readonly IAppointmentsService appointmentsService;
         private readonly IClinicsService clinicsService;
-        private readonly IDeletableEntityRepository<Doctor> doctorsRepository;
+        private readonly IDoctorsService doctorsService;
 
         public AppointmentsController(
             UserManager<ApplicationUser> userManager,
@@ -27,14 +27,14 @@
             IServicesService servicesService,
             IAppointmentsService appointmentsService,
             IClinicsService clinicsService,
-            IDeletableEntityRepository<Doctor> doctorsRepository)
+            IDoctorsService doctorsService)
         {
             this.userManager = userManager;
             this.dateTimeParserService = dateTimeParserService;
             this.servicesService = servicesService;
             this.appointmentsService = appointmentsService;
             this.clinicsService = clinicsService;
-            this.doctorsRepository = doctorsRepository;
+            this.doctorsService = doctorsService;
         }
 
         public IActionResult Index()
@@ -42,10 +42,7 @@
             // var doctor = await this.userManager.GetUserAsync(this.HttpContext.User);
             // var doctorId = await this.userManager.GetUserIdAsync(doctor);
             // for demo purposes the doctorId will be asigned manually for the doctor who happened to have the most seeded appointments
-            var doctorId = this.doctorsRepository.All()
-                .OrderByDescending(d => d.ScheduledAppointments.Count)
-                .FirstOrDefault()
-                .Id;
+            var doctorId = this.doctorsService.GetIdByMostAppointments();
 
             var viewModel = this.appointmentsService.GetUpcomingByDoctor<DoctorAppointmentViewModel>(doctorId);
 

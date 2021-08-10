@@ -40,6 +40,14 @@
                 .ToList();
         }
 
+        // for Admin Area / Doctors Controller/ Create
+        public IEnumerable<string> GetAllSpecialtiesIds()
+        {
+            return this.specialtiesRepository.All()
+                .Select(x => x.Id)
+                .ToList();
+        }
+
         public async Task<T> GetByIdAsync<T>(string specialtyId)
         {
             var specialty = await this.specialtiesRepository.All()

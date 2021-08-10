@@ -11,9 +11,5 @@
     [Area("Administration")]
     public class AdministrationController : BaseController
     {
-        public AdministrationController(IClinicsService clinicsService)
-        {
-        }
-
     }
 }

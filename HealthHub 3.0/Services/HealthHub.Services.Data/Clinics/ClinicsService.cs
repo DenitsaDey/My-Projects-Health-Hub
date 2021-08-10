@@ -103,6 +103,14 @@
             return allClinics;
         }
 
+        // for Admin Area / Doctors Controller/ Create
+        public IEnumerable<string> GetAllClinicIds()
+        {
+            return this.clinicsRepository.All()
+                .Select(x => x.Id)
+                .ToList();
+        }
+
         public IEnumerable<string> GetAllClinicsNames()
         {
             return this.clinicsRepository.All()
@@ -110,6 +118,8 @@
                 .Select(c => c.Name)
                 .ToList();
         }
+
+
 
         public ClinicViewModel GetById(string clinicId)
         {
