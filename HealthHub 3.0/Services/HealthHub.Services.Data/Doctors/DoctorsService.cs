@@ -6,9 +6,7 @@
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
-    using HealthHub.Data.Models.Enums;
     using HealthHub.Services.Mapping;
-    using HealthHub.Web.ViewModels.Appointment;
     using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.EntityFrameworkCore;
 
@@ -16,13 +14,16 @@
     {
         private readonly IDeletableEntityRepository<Doctor> doctorsRepository;
         private readonly IDeletableEntityRepository<Service> servicesRepository;
+        private readonly IDeletableEntityRepository<Specialty> specialtyRepository;
 
         public DoctorsService(
             IDeletableEntityRepository<Doctor> doctorsRepository,
-            IDeletableEntityRepository<Service> servicesRepository)
+            IDeletableEntityRepository<Service> servicesRepository,
+            IDeletableEntityRepository<Specialty> specialtyRepository)
         {
             this.doctorsRepository = doctorsRepository;
             this.servicesRepository = servicesRepository;
+            this.specialtyRepository = specialtyRepository;
         }
 
         public async Task<DoctorsHeaderViewModel> GetAllSearchedAsync(
@@ -126,15 +127,71 @@
                 .ToList();
         }
 
-        // for Administration Area/ Doctors Controller/ Index
-        public T GetById<T>(string id)
+        // for Administration Area/ Doctors Controller/ Create
+        public async Task<string> AddAsync(DoctorInputModel input)
         {
-            return this.doctorsRepository.All()
-                .Include(d => d.Clinic)
-                .Include(d => d.Specialty)
+            if (!this.specialtyRepository.All().Any(x => x.Id == input.SpecialtyId))
+            {
+                var specialty = new Specialty { Name = input.SpecialtyId };
+                await this.specialtyRepository.AddAsync(specialty);
+                await this.specialtyRepository.SaveChangesAsync();
+                input.SpecialtyId = specialty.Id;
+            }
+
+            var doctor = new Doctor
+            {
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                Gender = input.Gender,
+                PhoneNumber = input.PhoneNumber,
+                ImageUrl = input.ImageUrl,
+                ClinicId = input.ClinicId,
+                SpecialtyId = input.SpecialtyId,
+                YearsOFExperience = input.YearsOFExperience,
+                WorksWithChildren = input.WorksWithChildren,
+                OnlineConsultation = input.OnlineConsultation,
+                About = input.About,
+            };
+
+            await this.doctorsRepository.AddAsync(doctor);
+            await this.doctorsRepository.SaveChangesAsync();
+
+            return doctor.Id;
+        }
+
+        // for Administration Area/ Doctors Controller/
+        public bool DoctorExists(string id)
+        {
+            return this.doctorsRepository.All().Any(x => x.Id == id);
+        }
+
+        // for Administration Area/ Doctors Controller/ Delete
+        public async Task DeleteAsync(string id)
+        {
+            var doctor = await this.doctorsRepository.All()
                 .Where(x => x.Id == id)
-                .To<T>()
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
+
+            this.doctorsRepository.Delete(doctor);
+            await this.doctorsRepository.SaveChangesAsync();
+        }
+
+        // for Administration Area/ Doctors Controller/ Edit
+        public async Task UpdateAsync(string id, DoctorInputModel input)
+        {
+            var doctor = this.doctorsRepository.All().FirstOrDefault(x => x.Id == id);
+            doctor.FirstName = input.FirstName;
+            doctor.LastName = input.LastName;
+            doctor.Gender = input.Gender;
+            doctor.PhoneNumber = input.PhoneNumber;
+            doctor.ImageUrl = input.ImageUrl;
+            doctor.ClinicId = input.ClinicId;
+            doctor.SpecialtyId = input.SpecialtyId;
+            doctor.YearsOFExperience = input.YearsOFExperience;
+            doctor.WorksWithChildren = input.WorksWithChildren;
+            doctor.OnlineConsultation = input.OnlineConsultation;
+            doctor.About = input.About;
+            await this.doctorsRepository.SaveChangesAsync();
         }
 
         public async Task<T> GetByIdAsync<T>(string doctorId)
@@ -155,7 +212,6 @@
                 .FirstOrDefault()
                 .Id;
         }
-
 
         public T GetByAppointment<T>(string appointmentId)
         {

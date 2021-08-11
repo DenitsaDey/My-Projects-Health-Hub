@@ -22,7 +22,13 @@
 
         IEnumerable<T> GetAllWithDeleted<T>();
 
-        T GetById<T>(string id);
+        Task<string> AddAsync(DoctorInputModel input);
+
+        bool DoctorExists(string doctorId);
+
+        Task DeleteAsync(string id);
+
+        Task UpdateAsync(string id, DoctorInputModel input);
 
         Task<T> GetByIdAsync<T>(string doctorId);
 

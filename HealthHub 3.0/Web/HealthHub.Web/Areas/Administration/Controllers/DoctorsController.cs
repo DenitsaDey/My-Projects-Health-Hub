@@ -1,12 +1,12 @@
 ﻿namespace HealthHub.Web.Areas.Administration.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using HealthHub.Data;
     using HealthHub.Data.Models;
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
+    using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
@@ -31,7 +31,7 @@
         // GET: Administration/Doctors
         public IActionResult Index()
         {
-            var applicationDbContext = this.doctorsService.GetAllWithDeleted<Doctor>();
+            var applicationDbContext = this.doctorsService.GetAllWithDeleted<DoctorsViewModel>();
             return this.View(applicationDbContext);
         }
 
@@ -43,7 +43,7 @@
                 return this.NotFound();
             }
 
-            var doctor = this.doctorsService.GetById<Doctor>(id);
+            var doctor = this.doctorsService.GetByIdAsync<DoctorsViewModel>(id);
             if (doctor == null)
             {
                 return this.NotFound();
@@ -53,10 +53,13 @@
         }
 
         // GET: Administration/Doctors/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            this.ViewData["ClinicId"] = this.clinicsService.GetAllClinicIds();
-            this.ViewData["SpecialtyId"] = this.specialtiesService.GetAllSpecialtiesIds();
+            var clinics = this.clinicsService.GetAllClinics();
+            var specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
+
+            this.ViewData["Clinics"] = new SelectList(clinics, "Id", "Name");
+            this.ViewData["Specialties"] = new SelectList(specialties, "Id", "Name");
             return this.View();
         }
 
@@ -65,17 +68,23 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Gender,PhoneNumber,ImageUrl,ClinicId,SpecialtyId,YearsOFExperience,WorksWithChildren,OnlineConsultation,About,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Doctor doctor)
+        public async Task<IActionResult> Create(DoctorInputModel input)
         {
-            if (this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                this.doctorsService.Add(doctor);
-                await _context.SaveChangesAsync();
-                return this.RedirectToAction(nameof(this.Index));
+                var clinics = this.clinicsService.GetAllClinics();
+                var specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
+
+                this.ViewData["Clinics"] = new SelectList(clinics, "Id", "Name");
+                this.ViewData["Specialties"] = new SelectList(specialties, "Id", "Name");
+
+                return this.View(input);
             }
-            this.ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Id", doctor.ClinicId);
-            this.ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "Id", "Id", doctor.SpecialtyId);
-            return this.View(doctor);
+
+            // Add Doctor
+            await this.doctorsService.AddAsync(input);
+
+            return this.RedirectToAction("Index");
         }
 
         // GET: Administration/Doctors/Edit/5
@@ -86,14 +95,19 @@
                 return this.NotFound();
             }
 
-            var doctor = await _context.Doctors.FindAsync(id);
+            var doctor = await this.doctorsService.GetByIdAsync<DoctorInputModel>(id);
             if (doctor == null)
             {
                 return this.NotFound();
             }
-            this.ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Id", doctor.ClinicId);
-            this.ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "Id", "Id", doctor.SpecialtyId);
-            return View(doctor);
+
+            var clinics = this.clinicsService.GetAllClinics();
+            var specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
+
+            this.ViewData["Clinics"] = new SelectList(clinics, "Id", "Name");
+            this.ViewData["Specialties"] = new SelectList(specialties, "Id", "Name");
+
+            return this.View(doctor);
         }
 
         // POST: Administration/Doctors/Edit/5
@@ -101,22 +115,27 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,Gender,PhoneNumber,ImageUrl,ClinicId,SpecialtyId,YearsOFExperience,WorksWithChildren,OnlineConsultation,About,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Doctor doctor)
+        public async Task<IActionResult> Edit(string id, DoctorInputModel input)
         {
-            if (id != doctor.Id)
+            if (!this.ModelState.IsValid)
             {
-                return this.NotFound();
-            }
+                var clinics = this.clinicsService.GetAllClinics();
+                var specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
 
-            if (this.ModelState.IsValid)
+                this.ViewData["Clinics"] = new SelectList(clinics, "Id", "Name");
+                this.ViewData["Specialties"] = new SelectList(specialties, "Id", "Name");
+
+                return this.View(input);
+            }
+            else
             {
                 try
                 {
-                    _context.Update(doctor);
-                    await _context.SaveChangesAsync();
+                    await this.doctorsService.UpdateAsync(id, input);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    var doctor = await this.doctorsService.GetByIdAsync<DoctorsViewModel>(id);
                     if (!this.DoctorExists(doctor.Id))
                     {
                         return this.NotFound();
@@ -126,11 +145,9 @@
                         throw;
                     }
                 }
+
                 return this.RedirectToAction(nameof(this.Index));
             }
-            this.ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Id", doctor.ClinicId);
-            this.ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "Id", "Id", doctor.SpecialtyId);
-            return this.View(doctor);
         }
 
         // GET: Administration/Doctors/Delete/5
@@ -141,32 +158,28 @@
                 return this.NotFound();
             }
 
-            var doctor = await _context.Doctors
-                .Include(d => d.Clinic)
-                .Include(d => d.Specialty)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var doctor = await this.doctorsService.GetByIdAsync<DoctorsViewModel>(id);
             if (doctor == null)
             {
                 return this.NotFound();
             }
 
-            return View(doctor);
+            return this.View(doctor);
         }
 
         // POST: Administration/Doctors/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var doctor = await _context.Doctors.FindAsync(id);
-            _context.Doctors.Remove(doctor);
-            await _context.SaveChangesAsync();
+            await this.doctorsService.DeleteAsync(id);
             return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool DoctorExists(string id)
         {
-            return _context.Doctors.Any(e => e.Id == id);
+            return this.doctorsService.DoctorExists(id);
         }
     }
 }

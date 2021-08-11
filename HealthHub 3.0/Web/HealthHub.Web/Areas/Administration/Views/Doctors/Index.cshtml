@@ -1,23 +1,20 @@
-﻿@model IEnumerable<HealthHub.Data.Models.Doctor>
+﻿@model IEnumerable<HealthHub.Web.ViewModels.Doctor.DoctorsViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Doctors</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="appointment-btn scrollto" asp-action="Create">Add New Doctor</a>
 </p>
-<table class="table">
+<table class="table table-bordered table-hover" style="background-color:white">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
@@ -26,13 +23,10 @@
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
+                @Html.DisplayNameFor(model => model.ClinicName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Clinic)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Specialty)
+                @Html.DisplayNameFor(model => model.SpecialtyName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.YearsOFExperience)
@@ -43,21 +37,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.OnlineConsultation)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.About)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedOn)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -65,10 +44,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gender)
@@ -77,13 +53,10 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
+                @Html.DisplayFor(modelItem => item.ClinicName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Clinic.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Specialty.Id)
+                @Html.DisplayFor(modelItem => item.SpecialtyName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.YearsOFExperience)
@@ -93,21 +66,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OnlineConsultation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.About)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedOn)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
