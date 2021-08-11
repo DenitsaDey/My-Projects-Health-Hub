@@ -25,7 +25,7 @@
 
         public IEnumerable<DoctorsViewModel> MedicalStaff { get; set; }
 
-        public IEnumerable<InsuranceClinicsViewModel> InsuranceCompanies { get; set; }
+        public IEnumerable<InsuranceViewModel> InsuranceCompanies { get; set; }
 
         public double AverageRating { get; set; }
 

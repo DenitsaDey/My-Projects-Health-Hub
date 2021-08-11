@@ -9,8 +9,6 @@
 
     public class ClinicInputModel
     {
-        public string Id { get; set; }
-
         [Required]
         [MaxLength(ClinicNameMaxLength)]
         public string Name { get; set; }

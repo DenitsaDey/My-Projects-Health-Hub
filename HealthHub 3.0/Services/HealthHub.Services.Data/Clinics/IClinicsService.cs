@@ -11,10 +11,18 @@
 
         IEnumerable<ClinicViewModel> GetAllClinics();
 
+        IEnumerable<T> GetAllWithDeleted<T>();
+
         IEnumerable<string> GetAllClinicsNames();
 
         ClinicViewModel GetById(string clinicId);
 
         IEnumerable<string> GetAllClinicIds();
+
+        Task UpdateAsync(string id, ClinicEditInputModel input);
+
+        Task DeleteAsync(string id);
+
+        bool ClinicExists(string id);
     }
 }

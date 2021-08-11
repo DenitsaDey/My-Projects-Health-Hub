@@ -25,9 +25,9 @@
 
         public int YearsOFExperience { get; set; }
 
-        public string WorksWithChildren { get; set; }
+        public bool WorksWithChildren { get; set; }
 
-        public string OnlineConsultation { get; set; }
+        public bool OnlineConsultation { get; set; }
 
         public double AverageRating { get; set; }
 

@@ -1,95 +1,104 @@
-﻿@model HealthHub.Data.Models.Doctor
+﻿@using HealthHub.Data.Models.Enums 
+@model HealthHub.Web.ViewModels.Doctor.DoctorInputModel
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var clinics = this.ViewData["Clinics"] as SelectList;
+    var specialties = this.ViewData["Specialties"] as SelectList;
 }
 
 <h1>Create</h1>
 
-<h4>Doctor</h4>
+<h1>Doctor</h1>
 <hr />
-<div class="row">
+<div class="row" style="background-color:white">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+                <label asp-for="FirstName" class="control-label">First Name</label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <label asp-for="LastName" class="control-label">Last Name</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Gender" class="control-label"></label>
-                <select asp-for="Gender" class="form-control"></select>
+                <select asp-for="Gender" class="form-control">
+                    <option value="">Select</option>
+
+                    @foreach (var item in Html.GetEnumSelectList<Gender>())
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
+                <label asp-for="PhoneNumber" class="control-label">Phone number</label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
+                <label asp-for="ImageUrl" class="control-label">Image Url</label>
                 <input asp-for="ImageUrl" class="form-control" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClinicId" class="control-label"></label>
-                <select asp-for="ClinicId" class ="form-control" asp-items="ViewBag.ClinicId"></select>
+                <label asp-for="ClinicId" class="control-label">Clinic</label>
+                <select asp-for="ClinicId" class="form-control">
+                    <option value="">Select</option>
+
+                    @foreach (var clinic in clinics)
+                    {
+                        <option value="@clinic.Value">@clinic.Text</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="SpecialtyId" class="control-label"></label>
-                <select asp-for="SpecialtyId" class ="form-control" asp-items="ViewBag.SpecialtyId"></select>
+                Clinic is not available?
+                <input type="submit" asp-area="Administration" asp-controller="Clinics" asp-action="Create" value="Add new clinic" class="btn btn-primary" />
             </div>
             <div class="form-group">
-                <label asp-for="YearsOFExperience" class="control-label"></label>
+                <label asp-for="SpecialtyId" class="control-label">Specialty</label>
+                <select asp-for="SpecialtyId" class="form-control">
+                    <option value="">Select</option>
+
+                    @foreach (var specialty in specialties)
+                    {
+                        <option value="@specialty.Value">@specialty.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                Specialty is not available?
+                <input type="submit" asp-area="Administration" asp-controller="Specialties" asp-action="Create" value="Add new specialty" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <label asp-for="YearsOFExperience" class="control-label">Years of Experience</label>
                 <input asp-for="YearsOFExperience" class="form-control" />
                 <span asp-validation-for="YearsOFExperience" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="WorksWithChildren" /> @Html.DisplayNameFor(model => model.WorksWithChildren)
+                    <input class="form-check-input" asp-for="WorksWithChildren" />
+                    Works with children
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="OnlineConsultation" /> @Html.DisplayNameFor(model => model.OnlineConsultation)
+                    <input class="form-check-input" asp-for="OnlineConsultation" />
+                    Online consultations
                 </label>
             </div>
             <div class="form-group">
                 <label asp-for="About" class="control-label"></label>
-                <input asp-for="About" class="form-control" />
+                <textarea asp-for="About" class="form-control"></textarea>
                 <span asp-validation-for="About" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedOn" class="control-label"></label>
-                <input asp-for="DeletedOn" class="form-control" />
-                <span asp-validation-for="DeletedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" class="form-control" />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedOn" class="control-label"></label>
-                <input asp-for="ModifiedOn" class="form-control" />
-                <span asp-validation-for="ModifiedOn" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

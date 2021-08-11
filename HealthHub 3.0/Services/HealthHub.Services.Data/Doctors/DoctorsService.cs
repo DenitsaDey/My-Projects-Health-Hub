@@ -177,7 +177,7 @@
         }
 
         // for Administration Area/ Doctors Controller/ Edit
-        public async Task UpdateAsync(string id, DoctorInputModel input)
+        public async Task UpdateAsync(string id, DoctorEditInputModel input)
         {
             var doctor = this.doctorsRepository.All().FirstOrDefault(x => x.Id == id);
             doctor.FirstName = input.FirstName;

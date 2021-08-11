@@ -31,8 +31,8 @@
         // GET: Administration/Doctors
         public IActionResult Index()
         {
-            var applicationDbContext = this.doctorsService.GetAllWithDeleted<DoctorsViewModel>();
-            return this.View(applicationDbContext);
+            var doctors = this.doctorsService.GetAllWithDeleted<DoctorsViewModel>();
+            return this.View(doctors);
         }
 
         // GET: Administration/Doctors/Details/5
@@ -43,7 +43,7 @@
                 return this.NotFound();
             }
 
-            var doctor = this.doctorsService.GetByIdAsync<DoctorsViewModel>(id);
+            var doctor = this.doctorsService.GetByIdAsync<Doctor>(id);
             if (doctor == null)
             {
                 return this.NotFound();
@@ -95,7 +95,7 @@
                 return this.NotFound();
             }
 
-            var doctor = await this.doctorsService.GetByIdAsync<DoctorInputModel>(id);
+            var doctor = await this.doctorsService.GetByIdAsync<DoctorEditInputModel>(id);
             if (doctor == null)
             {
                 return this.NotFound();
@@ -115,7 +115,7 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, DoctorInputModel input)
+        public async Task<IActionResult> Edit(string id, DoctorEditInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -135,8 +135,7 @@
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    var doctor = await this.doctorsService.GetByIdAsync<DoctorsViewModel>(id);
-                    if (!this.DoctorExists(doctor.Id))
+                    if (!this.DoctorExists(input.Id))
                     {
                         return this.NotFound();
                     }

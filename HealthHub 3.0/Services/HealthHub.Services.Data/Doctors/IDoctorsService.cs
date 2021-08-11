@@ -28,7 +28,7 @@
 
         Task DeleteAsync(string id);
 
-        Task UpdateAsync(string id, DoctorInputModel input);
+        Task UpdateAsync(string id, DoctorEditInputModel input);
 
         Task<T> GetByIdAsync<T>(string doctorId);
 

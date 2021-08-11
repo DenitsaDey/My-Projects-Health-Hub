@@ -1,0 +1,73 @@
+﻿@model HealthHub.Web.ViewModels.Clinics.ClinicInputModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var areas = this.ViewData["Areas"] as SelectList;
+    var insuranceCompanies = this.ViewData["InsuranceCompanies"] as SelectList;
+}
+
+<h1>Create</h1>
+
+<h1>Clinic</h1>
+<hr />
+<div class="row" style="background-color:white">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MapUrl" class="control-label">Map Url</label>
+                <input asp-for="MapUrl" class="form-control" />
+                <span asp-validation-for="MapUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AreaId" class="control-label">Area</label>
+                <select asp-for="AreaId" class="form-control">
+                    <option value="">Select</option>
+
+                    @foreach (var area in areas)
+                    {
+                        <option value="@area.Value">@area.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                City Area is not available?
+                <input type="submit" asp-area="Administration" asp-controller="CityAreas" asp-action="Create" value="Add new clinic" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <label asp-for="InsuranceCompanies" class="control-label">Insurance Companies</label>
+                <select asp-for="InsuranceCompanies" class="form-control">
+                    <option value="">Select</option>
+
+                    @foreach (var area in areas)
+                    {
+                        <option value="@area.Value">@area.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                City Area is not available?
+                <input type="submit" asp-area="Administration" asp-controller="CityAreas" asp-action="Create" value="Add new clinic" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

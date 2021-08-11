@@ -1,12 +1,12 @@
 ﻿namespace HealthHub.Services.Data.Clinics
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
-    using HealthHub.Data.Models.Enums;
     using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Clinics;
@@ -19,6 +19,7 @@
         private readonly IDeletableEntityRepository<CityArea> cityAreasRepository;
         private readonly IDeletableEntityRepository<Doctor> doctorsRepository;
         private readonly IDeletableEntityRepository<InsuranceClinic> insuranceClinicsRepository;
+        private readonly IDeletableEntityRepository<Insurance> insurancesRepository;
         private readonly ICityAreasService cityAreasService;
 
         public ClinicsService(
@@ -26,28 +27,42 @@
         IDeletableEntityRepository<CityArea> cityAreasRepository,
         ICityAreasService cityAreasService,
         IDeletableEntityRepository<Doctor> doctorsRepository,
-        IDeletableEntityRepository<InsuranceClinic> insuranceClinicsRepository)
+        IDeletableEntityRepository<InsuranceClinic> insuranceClinicsRepository,
+        IDeletableEntityRepository<Insurance> insurancesRepository)
         {
             this.clinicsRepository = clinicsRepository;
             this.cityAreasRepository = cityAreasRepository;
             this.cityAreasService = cityAreasService;
             this.doctorsRepository = doctorsRepository;
             this.insuranceClinicsRepository = insuranceClinicsRepository;
+            this.insurancesRepository = insurancesRepository;
         }
 
         public async Task AddAsync(ClinicInputModel input)
         {
             var clinic = new Clinic
             {
-                Id = input.Id,
+                Id = Guid.NewGuid().ToString(),
                 Name = input.Name,
                 Address = input.Address,
-                AreaId = this.cityAreasRepository.All().FirstOrDefault(ca => ca.Id == input.AreaId).Id != null ?
-                this.cityAreasRepository.All().FirstOrDefault(ca => ca.Id == input.AreaId).Id :
-                this.cityAreasService.AddAsync(input.AreaName).ToString(),
+                AreaId = input.AreaId,
                 MapUrl = input.MapUrl,
             };
-            await this.cityAreasRepository.SaveChangesAsync();
+
+            foreach (var inputInsuranceInClinic in input.InsuranceCompanies)
+            {
+                var insuranceInClinic = this.insuranceClinicsRepository.All().FirstOrDefault(x => x.Id == inputInsuranceInClinic.Id);
+                if (insuranceInClinic == null)
+                {
+                    insuranceInClinic = new InsuranceClinic { ClinicId = clinic.Id, InsuranceId = inputInsuranceInClinic.InsuranceId };
+                }
+
+                clinic.InsuranceCompanies.Add(insuranceInClinic);
+
+                await this.insuranceClinicsRepository.AddAsync(insuranceInClinic);
+                await this.insuranceClinicsRepository.SaveChangesAsync();
+            }
+
             await this.clinicsRepository.AddAsync(clinic);
             await this.clinicsRepository.SaveChangesAsync();
         }
@@ -65,7 +80,7 @@
                     AreaId = c.AreaId,
                     AreaName = c.Area.Name,
                     MedicalStaff = new List<DoctorsViewModel>(),
-                    InsuranceCompanies = new List<InsuranceClinicsViewModel>(),
+                    InsuranceCompanies = new List<InsuranceViewModel>(),
                 })
                 .ToList();
 
@@ -86,10 +101,10 @@
 
                 clinic.InsuranceCompanies = this.insuranceClinicsRepository.All()
                     .Where(ic => ic.ClinicId == clinic.Id)
-                    .Select(ic => new InsuranceClinicsViewModel
+                    .Select(ic => new InsuranceViewModel
                     {
-                        Id = ic.Id,
-                        InsuranceId = ic.InsuranceId,
+                        Id = ic.Insurance.Id,
+                        Name = ic.Insurance.Name,
                     })
                     .ToList();
 
@@ -103,12 +118,53 @@
             return allClinics;
         }
 
+        // for Administration Area/ Clinics Controller/ Index
+        public IEnumerable<T> GetAllWithDeleted<T>()
+        {
+            return this.clinicsRepository.AllWithDeleted()
+                .Include(c => c.Area)
+                .Include(c => c.InsuranceCompanies)
+                .To<T>()
+                .ToList();
+        }
+
         // for Admin Area / Doctors Controller/ Create
         public IEnumerable<string> GetAllClinicIds()
         {
             return this.clinicsRepository.All()
                 .Select(x => x.Id)
                 .ToList();
+        }
+
+        // for Administration Area/ Clinics Controller/ Edit
+        public async Task UpdateAsync(string id, ClinicEditInputModel input)
+        {
+            var clinic = this.clinicsRepository.All().FirstOrDefault(x => x.Id == id);
+            clinic.Name = input.Name;
+            clinic.MapUrl = input.MapUrl;
+            clinic.AreaId = input.AreaId;
+            clinic.Address = input.Address;
+            clinic.MedicalStaff = this.doctorsRepository.All().Where(x => x.ClinicId == id).ToList();
+            clinic.InsuranceCompanies = this.insuranceClinicsRepository.All().Where(x => x.ClinicId == id).ToList();
+
+            await this.clinicsRepository.SaveChangesAsync();
+        }
+
+        // for Administration Area/ Clinics Controller/
+        public bool ClinicExists(string id)
+        {
+            return this.clinicsRepository.All().Any(x => x.Id == id);
+        }
+
+        // for Administration Area/ Clinics Controller/ Delete
+        public async Task DeleteAsync(string id)
+        {
+            var clinic = await this.clinicsRepository.All()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            this.clinicsRepository.Delete(clinic);
+            await this.clinicsRepository.SaveChangesAsync();
         }
 
         public IEnumerable<string> GetAllClinicsNames()
@@ -118,8 +174,6 @@
                 .Select(c => c.Name)
                 .ToList();
         }
-
-
 
         public ClinicViewModel GetById(string clinicId)
         {
@@ -147,10 +201,10 @@
                     .ToList(),
                     InsuranceCompanies = this.insuranceClinicsRepository.All()
                     .Where(ic => ic.ClinicId == clinicId)
-                    .Select(ic => new InsuranceClinicsViewModel
+                    .Select(ic => new InsuranceViewModel
                     {
-                        Id = ic.Id,
-                        InsuranceId = ic.InsuranceId,
+                        Id = ic.Insurance.Id,
+                        Name = ic.Insurance.Name,
                     })
                     .ToList(),
                 })

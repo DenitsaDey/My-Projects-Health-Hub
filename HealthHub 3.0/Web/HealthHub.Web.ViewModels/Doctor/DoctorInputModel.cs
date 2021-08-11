@@ -3,7 +3,9 @@
     using System.ComponentModel.DataAnnotations;
 
     using HealthHub.Common;
+    using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
+    using HealthHub.Services.Mapping;
 
     public class DoctorInputModel
     {
