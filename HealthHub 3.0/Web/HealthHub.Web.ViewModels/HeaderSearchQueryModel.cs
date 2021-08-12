@@ -1,8 +1,8 @@
 ﻿namespace HealthHub.Web.ViewModels
 {
-    using HealthHub.Web.ViewModels.Clinics;
-    using HealthHub.Web.ViewModels.Doctor;
     using System.Collections.Generic;
+
+    using HealthHub.Web.ViewModels.Clinics;
 
     public class HeaderSearchQueryModel
     {

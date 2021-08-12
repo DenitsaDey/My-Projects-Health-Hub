@@ -6,6 +6,7 @@
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
+    using HealthHub.Data.Models.Enums;
     using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.EntityFrameworkCore;
@@ -26,37 +27,38 @@
             this.specialtyRepository = specialtyRepository;
         }
 
-        public async Task<DoctorsHeaderViewModel> GetAllSearchedAsync(
+        public async Task<DoctorsFilterViewModel> GetAllSearchedAsync(
             string specialtyId,
             string cityAreaId,
-            string clinicId,
+            string insuranceId,
+            bool worksWithChilderen,
+            bool onlineConsultations,
+            Gender gender,
+            SearchSorting sorting,
             string searchName,
             int pageNumber,
             int itemsPerPage)
-
-        // SearchSorting sorting,
-        // Gender gender,
-        // string insuranceId,
         {
             var doctorsQuery = this.doctorsRepository.AllAsNoTracking()
                 .OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
                 .AsQueryable();
-            if (!string.IsNullOrEmpty(specialtyId))
+
+            if (!string.IsNullOrWhiteSpace(specialtyId))
             {
                 doctorsQuery = doctorsQuery
                     .Where(d => d.Specialty.Id == specialtyId);
             }
 
-            if (!string.IsNullOrEmpty(cityAreaId))
+            if (!string.IsNullOrWhiteSpace(cityAreaId))
             {
                 doctorsQuery = doctorsQuery
                     .Where(d => d.Clinic.Area.Id == cityAreaId);
             }
 
-            if (!string.IsNullOrEmpty(clinicId))
+            if (!string.IsNullOrWhiteSpace(insuranceId))
             {
                 doctorsQuery = doctorsQuery
-                    .Where(d => d.Clinic.Id == clinicId);
+                    .Where(d => d.Clinic.InsuranceCompanies.Any(x => x.InsuranceId == insuranceId));
             }
 
             if (!string.IsNullOrWhiteSpace(searchName))
@@ -65,26 +67,31 @@
                     .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(searchName.ToLower()));
             }
 
-            // doctorsQuery = sorting switch
-            // {
-            //    SearchSorting.DateCreated => doctorsQuery.OrderByDescending(d => d.Id),
-            //    SearchSorting.Rating => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average()),
-            //    SearchSorting.AppointmentsCount => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Count),
-            //    _ => doctorsQuery.OrderByDescending(d => d.Id),
-            // };
+            if (worksWithChilderen)
+            {
+                doctorsQuery = doctorsQuery.Where(d => d.WorksWithChildren);
+            }
 
-            // doctorsQuery = gender switch
-            // {
-            //    Gender.Male => doctorsQuery.Where(d => d.Gender == Gender.Male).OrderByDescending(d => d.Id),
-            //    Gender.Female => doctorsQuery.Where(d => d.Gender == Gender.Female).OrderByDescending(d => d.Id),
-            //    _ => doctorsQuery.OrderByDescending(d => d.Id),
-            // };
+            if (onlineConsultations)
+            {
+                doctorsQuery = doctorsQuery.Where(d => d.OnlineConsultation);
+            }
 
-            // if (!string.IsNullOrWhiteSpace(insuranceId))
-            // {
-            //    doctorsQuery = doctorsQuery
-            //        .Where(d => d.Clinic.InsuranceCompanies.Any(ic => ic.InsuranceID == insuranceId));
-            // }
+            doctorsQuery = sorting switch
+            {
+                SearchSorting.DateCreated => doctorsQuery.OrderByDescending(d => d.CreatedOn),
+                SearchSorting.Rating => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average()),
+                SearchSorting.AppointmentsCount => doctorsQuery.OrderByDescending(d => d.ScheduledAppointments.Count),
+                _ => doctorsQuery,
+            };
+
+            doctorsQuery = gender switch
+            {
+                Gender.Male => doctorsQuery.Where(d => d.Gender == Gender.Male),
+                Gender.Female => doctorsQuery.Where(d => d.Gender == Gender.Female),
+                _ => doctorsQuery,
+            };
+
             var allDoctors = await doctorsQuery
                 .Skip((pageNumber - 1) * itemsPerPage).Take(itemsPerPage)
                 .Select(d => new DoctorsViewModel
@@ -97,7 +104,7 @@
                 })
                 .ToListAsync();
 
-            var result = new DoctorsHeaderViewModel
+            var result = new DoctorsFilterViewModel
             {
                 Doctors = allDoctors,
                 DoctorsCount = doctorsQuery.ToList().Count(),

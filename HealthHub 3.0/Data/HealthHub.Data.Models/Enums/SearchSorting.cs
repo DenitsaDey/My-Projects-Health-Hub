@@ -2,8 +2,9 @@
 {
     public enum SearchSorting
     {
-        DateCreated = 0,
-        Rating = 1,
-        AppointmentsCount = 2,
+        // SortBy = 0,
+        DateCreated = 1,
+        Rating = 2,
+        AppointmentsCount = 3,
     }
 }

@@ -4,11 +4,15 @@
 
     using HealthHub.Data.Models.Enums;
 
-    public class DoctorsHeaderViewModel : HeaderSearchQueryModel
+    public class DoctorsFilterViewModel : HeaderSearchQueryModel
     {
         public IEnumerable<DoctorsViewModel> Doctors { get; set; }
 
+        public string CityAreaId { get; set; }
+
         public IEnumerable<CityAreasViewModel> CityAreas { get; set; }
+
+        public string SpecialtyId { get; set; }
 
         public IEnumerable<SpecialtyViewModel> Specialties { get; set; }
 

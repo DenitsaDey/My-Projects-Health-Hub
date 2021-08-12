@@ -3,19 +3,21 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using HealthHub.Data.Models.Enums;
     using HealthHub.Web.ViewModels.Doctor;
 
     public interface IDoctorsService
     {
-        Task<DoctorsHeaderViewModel> GetAllSearchedAsync(
+        Task<DoctorsFilterViewModel> GetAllSearchedAsync(
             string specialtyId,
             string cityAreaId,
-            string clinicId,
-            string name,
+            string insuranceId,
+            bool worksWithChilderen,
+            bool onlineConsultations,
+            Gender gender,
+            SearchSorting sorting,
+            string searchName,
             int pageNumber,
-            //SearchSorting sorting,
-            //Gender gender,
-            //string insuranceId,
             int itemsPerPage);
 
         IEnumerable<T> GetAll<T>();

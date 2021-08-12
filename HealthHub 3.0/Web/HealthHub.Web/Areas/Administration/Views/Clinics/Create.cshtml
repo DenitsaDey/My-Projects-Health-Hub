@@ -45,9 +45,9 @@
                 <select asp-for="InsuranceCompanies" class="form-control">
                     <option value="">Select</option>
 
-                    @foreach (var area in areas)
+                    @foreach (var insurance in insuranceCompanies)
                     {
-                        <option value="@area.Value">@area.Text</option>
+                        <option value="@insurance.Value">@insurance.Text</option>
                     }
                 </select>
             </div>

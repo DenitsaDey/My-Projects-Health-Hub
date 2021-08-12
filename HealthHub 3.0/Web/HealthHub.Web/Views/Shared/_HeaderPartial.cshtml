@@ -42,7 +42,7 @@
         </nav>
         <!-- .navbar -->
 
-        <a asp-area="" asp-controller="Doctors" asp-action="All" class="appointment-btn scrollto" area-hidden="true"><span>Find a </span>Doctor</a>
+        <a asp-area="" asp-controller="Doctors" asp-action="All" class="appointment-btn scrollto" area-hidden="true" asp-route-searchName="@Model.SearchName"><span>Find a </span>Doctor</a>
         <a asp-area="" asp-controller="Appointment" asp-action="Index" class="appointment-btn scrollto" area-hidden="true"><span>My </span>Appointments</a>
 
     </div>
