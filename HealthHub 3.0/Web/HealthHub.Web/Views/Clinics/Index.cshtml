@@ -1,18 +1,55 @@
-﻿@model ClinicHeaderViewModel
+﻿@model ClinicFilterViewModel
 @{
     this.ViewData["Title"] = "Clinics";
+    var cityAreas = this.ViewData["CityAreas"] as SelectList;
+    var insuranceCompanies = this.ViewData["InsuranceCompanies"] as SelectList;
+    var specialties = this.ViewData["Specialties"] as SelectList;
 }
 
-<partial name="_HeaderPartial" />
+<partial name="_HeaderPartial"/>
+<!-- ======= Filtering ======= -->
+<form method="get">
+    <header id="header">
 
+        <div class="container d-flex align-items-center">
+
+
+            <div class="row mb-5">
+                <div class="form-group col-md-2">
+                    <div class="form-group">
+                        @Html.DropDownList("specialtyId", specialties, "Specialty", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <div class="form-group">
+                        @Html.DropDownList("cityAreaId", cityAreas, "City Area", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <div class="form-group">
+                        @Html.DropDownList("insuranceId", insuranceCompanies, "Insurance", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="submit" class="appointment-btn" value="Filter" />
+                </div>
+                <div class="form-group col-md-2">
+                    <a asp-area="" asp-controller="Clinics" asp-action="Index" class="appointment-btn scrollto" area-hidden="true"><span>Reset</span></a>
+                </div>
+            </div>
+        </div>
+    </header>
+</form>
+
+<!-- End Filtering -->
 <section id="doctors" class="doctors">
     <div class="container">
         <div class="row">
-            @if (!Model.Clinics.Any())
+            @if (!Model.FilteredClinics.Any())
             {
                 <h2 class="text-center"> No clinics found by the given criteria!</h2>
             }
-            @foreach (var clinic in Model.Clinics)
+            @foreach (var clinic in Model.FilteredClinics)
             {
                 <div class="col-lg-6">
                     <div class="member d-flex align-items-start">

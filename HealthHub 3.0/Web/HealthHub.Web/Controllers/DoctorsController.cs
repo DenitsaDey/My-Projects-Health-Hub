@@ -58,6 +58,7 @@
                 query.OnlineConsultation,
                 query.Gender,
                 query.Sorting,
+                query.ClinicId,
                 searchName,
                 pageId,
                 ItemsPerPage);
@@ -83,9 +84,6 @@
             query.Specialties = viewModel.Specialties;
             query.InsuranceCompanies = viewModel.InsuranceCompanies;
             query.Clinics = viewModel.Clinics;
-            query.WorksWithChildren = viewModel.WorksWithChildren;
-            query.OnlineConsultation = viewModel.OnlineConsultation;
-            query.Gender = viewModel.Gender;
             query.Paging = viewModel.Paging;
 
             return this.View(query);

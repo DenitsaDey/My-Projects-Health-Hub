@@ -16,6 +16,7 @@
             bool onlineConsultations,
             Gender gender,
             SearchSorting sorting,
+            string clinicId,
             string searchName,
             int pageNumber,
             int itemsPerPage);

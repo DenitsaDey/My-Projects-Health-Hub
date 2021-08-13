@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210808030059_InitialCreate")]
+    [Migration("20210813010018_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,8 +175,8 @@ namespace HealthHub.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Message")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");

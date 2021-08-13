@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using HealthHub.Data.Models.Enums;
     using HealthHub.Web.ViewModels.Clinics;
 
     public interface IClinicsService
@@ -10,6 +11,14 @@
         Task AddAsync(ClinicInputModel input);
 
         IEnumerable<ClinicViewModel> GetAllClinics();
+
+        Task<ClinicFilterViewModel> GetAllSearchedAsync(
+            string specialtyId,
+            string cityAreaId,
+            string insuranceId,
+            SearchSorting sorting,
+            int pageNumber,
+            int itemsPerPage);
 
         IEnumerable<T> GetAllWithDeleted<T>();
 

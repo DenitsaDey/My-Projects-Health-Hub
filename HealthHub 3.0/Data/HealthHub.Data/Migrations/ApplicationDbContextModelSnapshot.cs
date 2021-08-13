@@ -173,8 +173,8 @@ namespace HealthHub.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Message")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");

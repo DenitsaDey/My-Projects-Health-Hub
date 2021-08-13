@@ -35,6 +35,7 @@
             bool onlineConsultations,
             Gender gender,
             SearchSorting sorting,
+            string clinicId,
             string searchName,
             int pageNumber,
             int itemsPerPage)
@@ -59,6 +60,12 @@
             {
                 doctorsQuery = doctorsQuery
                     .Where(d => d.Clinic.InsuranceCompanies.Any(x => x.InsuranceId == insuranceId));
+            }
+
+            if (!string.IsNullOrWhiteSpace(clinicId))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Clinic.Id == clinicId);
             }
 
             if (!string.IsNullOrWhiteSpace(searchName))
