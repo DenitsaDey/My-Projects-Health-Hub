@@ -20,7 +20,7 @@
 
         Task<IEnumerable<T>> GetPastByPatientAsync<T>(string patientId);
 
-        Task AddAppointmentAsync(string patientId, string doctorId, string serviceId, string message, DateTime dateTime);
+        Task<string> AddAppointmentAsync(string patientId, string doctorId, string serviceId, string message, DateTime dateTime);
 
         Task ChangeAppointmentStatusAsync(string appointmentId, string status);
 

@@ -99,7 +99,7 @@
             return allAppointments;
         }
 
-        public async Task AddAppointmentAsync(string patientId, string doctorId, string serviceId, string message, DateTime dateTime)
+        public async Task<string> AddAppointmentAsync(string patientId, string doctorId, string serviceId, string message, DateTime dateTime)
         {
             var newAppointment = new Appointment
             {
@@ -114,6 +114,9 @@
 
             await this.appointmentsRepository.AddAsync(newAppointment);
             await this.appointmentsRepository.SaveChangesAsync();
+
+            // for the purpose of sending a confirmation email referring to the specific appointment that has been requetsed (Appointment/Book)
+            return newAppointment.Id;
         }
 
         public async Task ChangeAppointmentStatusAsync(string appointmentId, string status)

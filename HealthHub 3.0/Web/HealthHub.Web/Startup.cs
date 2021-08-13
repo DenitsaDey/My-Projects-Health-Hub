@@ -67,6 +67,8 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
+            services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<IAppointmentsService, AppointmentsService>();
             services.AddTransient<IDateTimeParserService, DateTimeParserService>();
             services.AddTransient<ICityAreasService, CityAreasService>();
@@ -77,7 +79,6 @@
             services.AddTransient<ISpecialtiesService, SpecialtiesService>();
             services.AddTransient<IInsuranceService, InsuranceService>();
             services.AddTransient<IRatingsService, RatingsService>();
-            services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ICityAreasScraperService, CityAreasScraperService>();
             services.AddTransient<IInsuranceScraperService, InsuranceScraperService>();
             services.AddTransient<IRatingPopulatingService, RatingPopulatingService>();
