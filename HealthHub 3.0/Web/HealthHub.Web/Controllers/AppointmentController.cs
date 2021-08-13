@@ -182,5 +182,10 @@
 
             return this.RedirectToAction(nameof(this.Details), new { appointmentId });
         }
+
+        public async Task SendReminderEmail()
+        {
+
+        }
     }
 }
