@@ -76,19 +76,19 @@ However, Rating Seeding has to be done by the Admin once the rest of the data ha
 
 ### Home Page
 
-<img width="953" alt="Home page" src="https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910498/Picture1_qqgaun.png">
+<img width="953" alt="Home page" src="https://res.cloudinary.com/doh2fp7hz/image/upload/v1628912885/Screenshot_2021-08-14_064429_elza2t.png">
 
 ### Search Doctors
 
-![HealthHub-SearchDoctors](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910497/Picture2_sgdwit.png)
+<img width="953" alt="Search Doctors" src="https://res.cloudinary.com/doh2fp7hz/image/upload/v1628912885/Screenshot_2021-08-14_064653_inf6d8.png">
 
-### Make An Appointment Page
+### Book An Appointment Page
 
-![HealthHub-MakeAnAppointment](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910497/Picture3_jleglp.png)
+<img width="953" alt="Book an Appointment" src="https://res.cloudinary.com/doh2fp7hz/image/upload/v1628912885/Screenshot_2021-08-14_064609_izomsu.png">
 
 ### Clinic Details
 
-![HealthHub-ClinicDetails](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910497/Picture4_w2mpls.png)
+<img width="953" alt="Clinic Details" src="https://res.cloudinary.com/doh2fp7hz/image/upload/v1628912885/Screenshot_2021-08-14_064744_gqhhhf.png">
 
 ## License
 
