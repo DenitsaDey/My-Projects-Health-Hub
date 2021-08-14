@@ -2,7 +2,7 @@
 
 Health Hub is created as a platform that allows patients to effortlessly find doctors and book appointments online.
 
-# :memo:  This is my defense project for ASP.NET Core Course at [SoftUni](https://softuni.org). (Jun-Aug 2021) 
+This is my defense project for ASP.NET Core Course at [SoftUni](https://softuni.org). (Jun-Aug 2021) 
 Note: The project is created without any current knowledge of JavaScript, kindly disregard discrepancies related to it.
 
 ## :information_source: Overview
