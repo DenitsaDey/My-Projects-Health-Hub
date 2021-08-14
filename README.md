@@ -1,6 +1,6 @@
-# HealthHub
-
 ![](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628911764/Screenshot_2021-08-14_062859_m2cec1.png)
+
+# HealthHub
 
 Health Hub is created as a platform that allows patients to effortlessly find doctors and book appointments online.
 
