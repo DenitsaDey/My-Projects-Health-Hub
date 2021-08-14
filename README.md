@@ -8,6 +8,14 @@ This is my defense project for ASP.NET Core Course at [SoftUni](https://softuni.
 
 Note: The project is created without any current knowledge of JavaScript, kindly disregard discrepancies related to it.
 
+## Table of Contents
+1. [Overview](https://github.com/DenitsaDey/My-Projects#overview)
+2. [Built With](https://github.com/DenitsaDey/My-Projects#built-with)
+3. [Application Configurations](https://github.com/DenitsaDey/My-Projects#application-configurations)
+4. [Screenshots](https://github.com/DenitsaDey/My-Projects#screenshots)
+5. [Bootstrap Template](https://github.com/DenitsaDey/My-Projects#bootstrap-template)
+6. [Acknowledgements](https://github.com/DenitsaDey/My-Projects#screenshots#acknowledgements)
+
 ## :information_source: Overview
 &nbsp;&nbsp;&nbsp;&nbsp;**Health Hub** is a web application that connects doctors and patients. It has the following functionality:
 
@@ -64,19 +72,21 @@ would happen once you run the application, including Test Accounts:
 
 However, Rating Seeding has to be done by the Admin once the rest of the data has been seeded. This can be done from the "Import Ratings" button on the home page.
 
-## Screenshot - Home Page
+## Screenshots
 
-![HealthHub-HomePage](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910498/Picture1_qqgaun.png)
+### Home Page
 
-## Screenshot - Search Doctors
+<img width="953" alt="Home page" src="https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910498/Picture1_qqgaun.png">
+
+### Search Doctors
 
 ![HealthHub-SearchDoctors](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910497/Picture2_sgdwit.png)
 
-## Screenshot - Make An Appointment Page
+### Make An Appointment Page
 
 ![HealthHub-MakeAnAppointment](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910497/Picture3_jleglp.png)
 
-## Screenshot - Clinic Details
+### Clinic Details
 
 ![HealthHub-ClinicDetails](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628910497/Picture4_w2mpls.png)
 
