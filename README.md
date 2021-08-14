@@ -1,5 +1,8 @@
 # HealthHub
 
+## &copy; HealthHub&trade; Logo
+![](https://res.cloudinary.com/doh2fp7hz/image/upload/v1628911764/Screenshot_2021-08-14_062859_m2cec1.png)
+
 Health Hub is created as a platform that allows patients to effortlessly find doctors and book appointments online.
 
 This is my defense project for ASP.NET Core Course at [SoftUni](https://softuni.org). (Jun-Aug 2021) 
@@ -59,6 +62,7 @@ would happen once you run the application, including Test Accounts:
   - Patient: patient@patient.com / password: 123456
   - Doctor: doctor@doctor.com / password: 123456
   - Admin: admin@admin.com / password: 123456
+
 However, Rating Seeding has to be done by the Admin once the rest of the data has been seeded. This can be done from the "Import Ratings" button on the home page.
 
 ## Screenshot - Home Page
