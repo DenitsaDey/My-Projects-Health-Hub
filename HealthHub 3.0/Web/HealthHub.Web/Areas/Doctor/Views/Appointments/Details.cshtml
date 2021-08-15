@@ -3,6 +3,7 @@
     this.ViewData["Title"] = "Appointment Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<partial name="_DoctorHeaderPartial" />
 
 <section id="appointment" class="appointment section-bg">
 
@@ -35,24 +36,24 @@
                             </span>
                         </div>
                     </div>
-                        @if (@Model.AppointmentStatus.ToString() == "Requested")
-                        {
-                            <form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="Confirm" id="confirmAppointment" asp-route-appointmentId="@Model.Id">
-                            </form>
-                            <a class="btn btn-outline-danger btn-sm"
-                               data-toggle="modal" data-target="#modalConfirm">
-                                Confirm
-                            </a>
-                         }
-                         @if (@Model.AppointmentStatus.ToString() == "Requested" || @Model.AppointmentStatus.ToString() == "Confirmed")
-                         {
-                                 <form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="Cancel" id="cancelAppointment" asp-route-appointmentId="@Model.Id">
-                                 </form>
-                                 <a class="btn btn-outline-danger btn-sm"
-                                    data-toggle="modal" data-target="#modalCancel">
-                                     Cancel
-                                 </a>
-                          }
+                    @if (@Model.AppointmentStatus.ToString() == "Requested")
+                    {
+                        <form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="Confirm" id="confirmAppointment" asp-route-appointmentId="@Model.Id">
+                        </form>
+                        <a class="btn btn-outline-danger btn-sm"
+                           data-toggle="modal" data-target="#modalConfirm">
+                            Confirm
+                        </a>
+                    }
+                    @if (@Model.AppointmentStatus.ToString() == "Requested" || @Model.AppointmentStatus.ToString() == "Confirmed")
+                    {
+                        <form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="Cancel" id="cancelAppointment" asp-route-appointmentId="@Model.Id">
+                        </form>
+                        <a class="btn btn-outline-danger btn-sm"
+                           data-toggle="modal" data-target="#modalCancel">
+                            Cancel
+                        </a>
+                    }
                     <div class="appointment-btn scrollto">
                         <a class="appointment-btn scrollto" asp-area="Doctor" asp-controller="Appointments" asp-action="Index">
                             <h7>My Appointments</h7>
@@ -90,7 +91,7 @@
 </div>
 
 @section Scripts {
-    
+
     <script src="~/js/rating-static.js" asp-append-version="true"></script>
 
     <script type="text/javascript">

@@ -1,4 +1,4 @@
-﻿@using HealthHub.Data.Models.Enums 
+﻿@using HealthHub.Data.Models.Enums
 @model HealthHub.Web.ViewModels.Doctor.DoctorInputModel
 
 @{
@@ -7,6 +7,7 @@
     var clinics = this.ViewData["Clinics"] as SelectList;
     var specialties = this.ViewData["Specialties"] as SelectList;
 }
+<partial name="_AdminHeaderPartial" />
 
 <h1>Create</h1>
 
@@ -31,7 +32,7 @@
                 <select asp-for="Gender" class="form-control">
                     <option value="">Select</option>
 
-                    @foreach (var item in Html.GetEnumSelectList<Gender>())
+                    @foreach (var item in Html.GetEnumSelectList<Gender>().Skip(1))
                     {
                         <option value="@item.Value">@item.Text</option>
                     }
@@ -60,50 +61,52 @@
                 </select>
             </div>
             <div class="form-group">
-                Clinic is not available?
-                <input type="submit" asp-area="Administration" asp-controller="Clinics" asp-action="Create" value="Add new clinic" class="btn btn-primary" />
+                <div class="form-group">
+                    Clinic is not available?
+                    <input type="submit" asp-area="Administration" asp-controller="Clinics" asp-action="Create" value="Add new clinic" class="cancel" />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="SpecialtyId" class="control-label">Specialty</label>
-                <select asp-for="SpecialtyId" class="form-control">
-                    <option value="">Select</option>
+                <div class="form-group">
+                    <label asp-for="SpecialtyId" class="control-label">Specialty</label>
+                    <select asp-for="SpecialtyId" class="form-control">
+                        <option value="">Select</option>
 
-                    @foreach (var specialty in specialties)
-                    {
-                        <option value="@specialty.Value">@specialty.Text</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                Specialty is not available?
-                <input type="submit" asp-area="Administration" asp-controller="Specialties" asp-action="Create" value="Add new specialty" class="btn btn-primary" />
-            </div>
-            <div class="form-group">
-                <label asp-for="YearsOFExperience" class="control-label">Years of Experience</label>
-                <input asp-for="YearsOFExperience" class="form-control" />
-                <span asp-validation-for="YearsOFExperience" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="WorksWithChildren" />
-                    Works with children
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="OnlineConsultation" />
-                    Online consultations
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="About" class="control-label"></label>
-                <textarea asp-for="About" class="form-control"></textarea>
-                <span asp-validation-for="About" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                        @foreach (var specialty in specialties)
+                        {
+                            <option value="@specialty.Value">@specialty.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    Specialty is not available?
+                        <input type="submit" asp-area="Administration" asp-controller="Specialties" asp-action="Create" value="Add new specialty" class="cancel" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="YearsOFExperience" class="control-label">Years of Experience</label>
+                    <input asp-for="YearsOFExperience" class="form-control" />
+                    <span asp-validation-for="YearsOFExperience" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="WorksWithChildren" />
+                        Works with children
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="OnlineConsultation" />
+                        Online consultations
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="About" class="control-label"></label>
+                    <textarea asp-for="About" class="form-control"></textarea>
+                    <span asp-validation-for="About" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+</form>
     </div>
 </div>
 

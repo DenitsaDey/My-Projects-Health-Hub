@@ -1,108 +1,62 @@
-﻿@model HealthHub.Data.Models.Doctor
-
+﻿@model HealthHub.Web.ViewModels.Doctor.DoctorsViewModel
 @{
-    ViewData["Title"] = "Details";
+    this.ViewData["Title"] = "Dr. " + Model.FullName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<partial name="_AdminHeaderPartial" />
 
-<h1>Details</h1>
+<div class="row row-eq-height">
+    <!-- Info Box -->
+    <div class="col-lg-4 info_box_col">
+        <div class="info_box">
+            <div class="info_image"><img src="@Model.ImageUrl" width="400" alt=""></div>
+            <div class="info_content">
+                <div class="info_title">@Model.FullName</div>
 
-<div>
-    <h4>Doctor</h4>
-    <hr />
-    <dl class="row" style="background-color:white">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Clinic)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Clinic.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Specialty)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Specialty.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.YearsOFExperience)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.YearsOFExperience)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WorksWithChildren)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WorksWithChildren)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OnlineConsultation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OnlineConsultation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.About)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.About)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedOn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedOn)
-        </dd>
-    </dl>
+                <div class="info_text">
+                    Rating: &nbsp;&nbsp;
+                    <span class="star-rating">
+                        <span class="fa fa-star-o" data-rating="1"></span>
+                        <span class="fa fa-star-o" data-rating="2"></span>
+                        <span class="fa fa-star-o" data-rating="3"></span>
+                        <span class="fa fa-star-o" data-rating="4"></span>
+                        <span class="fa fa-star-o" data-rating="5"></span>
+                        <input type="hidden" name="whatever1" class="rating-value" value="@Model.AverageRating">
+                    </span>
+                    <span>&nbsp; ( @Model.AverageRating.ToString("F") / 5.00 ) from @Model.RatingsCount votes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Panel -->
+    <div class="col-lg-4 list-group-item-light">
+        <h2>About:</h2>
+        <div class="tab_panel active">
+            <div class="tab_panel_content">
+                <div class="info_content">
+                    <div class="info_title"><strong> Dr. @Model.FullName</strong> </div>
+                    <div class="info_text" style="padding-top:20px"><strong>Specialty: </strong>@Model.SpecialtyName</div>
+                    <div class="info_text"><strong>Years of Experience: </strong>@Model.YearsOFExperience</div>
+                    <div class="info_text"><strong>Clinic: </strong>@Model.ClinicName</div>
+                    <div class="info_text"><strong>Phone Number: </strong>@Model.PhoneNumber</div>
+                    <div class="info_text"><strong>Works with children: </strong>@(Model.WorksWithChildren? "Yes" : "No")</div>
+                    <div class="info_text"><strong>Available for online consulations: </strong>@(Model.OnlineConsultation? "Yes" : "No")</div>
+                </div>
+                <div class="tab_list">
+                    <div class="tab_list_text" style="padding-top:30px"><p>@Model.About</p></div>
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/rating-static.js" asp-append-version="true"></script>
+}
+
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

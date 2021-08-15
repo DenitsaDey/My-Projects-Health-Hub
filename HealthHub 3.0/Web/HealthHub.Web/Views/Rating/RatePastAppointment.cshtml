@@ -16,7 +16,7 @@
 }
 else
 {
-    <div class="row row-eq-height">
+    <div class="row row-eq-height" style="background-color:white">
         <!-- Info Box -->
         <div class="col-lg-4 info_box_col">
             <div class="info_box">
@@ -56,9 +56,12 @@ else
                         <input asp-for="@Model.DoctorId" value="@Model.DoctorId" class="form-control" hidden>
                         <input asp-for="@Model.Id" value="@Model.Id" class="form-control" hidden>
                     </div>
+                    <div>
+                        <textarea asp-for="AdditionalComments" class="form-control" rows="5" placeholder="Additional comments"></textarea>                    
+                    </div>
                     <div class="row my-3">
                         <button type="submit" class="btn btn-outline-success"
-                                asp-area="" asp-controller="Rating" asp-action="Rate">
+                                asp-area="" asp-controller="Rating" asp-action="Rate" asp-route-appointmentId="@Model.Id">
                             Rate!
                         </button>
                     </div>

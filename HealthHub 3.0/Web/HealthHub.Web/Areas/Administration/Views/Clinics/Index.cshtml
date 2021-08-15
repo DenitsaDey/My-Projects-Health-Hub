@@ -3,7 +3,10 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var insuranceCompanies = this.ViewData["InsuranceCompanies"] as SelectList;
+
 }
+<partial name="_AdminHeaderPartial" />
 
 <h1>Clinics</h1>
 
@@ -16,19 +19,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            =<th>
-                @Html.DisplayNameFor(model => model.AreaName)
+            <th>
+                Area
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MedicalStaff)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InsuranceCompanies)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -44,18 +40,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MedicalStaff)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InsuranceCompanies)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
     </tbody>
 </table>

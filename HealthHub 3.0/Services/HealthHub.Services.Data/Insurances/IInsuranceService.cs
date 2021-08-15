@@ -7,5 +7,7 @@
     public interface IInsuranceService
     {
         IEnumerable<T> GetAllInsuranceCompanies<T>();
+
+        IEnumerable<T> GetAllByClinicId<T>(string clinicId);
     }
 }

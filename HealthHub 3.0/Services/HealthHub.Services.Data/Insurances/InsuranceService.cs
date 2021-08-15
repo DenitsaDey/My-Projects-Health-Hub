@@ -11,16 +11,37 @@
     public class InsuranceService : IInsuranceService
     {
         private readonly IDeletableEntityRepository<Insurance> insuranceRepository;
+        private readonly IDeletableEntityRepository<InsuranceClinic> insuranceClinicsRepository;
 
-        public InsuranceService(IDeletableEntityRepository<Insurance> insuranceRepository)
+        public InsuranceService(
+            IDeletableEntityRepository<Insurance> insuranceRepository,
+            IDeletableEntityRepository<InsuranceClinic> insuranceClinicsRepository)
         {
             this.insuranceRepository = insuranceRepository;
+            this.insuranceClinicsRepository = insuranceClinicsRepository;
         }
 
         public IEnumerable<T> GetAllInsuranceCompanies<T>()
         {
             return this.insuranceRepository.All()
                 .OrderBy(x => x.Name)
+                .To<T>()
+                .ToList();
+        }
+
+        // for Admin / Clinics / Edit 
+        public IEnumerable<T> GetAllByClinicId<T>(string clinicId)
+        {
+            return this.insuranceClinicsRepository.All()
+                .Where(ic => ic.ClinicId == clinicId)
+                .Select(ic => new InsuranceClinicsViewModel
+                {
+                    Id = ic.Id,
+                    ClinicId = ic.ClinicId,
+                    ClinicName = ic.Clinic.Name,
+                    InsuranceId = ic.InsuranceId,
+                    InsuranceName = ic.Insurance.Name,
+                })
                 .To<T>()
                 .ToList();
         }

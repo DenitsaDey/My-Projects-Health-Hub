@@ -36,20 +36,21 @@
         }
 
         // GET: Administration/Doctors/Details/5
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string doctorId)
         {
-            if (id == null)
+            if (doctorId == null)
             {
                 return this.NotFound();
             }
 
-            var doctor = this.doctorsService.GetByIdAsync<Doctor>(id);
-            if (doctor == null)
+            var model = await this.doctorsService.GetByIdAsync<DoctorsViewModel>(doctorId);
+
+            if (model == null)
             {
-                return this.NotFound();
+                return new StatusCodeResult(404);
             }
 
-            return this.View(doctor);
+            return this.View(model);
         }
 
         // GET: Administration/Doctors/Create

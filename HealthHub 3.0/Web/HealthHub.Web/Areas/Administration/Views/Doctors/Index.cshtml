@@ -4,6 +4,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<partial name="_AdminHeaderPartial" />
 
 <h1>Doctors</h1>
 
@@ -14,65 +15,66 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                Full Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                Phone Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClinicName)
+                Clinic
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SpecialtyName)
+                Specialty
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.YearsOFExperience)
+                Years of Experience
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WorksWithChildren)
+               Works With Children
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OnlineConsultation)
+                Online Consultations
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClinicName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpecialtyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.YearsOFExperience)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorksWithChildren)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OnlineConsultation)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClinicName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecialtyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearsOFExperience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorksWithChildren)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OnlineConsultation)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-doctorId="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

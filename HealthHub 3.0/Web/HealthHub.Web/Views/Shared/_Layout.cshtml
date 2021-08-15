@@ -33,15 +33,7 @@
 
     <div class="super_container">
         <partial name="_TopBarPartial" />
-        <!-- Header -->
-        @if (this.User.IsInRole(GlobalConstants.DoctorRoleName))
-        {
-            <partial name="_DoctorHeaderPartial" />
-        }
-        else if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <partial name="_AdminHeaderPartial" />
-        }
+        
         <!-- Home -->
         @if (this.ViewData["Title"].ToString() == "Home Page" || this.ViewData["Title"].ToString() == "Import Data")
         {

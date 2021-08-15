@@ -6,6 +6,7 @@
     var areas = this.ViewData["Areas"] as SelectList;
     var insuranceCompanies = this.ViewData["InsuranceCompanies"] as SelectList;
 }
+<partial name="_AdminHeaderPartial" />
 
 <h1>Create</h1>
 
@@ -38,10 +39,10 @@
             </div>
             <div class="form-group">
                 City Area is not available?
-                <input type="submit" asp-area="Administration" asp-controller="CityAreas" asp-action="Create" value="Add new clinic" class="btn btn-primary" />
+                <input type="submit" asp-area="Administration" asp-controller="CityAreas" asp-action="Create" value="Add new city area" class="cancel" />
             </div>
-            <div class="form-group">
-                <label asp-for="InsuranceCompanies" class="control-label">Insurance Companies</label>
+            <div class="form-group" id="InsuranceContainer">
+                <label asp-for="InsuranceCompanies" class="control-label">Add Insurance Companies</label>
                 <select asp-for="InsuranceCompanies" class="form-control">
                     <option value="">Select</option>
 
@@ -50,10 +51,11 @@
                         <option value="@insurance.Value">@insurance.Text</option>
                     }
                 </select>
+                <a class="btn btn-success" onclick="AddInsuranceCompany()">+</a>
             </div>
             <div class="form-group">
-                City Area is not available?
-                <input type="submit" asp-area="Administration" asp-controller="CityAreas" asp-action="Create" value="Add new clinic" class="btn btn-primary" />
+                Insurance Company is not available?
+                <input type="submit" asp-area="Administration" asp-controller="Insurances" asp-action="Create" value="Add new insurance company" class="cancel" />
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
@@ -71,3 +73,13 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    <script>
+        var insuranceIndex = 0;
+        function AddInsuranceCompanies() {
+            $("#InsuranceContainer").
+                append("<div class='form-control'>Insurance: <input type='text' name='Insurance.Text[" + ingredientIndex + "].IngredientName'/></div>");
+            ingredientIndex++;
+        }
+    </script>
+}

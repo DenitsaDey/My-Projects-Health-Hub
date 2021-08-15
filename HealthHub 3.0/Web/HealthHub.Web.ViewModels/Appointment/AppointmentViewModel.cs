@@ -11,13 +11,17 @@
     {
         public string Id { get; set; }
 
+        public string PatientId { get; set; }
+
+        public string PatientName { get; set; }
+
         public string DoctorId { get; set; }
 
         public string DoctorName { get; set; }
 
         public string DoctorImageUrl { get; set; }
 
-        public string ClinicId { get; set; }
+       // public string ClinicId { get; set; }
 
         public string ClinicName { get; set; }
 
@@ -59,7 +63,10 @@
                 x.Doctor.Clinic.MapUrl))
                 .ForMember(x => x.ClinicAddress, opt =>
                 opt.MapFrom(x =>
-                x.Doctor.Clinic.Address));
+                x.Doctor.Clinic.Address))
+                .ForMember(x => x.PatientName, opt =>
+                opt.MapFrom(x =>
+                x.Patient.FirstName + " " + x.Patient.LastName));
         }
     }
 }

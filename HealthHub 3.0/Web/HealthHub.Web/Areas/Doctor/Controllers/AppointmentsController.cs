@@ -95,7 +95,7 @@
             var patient = await this.userManager.GetUserAsync(this.HttpContext.User);
             var patientEmail = await this.userManager.GetEmailAsync(patient);
             var htmlModel = await this.appointmentsService.GetByIdAsync<AppointmentViewModel>(appointmentId);
-            htmlModel.Clinics = this.clinicsService.GetAllClinics(); // as the partial Header View requires a list of clinics for the dropdown
+            htmlModel.Clinics = this.clinicsService.GetAll(); // as the partial Header View requires a list of clinics for the dropdown
             var htmlContent = await this.viewRenderService.RenderToStringAsync("~/Views/Appointment/Details.cshtml", htmlModel);
 
             await this.emailSender.SendEmailAsync("healthhub@healthhub.com", "Health Hub", patientEmail, "Appointment Status Changed", htmlContent);

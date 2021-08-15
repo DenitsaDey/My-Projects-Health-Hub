@@ -8,7 +8,7 @@
     {
         public string ClinicId { get; set; }
 
-        public IEnumerable<ClinicViewModel> Clinics { get; set; }
+        public IEnumerable<ClinicSimpleViewModel> Clinics { get; set; }
 
         public string SearchName { get; set; }
     }

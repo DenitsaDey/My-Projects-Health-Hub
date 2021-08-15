@@ -39,8 +39,8 @@
                     <div class="info_text"><strong>Years of Experience: </strong>@Model.YearsOFExperience</div>
                     <div class="info_text"><strong>Clinic: </strong>@Model.ClinicName</div>
                     <div class="info_text"><strong>Phone Number: </strong>@Model.PhoneNumber</div>
-                    <div class="info_text"><strong>Works with children: </strong>@Model.WorksWithChildren</div>
-                    <div class="info_text"><strong>Available for online consulations: </strong>@Model.OnlineConsultation</div>
+                    <div class="info_text"><strong>Works with children: </strong>@(Model.WorksWithChildren? "Yes" : "No")</div>
+                    <div class="info_text"><strong>Available for online consulations: </strong>@(Model.OnlineConsultation? "Yes" : "No")</div>
                 </div>
                 <div class="tab_list">
                     <div class="tab_list_text" style="padding-top:30px"><p>@Model.About</p></div>

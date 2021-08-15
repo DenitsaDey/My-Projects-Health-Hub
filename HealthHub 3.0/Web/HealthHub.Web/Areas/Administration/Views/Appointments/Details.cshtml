@@ -1,8 +1,9 @@
 ﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentViewModel
 @{
     this.ViewData["Title"] = "Appointment Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<partial name="_HeaderPartial" />
+<partial name="_AdminHeaderPartial" />
 
 <section id="appointment" class="appointment section-bg">
 
@@ -25,23 +26,16 @@
                     <div class="info_content">
                         <div class="info_title" style="padding-top:10px"><strong> @Model.AppointmentTime.ToString("f")</strong> </div>
                         <div class="info_text" style="padding-top:20px"><strong>Doctor: </strong>@Model.DoctorName</div>
-                        <div class="info_text"><strong>Booked for: </strong>@Model.ProcedureBooked</div>
+                        <div class="info_text" style="padding-top:20px"><strong>Patient: </strong>@Model.PatientName</div>
+                        <div class="info_text" style="padding-top:20px"><strong>Booked for: </strong>@Model.ProcedureBooked</div>
                         <div class="info_text"><strong>Additional Notes: </strong>@Model.Message</div>
                         <div class="info_text"><strong>Status: </strong>@Model.AppointmentStatus</div>
                     </div>
                     <div class="tab_list">
-                        <ul>
-                            @if (@Model.RatingValue == 0 && @Model.AppointmentStatus.ToString() == "Completed")
-                            {
-                                <a class="btn btn-outline-danger btn-sm"
-                                   asp-area="" asp-controller="Rating" asp-action="RatePastAppointment" asp-route-appointmentId="@Model.Id">
-                                    Rate appointment
-                                </a>
-                            }
-                            else if (@Model.RatingValue != 0 && @Model.AppointmentStatus.ToString() == "Completed")
+                           @if (@Model.RatingValue != 0 && @Model.AppointmentStatus.ToString() == "Completed")
                             {
                                 <div class="info_text">
-                                    <strong>Rating:</strong> &nbsp;&nbsp;
+                                    Rating: &nbsp;&nbsp;
                                     <span class="star-rating">
                                         <span class="fa fa-star-o" data-rating="1"></span>
                                         <span class="fa fa-star-o" data-rating="2"></span>
@@ -49,25 +43,14 @@
                                         <span class="fa fa-star-o" data-rating="4"></span>
                                         <span class="fa fa-star-o" data-rating="5"></span>
                                         <input type="hidden" name="whatever1" class="rating-value" value="@Model.RatingValue">
-                                        <span>&nbsp; ( @Model.RatingValue.ToString("F") / 5.00 )</span>
                                     </span>
                                 </div>
                             }
-                        </ul>
-                        <ul>
-                            @if (@Model.AppointmentStatus.ToString() != "Completed")
-                            {
-                                <a class="btn btn-outline-primary btn-sm"
-                                   asp-area="" asp-controller="Appointment" asp-action="Edit" asp-route-appointmentId="@Model.Id">
-                                    Edit Notes
-                                </a>
-                            }
-                        </ul>
                     </div>
                     <div class="tab_list">
                         <div class="appointment-btn scrollto">
-                            <a class="appointment-btn scrollto" asp-area="" asp-controller="Appointment" asp-action="Index">
-                                <h7>My Appointments</h7>
+                            <a class="appointment-btn scrollto" asp-area="Administratio" asp-controller="Appointments" asp-action="Index">
+                                <h7>All Appointments</h7>
                             </a>
                         </div>
                     </div>
@@ -76,7 +59,3 @@
         </div>
     </div>
 </section>
-@section Scripts {
-
-    <script src="~/js/rating-static.js" asp-append-version="true"></script>
-}

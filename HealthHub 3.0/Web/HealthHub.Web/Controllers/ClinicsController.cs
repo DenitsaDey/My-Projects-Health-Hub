@@ -84,7 +84,7 @@
                 return new StatusCodeResult(404);
             }
 
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
     }

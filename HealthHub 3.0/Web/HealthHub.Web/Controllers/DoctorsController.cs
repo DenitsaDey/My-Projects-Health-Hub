@@ -63,7 +63,7 @@
                 pageId,
                 ItemsPerPage);
 
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync<CityAreasViewModel>();
             viewModel.InsuranceCompanies = this.insuranceService.GetAllInsuranceCompanies<InsuranceViewModel>();
             viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
@@ -98,7 +98,7 @@
                 return new StatusCodeResult(404);
             }
 
-            model.Clinics = this.clinicsService.GetAllClinics();
+            model.Clinics = this.clinicsService.GetAll();
             return this.View(model);
         }
     }

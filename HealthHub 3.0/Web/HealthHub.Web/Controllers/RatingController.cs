@@ -34,32 +34,27 @@
             this.clinicsService = clinicsService;
         }
 
-        public async Task<IActionResult> RatePastAppointment(AppointmentRatingViewModel model)
+        public async Task<IActionResult> RatePastAppointment(string appointmentId)
         {
-            var viewModel = await this.appointmentsService.GetByIdAsync<AppointmentViewModel>(model.Id);
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            var viewModel = await this.appointmentsService.GetByIdAsync<AppointmentRatingViewModel>(appointmentId);
+            viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Rate(AppointmentRatingViewModel model)
+        public async Task<IActionResult> Rate(AppointmentRatingViewModel model, string appointmentId)
         {
+            var viewModel = await this.appointmentsService.GetByIdAsync<AppointmentRatingViewModel>(appointmentId);
+            viewModel.Clinics = this.clinicsService.GetAll();
+
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("RatePastAppointment", model);
+                return this.RedirectToAction("RatePastAppointment", viewModel);
             }
 
-            await this.ratingsService.SetRatingAsync(model.Id, model.RateValue, model.AdditionalComments);
+            await this.ratingsService.SetRatingAsync(appointmentId, model.RateValue, model.AdditionalComments);
 
-            return this.RedirectToAction("Details", "Doctors", new { id = this.doctorsService.GetByAppointment<DoctorsViewModel>(model.Id).Id });
-
-            // Niki's template
-
-            // var doctorId = this.doctorsService.GetByAppointment(input.AppointmentId).Id;
-
-            // var docsAverage = this.ratingsService.GetDoctorAverageRating(doctorId);
-
-            // return new RatingResponseViewModel { AverageRating = docsAverage };
+            return this.RedirectToAction("Details", "Doctors", new { doctorId = this.doctorsService.GetByAppointment<DoctorsViewModel>(appointmentId).Id });
         }
     }
 }

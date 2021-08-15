@@ -3,6 +3,7 @@
     this.ViewData["Title"] = "My Appointments";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<partial name="_DoctorHeaderPartial" />
 
 @if (@Model.Count() == 0)
 {

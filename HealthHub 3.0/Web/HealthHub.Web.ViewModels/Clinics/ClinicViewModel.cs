@@ -23,9 +23,9 @@
 
         public string Address { get; set; }
 
-        public IEnumerable<DoctorsViewModel> MedicalStaff { get; set; }
+        public virtual IEnumerable<DoctorsViewModel> MedicalStaff { get; set; }
 
-        public IEnumerable<InsuranceViewModel> InsuranceCompanies { get; set; }
+        public virtual IEnumerable<InsuranceClinicsViewModel> InsuranceCompanies { get; set; }
 
         public double AverageRating { get; set; }
 

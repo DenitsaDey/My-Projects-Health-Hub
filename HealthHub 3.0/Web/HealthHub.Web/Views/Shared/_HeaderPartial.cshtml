@@ -1,7 +1,13 @@
-﻿@model HeaderSearchQueryModel 
+﻿@using HealthHub.Common
+@using HealthHub.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model HeaderSearchQueryModel
 @*@{
-    var model = (HeaderSearchQueryModel)ViewBag.HeaderSearchQueryModel;
-}*@
+        var model = (HeaderSearchQueryModel)ViewBag.HeaderSearchQueryModel;
+    }*@
 
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top">
@@ -43,7 +49,18 @@
         <!-- .navbar -->
 
         <a asp-area="" asp-controller="Doctors" asp-action="All" class="appointment-btn scrollto" area-hidden="true" asp-route-searchName="@Model.SearchName"><span>Find a </span>Doctor</a>
-        <a asp-area="" asp-controller="Appointment" asp-action="Index" class="appointment-btn scrollto" area-hidden="true"><span>My </span>Appointments</a>
+        @if (this.User.IsInRole(GlobalConstants.PatientRoleName))
+        {
+            <a asp-area="" asp-controller="Appointment" asp-action="Index" class="appointment-btn scrollto" area-hidden="true"><span>My </span>Appointments</a>
+        }
+        @if (this.User.IsInRole(GlobalConstants.DoctorRoleName))
+        {
+            <partial name="_DoctorHeaderPartial" />
+        }
+        else if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <partial name="_AdminHeaderPartial" />
+        }
 
     </div>
 </header><!-- End Header -->

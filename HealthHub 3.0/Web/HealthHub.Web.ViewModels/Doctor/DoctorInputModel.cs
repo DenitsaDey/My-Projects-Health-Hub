@@ -38,11 +38,9 @@
         public string SpecialtyId { get; set; }
 
         [Required]
-        [MaxLength(
-            GlobalConstants.DataValidations.YearsofExperienceMaxLength,
-            ErrorMessage = GlobalConstants.ErrorMessages.YearsofExperience)]
-        [MinLength(
+        [Range(
             GlobalConstants.DataValidations.YearsofExperienceMinLength,
+            GlobalConstants.DataValidations.YearsofExperienceMaxLength,
             ErrorMessage = GlobalConstants.ErrorMessages.YearsofExperience)]
         public int YearsOFExperience { get; set; }
 

@@ -1,0 +1,55 @@
+﻿@model HealthHub.Web.ViewModels.Appointment.AppointmentListViewModel
+@{
+    this.ViewData["Title"] = "All Appointments";
+}
+<partial name="_AdminHeaderPartial" />
+
+@if (@Model.AppointmentList.Count() == 0)
+{
+    <div class="row">
+        <div class="col-lg-4 ml-lg-5">
+            <div class="about_text_2">
+                <p>
+                    There is nothing booked yet...
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+@if (@Model.AppointmentList.Count() > 0)
+{
+    <h2><strong>Appointments</strong></h2>
+
+    <table class="table table-bordered table-light">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Date and Time</th>
+                <th scope="col">Patient</th>
+                <th scope="col">Doctor</th>
+                <th scope="col">Clinic</th>
+                <th scope="col">Status</th>
+                <th scope="col">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in this.Model.AppointmentList)
+            {
+            <tr>
+                <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
+                <td>@appointment.PatientName</td>
+                <td>@appointment.DoctorName</td>
+                <td>@appointment.ClinicName</td>
+                <td>@appointment.AppointmentStatus.ToString()</td>
+                <td>
+                    <a class="btn btn-outline-success btn-sm"
+                       asp-area="Administration" asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@appointment.Id">
+                        Details
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+<hr class="bg-dark m-4" style="height: 6px;" />
+}

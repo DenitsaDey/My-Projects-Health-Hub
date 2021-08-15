@@ -31,7 +31,7 @@
             this.ratingPopulatingService.ImportRatings();
 
             var viewModel = new HeaderSearchQueryModel();
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
 

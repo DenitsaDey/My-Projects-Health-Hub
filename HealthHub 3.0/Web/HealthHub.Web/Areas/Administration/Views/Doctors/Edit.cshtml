@@ -1,4 +1,4 @@
-﻿@using HealthHub.Data.Models.Enums 
+﻿@using HealthHub.Data.Models.Enums
 @model HealthHub.Web.ViewModels.Doctor.DoctorEditInputModel
 
 @{
@@ -7,6 +7,7 @@
     var clinics = this.ViewData["Clinics"] as SelectList;
     var specialties = this.ViewData["Specialties"] as SelectList;
 }
+<partial name="_AdminHeaderPartial" />
 
 <h1>Edit</h1>
 

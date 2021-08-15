@@ -17,7 +17,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = GlobalConstants.PatientRoleName)]
+    [Authorize]
     public class AppointmentController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -48,27 +48,34 @@
 
         public async Task<IActionResult> Index()
         {
-            var patient = await this.userManager.GetUserAsync(this.HttpContext.User);
-            var patientId = await this.userManager.GetUserIdAsync(patient);
+            var user = await this.userManager.GetUserAsync(this.HttpContext.User);
+            var userId = await this.userManager.GetUserIdAsync(user);
+            var viewModel = new AppointmentListViewModel();
 
-            var viewModel = new AppointmentListViewModel
+            if (user.UserName == "doctor@doctor.com")
             {
-                AppointmentList = this.appointmentService.GetUpcomingByPatient<AppointmentViewModel>(patientId),
-            };
+                viewModel.AppointmentList = this.appointmentService.GetUpcomingByDoctor<AppointmentViewModel>(userId);
+            }
+            else
+            {
+                viewModel.AppointmentList = this.appointmentService.GetUpcomingByPatient<AppointmentViewModel>(userId);
+            }
 
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = GlobalConstants.PatientRoleName)]
         public IActionResult Book(string doctorId)
         {
             var viewModel = new AppointmentInputModel();
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             viewModel.DoctorId = doctorId;
             viewModel.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = GlobalConstants.PatientRoleName)]
         [HttpPost]
         public async Task<IActionResult> Book(AppointmentInputModel input)
         {
@@ -106,7 +113,7 @@
             // automatically sending email with appointment details after user has requested an appointment through the HealthHub system
             var patientEmail = await this.userManager.GetEmailAsync(patient);
             var htmlModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
-            htmlModel.Clinics = this.clinicsService.GetAllClinics(); // as the partial Header View requires a list of clinics for the dropdown
+            htmlModel.Clinics = this.clinicsService.GetAll(); // as the partial Header View requires a list of clinics for the dropdown
             var htmlContent = await this.viewRenderService.RenderToStringAsync("~/Views/Appointment/Details.cshtml", htmlModel);
 
             await this.emailSender.SendEmailAsync("healthhub@healthhub.com", "Health Hub", patientEmail, "Your Appointment Request", htmlContent);
@@ -118,10 +125,11 @@
         public async Task<IActionResult> Details(string appointmentId)
         {
             var viewModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = GlobalConstants.PatientRoleName)]
         public async Task<IActionResult> Reschedule(string appointmentId)
         {
             var viewModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
@@ -130,11 +138,12 @@
                 return new StatusCodeResult(404);
             }
 
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
 
         // rescheduling appointment by deleting completely the appointment and redirecting to the same doctor to book a new one
+        [Authorize(Roles = GlobalConstants.PatientRoleName)]
         [HttpPost]
         public async Task<IActionResult> Delete(string appointmentId, string doctorId)
         {
@@ -142,18 +151,19 @@
             return this.RedirectToAction(nameof(this.Book), new { doctorId });
         }
 
+        [Authorize(Roles = GlobalConstants.PatientRoleName + "," + GlobalConstants.DoctorRoleName)]
         [HttpPost]
         public async Task<IActionResult> Cancel(string appointmentId)
         {
             var viewModel = new HeaderSearchQueryModel();
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             await this.appointmentService.ChangeAppointmentStatusAsync(appointmentId, "Cancelled");
 
             // automatically sending email with appointment status after patient has cancelled an appointment
             var patient = await this.userManager.GetUserAsync(this.HttpContext.User);
             var patientEmail = await this.userManager.GetEmailAsync(patient);
             var htmlModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
-            htmlModel.Clinics = this.clinicsService.GetAllClinics(); // as the partial Header View requires a list of clinics for the dropdown
+            htmlModel.Clinics = this.clinicsService.GetAll(); // as the partial Header View requires a list of clinics for the dropdown
             var htmlContent = await this.viewRenderService.RenderToStringAsync("~/Views/Appointment/Details.cshtml", htmlModel);
 
             await this.emailSender.SendEmailAsync("healthhub@healthhub.com", "Health Hub", patientEmail, "Your Appointment Cancellation", htmlContent);
@@ -161,31 +171,28 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        [Authorize(Roles = GlobalConstants.PatientRoleName)]
         public IActionResult Edit()
         {
             var viewModel = new AppointmentEditInputModel();
-            viewModel.Clinics = this.clinicsService.GetAllClinics();
+            viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = GlobalConstants.PatientRoleName)]
         [HttpPost]
         public async Task<IActionResult> Edit(AppointmentEditInputModel input, string appointmentId)
         {
             if (!this.ModelState.IsValid)
             {
                 var model = new AppointmentEditInputModel();
-                model.Clinics = this.clinicsService.GetAllClinics();
+                model.Clinics = this.clinicsService.GetAll();
                 return this.View(model);
             }
 
             await this.appointmentService.EditMessageAsync(appointmentId, input.Message);
 
             return this.RedirectToAction(nameof(this.Details), new { appointmentId });
-        }
-
-        public async Task SendReminderEmail()
-        {
-
         }
     }
 }

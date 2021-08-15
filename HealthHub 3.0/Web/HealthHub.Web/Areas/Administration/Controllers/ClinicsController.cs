@@ -37,7 +37,10 @@
         // GET: Administration/Clinics
         public IActionResult Index()
         {
-            var clinics = this.clinicsService.GetAllWithDeleted<ClinicViewModel>();
+            var clinics = this.clinicsService.GetAllWithDeleted();
+            var insuranceCompanies = clinics.Select(c => c.InsuranceCompanies.Select(ic => ic.InsuranceName)).ToList();
+            this.ViewData["InsuranceCompanies"] = new SelectList(insuranceCompanies, "Name");
+
             return this.View(clinics);
         }
 
@@ -108,10 +111,8 @@
             }
 
             var areas = await this.cityAreasService.GetAllCityAreasAsync<CityAreasViewModel>();
-            var insuranceCompanies = this.insurancesService.GetAllInsuranceCompanies<InsuranceViewModel>();
 
             this.ViewData["Areas"] = new SelectList(areas, "Id", "Name");
-            this.ViewData["InsuranceCompanies"] = new SelectList(insuranceCompanies, "Id", "Name");
 
             return this.View(clinic);
         }
@@ -155,7 +156,7 @@
         }
 
         // GET: Administration/Clinics/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
@@ -172,7 +173,8 @@
         }
 
         // POST: Administration/Clinics/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {

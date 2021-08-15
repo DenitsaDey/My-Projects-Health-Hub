@@ -1,67 +1,71 @@
-﻿@model HealthHub.Data.Models.Clinic
-
+﻿@model HealthHub.Web.ViewModels.Clinics.ClinicViewModel
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewData["Title"] = "Clinic Details";
 }
+<partial name="_AdminHeaderPartial" />
 
-<h1>Details</h1>
+<section id="appointment" class="appointment section-bg">
 
-<div>
-    <h4>Clinic</h4>
-    <hr />
-    <dl class="row" style="background-color:white">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MapUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MapUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Area)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Area.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedOn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedOn)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="row row-eq-height">
+        <!-- Info Box -->
+        <div class="col-lg-4 info_box_col">
+            <div class="info_box">
+                <iframe style="border:0; width: 100%; height: 300px;" src="@Model.MapUrl" allowfullscreen="" loading="lazy"></iframe>
+                <div class="info_content" style="padding-top:20px">
+                    <div class="info_title"><strong>Clinic: </strong>@Model.Name</div>
+                    <div class="info_title"><strong>Address: </strong>@Model.Address</div>
+                    <div class="info_title">
+                        <h5 class="star-rating">
+                            <span class="fa fa-star-o" data-rating="1"></span>
+                            <span class="fa fa-star-o" data-rating="2"></span>
+                            <span class="fa fa-star-o" data-rating="3"></span>
+                            <span class="fa fa-star-o" data-rating="4"></span>
+                            <span class="fa fa-star-o" data-rating="5"></span>
+                            <input type="hidden" name="whatever1" class="rating-value" value="@Model.AverageRating">
+                        </h5>
+                        <h5>( @Model.AverageRating.ToString("F") / 5.00 ) from @Model.RatingsCount votes</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Panel -->
+        <div class="col-lg-4 list-group-item-light">
+            <h2>Details:</h2>
+            <div class="tab_panel active">
+                <div class="tab_panel_content">
+                    <div class="info_content">
+                        <div class="info_title" style="padding-top:10px"><strong>Clinic: </strong>@Model.Name</div>
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <strong>Medical Staff: </strong>
+                                    @foreach (var doctor in Model.MedicalStaff)
+                                    {
+                                        <ul>
+                                            @doctor.FullName
+                                        </ul>
+                                    }
+                                </td>
+                                <td>
+                                    <strong>Insurance Companies: </strong>
+                                    @foreach (var insurance in Model.InsuranceCompanies)
+                                    {
+                                        <ul>
+                                            @insurance.InsuranceName
+                                        </ul>
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab_list">
+                <a asp-action="Index" class="appointment-btn scrollto">Back to List</a>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script src="~/js/rating-static.js" asp-append-version="true"></script>
+}

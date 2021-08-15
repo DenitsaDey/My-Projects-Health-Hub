@@ -10,6 +10,8 @@
     {
         Task AddAsync(ClinicInputModel input);
 
+        IEnumerable<ClinicSimpleViewModel> GetAll();
+
         IEnumerable<ClinicViewModel> GetAllClinics();
 
         Task<ClinicFilterViewModel> GetAllSearchedAsync(
@@ -20,7 +22,7 @@
             int pageNumber,
             int itemsPerPage);
 
-        IEnumerable<T> GetAllWithDeleted<T>();
+        IEnumerable<ClinicViewModel> GetAllWithDeleted();
 
         IEnumerable<string> GetAllClinicsNames();
 

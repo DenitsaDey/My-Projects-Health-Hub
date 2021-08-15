@@ -1,9 +1,11 @@
-﻿@model HealthHub.Data.Models.Clinic
+﻿@model HealthHub.Web.ViewModels.Clinics.ClinicViewModel
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var cityAreas = this.ViewData["Areas"] as SelectList;
 }
+<partial name="_AdminHeaderPartial" />
 
 <h1>Edit</h1>
 
@@ -25,34 +27,24 @@
             </div>
             <div class="form-group">
                 <label asp-for="AreaId" class="control-label"></label>
-                <select asp-for="AreaId" class="form-control" asp-items="ViewBag.AreaId"></select>
+                <select asp-for="AreaId" class="form-control">
+                    <option value="">Select</option>
+
+                    @foreach (var area in cityAreas)
+                    {
+                        <option value="@area.Value">@area.Text</option>
+                    }
+                </select>
                 <span asp-validation-for="AreaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Area is not available?
+                <input type="submit" asp-area="Administration" asp-controller="CityAreas" asp-action="Create" value="Add new city area" class="btn btn-primary" />
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedOn" class="control-label"></label>
-                <input asp-for="DeletedOn" class="form-control" />
-                <span asp-validation-for="DeletedOn" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" class="form-control" />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedOn" class="control-label"></label>
-                <input asp-for="ModifiedOn" class="form-control" />
-                <span asp-validation-for="ModifiedOn" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
