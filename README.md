@@ -39,8 +39,8 @@ Note: The project is created without any current knowledge of JavaScript, kindly
 
 ## :hammer: Built With
 
-- ASP.NET 5.0
-- Entity Framework (EF) Core 5.0
+- ASP.NET
+- Entity Framework (EF) Core
 - Microsoft SQL Server
 - ASP.NET Identity System
 - MVC Areas with Multiple Layouts
