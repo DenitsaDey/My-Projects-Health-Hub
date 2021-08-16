@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,7 +10,6 @@
     using HealthHub.Data.Models.Enums;
     using HealthHub.Services;
     using HealthHub.Services.Mapping;
-    using HealthHub.Web.ViewModels.Appointment;
     using Microsoft.EntityFrameworkCore;
 
     public class AppointmentsService : IAppointmentsService

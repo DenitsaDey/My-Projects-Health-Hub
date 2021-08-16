@@ -152,22 +152,28 @@
                 new Insurance
                 {
                     Name = "OCCUMED",
-                },new Insurance
+                },
+                new Insurance
                 {
                     Name = "HTH",
-                },new Insurance
+                },
+                new Insurance
                 {
                     Name = "GBG",
-                },new Insurance
+                },
+                new Insurance
                 {
                     Name = "WILLIAM RUSSELL",
-                },new Insurance
+                },
+                new Insurance
                 {
                     Name = "CISI",
-                },new Insurance
+                },
+                new Insurance
                 {
                     Name = "CIGNA",
-                },new Insurance
+                },
+                new Insurance
                 {
                     Name = "ALKOOT",
                 },
@@ -177,7 +183,6 @@
             {
                 await dbContext.Insurances.AddAsync(insurance);
                 await dbContext.SaveChangesAsync();
-
             }
         }
     }

@@ -3,10 +3,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Services.Mapping;
-    using HealthHub.Web.ViewModels;
     using Microsoft.EntityFrameworkCore;
 
     public class SpecialtiesService : ISpecialtiesService

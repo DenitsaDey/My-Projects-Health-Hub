@@ -1,7 +1,7 @@
-﻿using HealthHub.Data.Common.Models;
-
-namespace HealthHub.Data.Models
+﻿namespace HealthHub.Data.Models
 {
+    using HealthHub.Data.Common.Models;
+
     public class InsuranceClinic : BaseDeletableModel<int>
     {
         public string InsuranceId { get; set; }

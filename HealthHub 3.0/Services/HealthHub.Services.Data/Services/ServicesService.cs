@@ -6,7 +6,6 @@
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Services.Mapping;
-    using HealthHub.Web.ViewModels;
 
     public class ServicesService : IServicesService
     {

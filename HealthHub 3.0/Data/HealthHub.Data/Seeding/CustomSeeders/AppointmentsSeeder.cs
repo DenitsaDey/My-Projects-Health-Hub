@@ -34,7 +34,7 @@
                 DoctorId = doctorsId[0],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Follow-up").FirstOrDefault(),
                 AppointmentStatus = Models.Enums.AppointmentStatus.Confirmed,
-                Message ="appointment test 1",
+                Message = "appointment test 1",
                 HasBeenVoted = false,
             });
 
