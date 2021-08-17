@@ -32,25 +32,9 @@
                 .ToListAsync();
         }
 
-        public IEnumerable<string> GetAllSpecialtiesNames()
-        {
-            return this.specialtiesRepository.All()
-                .OrderBy(s => s.Name)
-                .Select(s => s.Name)
-                .ToList();
-        }
-
-        // for Admin Area / Doctors Controller/ Create
-        public IEnumerable<string> GetAllSpecialtiesIds()
-        {
-            return this.specialtiesRepository.All()
-                .Select(x => x.Id)
-                .ToList();
-        }
-
         public async Task<T> GetByIdAsync<T>(string specialtyId)
         {
-            var specialty = await this.specialtiesRepository.All()
+            var specialty = await this.specialtiesRepository.AllAsNoTracking()
                 .Where(s => s.Id == specialtyId)
                 .To<T>()
                 .FirstOrDefaultAsync();

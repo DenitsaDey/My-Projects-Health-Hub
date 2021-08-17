@@ -6,6 +6,8 @@
 
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
+    using HealthHub.Services.Data;
+    using HealthHub.Web.ViewModels.Appointment;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Xunit;
@@ -40,11 +42,11 @@
         {
             await this.CreateAppointmentAsync();
 
-            var patientId2 = new NLipsum.Core.Word().ToString();
-            var doctorId2 = new NLipsum.Core.Word().ToString();
-            var serviceId2 = new NLipsum.Core.Word().ToString();
+            var patientId2 = Guid.NewGuid().ToString();
+            var doctorId2 = Guid.NewGuid().ToString();
+            var serviceId2 = Guid.NewGuid().ToString();
             var message2 = new NLipsum.Core.Word().ToString();
-            var appointmentTime2 = DateTime.UtcNow.AddDays(2);
+            var appointmentTime2 = DateTime.UtcNow.AddDays(5);
             await this.Service.AddAppointmentAsync(patientId2, doctorId2, serviceId2, message2, appointmentTime2);
 
             var appointmentsCount = await this.DbContext.Appointments.CountAsync();
@@ -64,9 +66,19 @@
         }
 
         [Fact]
-        public async Task RescheduleAppointmentStatusAsyncShouldAssignRequiredStatus()
+        public async Task RescheduleAppointmentStatusAsyncShouldDeleteAppointment()
         {
-            this.CreateAppointmentAsync();
+            /* the logic used in the Application controller is that
+                by rescheduling an appointment the patient deletes the current appointment
+                and is redirected to book a new one with the same doctor details
+            */
+            var appointmentId = this.CreateAppointmentAsync().Result.Id;
+
+            await this.Service.RescheduleAppointmentAsync(appointmentId);
+            var appointmentsCount = this.DbContext.Appointments.Where(x => !x.IsDeleted).ToArray().Count();
+            var deletedAppointment = await this.DbContext.Appointments.FirstOrDefaultAsync(x => x.Id == appointmentId);
+            Assert.Equal(0, appointmentsCount);
+            Assert.Null(deletedAppointment);
         }
 
         [Fact]
@@ -78,8 +90,7 @@
 
             await this.Service.EditMessageAsync(appointmentId, newMessage);
 
-            // var result = this.DbContext.Appointments.Where(x => x.Id == appointmentId).FirstOrDefault().Message;
-            var result = appointment.Result.Message;
+            var result = this.DbContext.Appointments.Where(x => x.Id == appointmentId).FirstOrDefault().Message;
 
             Assert.Equal("bananas", result);
         }
@@ -88,12 +99,11 @@
         {
             var appointment = new Appointment
             {
-                Id = Guid.NewGuid().ToString(),
-                DoctorId = new NLipsum.Core.Word().ToString(),
-                PatientId = new NLipsum.Core.Word().ToString(),
-                ServiceId = new NLipsum.Core.Word().ToString(),
+                DoctorId = Guid.NewGuid().ToString(),
+                PatientId = Guid.NewGuid().ToString(),
+                ServiceId = Guid.NewGuid().ToString(),
                 Message = new NLipsum.Core.Word().ToString(),
-                AppointmentTime = DateTime.UtcNow.AddDays(2),
+                DateTime = DateTime.UtcNow.AddDays(2),
                 AppointmentStatus = AppointmentStatus.Requested,
                 HasBeenVoted = false,
             };

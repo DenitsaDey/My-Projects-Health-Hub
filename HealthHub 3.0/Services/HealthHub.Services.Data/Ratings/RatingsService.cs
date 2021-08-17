@@ -28,36 +28,41 @@
 
         public async Task SetRatingAsync(string appointmentId, int value, string additionalComments)
         {
+            // in case of existig rating from RatingSeeder
             var ratingToBeSet = this.ratingRepository.All()
                 .FirstOrDefault(r => r.AppointmentId == appointmentId
                 && r.Appointment.AppointmentStatus == AppointmentStatus.Completed
                 && !r.Appointment.HasBeenVoted);
 
-            if (ratingToBeSet == null)
+            var appointmentToBeRated = this.appointmentRepository.All()
+                .FirstOrDefault(x => x.Id == appointmentId
+                && x.AppointmentStatus == AppointmentStatus.Completed
+                && !x.HasBeenVoted);
+
+            // in normal app use rating will be only created at this point
+            if (ratingToBeSet == null && appointmentToBeRated != null)
             {
                 ratingToBeSet = new Rating
                 {
                     AppointmentId = appointmentId,
+                    Appointment = appointmentToBeRated,
+                    Value = value,
+                    AdditionalComments = additionalComments,
                 };
 
                 await this.ratingRepository.AddAsync(ratingToBeSet);
+                await this.ratingRepository.SaveChangesAsync();
             }
 
-            ratingToBeSet.Value = value;
+            var ratingId = this.ratingRepository.All()
+                .FirstOrDefault(r => r.AppointmentId == appointmentId
+                && r.Appointment.AppointmentStatus == AppointmentStatus.Completed
+                && !r.Appointment.HasBeenVoted).Id;
 
-            if (additionalComments != string.Empty)
-            {
-                ratingToBeSet.AdditionalComments = additionalComments;
-            }
+            appointmentToBeRated.HasBeenVoted = true;
+            appointmentToBeRated.RatingId = ratingId;
+            appointmentToBeRated.Rating = ratingToBeSet;
 
-            this.appointmentRepository.All()
-                .FirstOrDefault(a => a.Id == appointmentId)
-                .HasBeenVoted = true;
-            this.appointmentRepository.All()
-                .FirstOrDefault(a => a.Id == appointmentId)
-                .RatingId = ratingToBeSet.Id;
-
-            await this.ratingRepository.SaveChangesAsync();
             await this.appointmentRepository.SaveChangesAsync();
         }
 

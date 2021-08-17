@@ -34,14 +34,6 @@
         {
             return this.insuranceClinicsRepository.All()
                 .Where(ic => ic.ClinicId == clinicId)
-                .Select(ic => new InsuranceClinicsViewModel
-                {
-                    Id = ic.Id,
-                    ClinicId = ic.ClinicId,
-                    ClinicName = ic.Clinic.Name,
-                    InsuranceId = ic.InsuranceId,
-                    InsuranceName = ic.Insurance.Name,
-                })
                 .To<T>()
                 .ToList();
         }

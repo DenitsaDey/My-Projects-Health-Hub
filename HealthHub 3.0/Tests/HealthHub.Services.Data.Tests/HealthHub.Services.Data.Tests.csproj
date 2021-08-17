@@ -30,6 +30,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\HealthHub.Data\HealthHub.Data.csproj" />
     <ProjectReference Include="..\..\Services\HealthHub.Services.Data\HealthHub.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\HealthHub.Services.Mapping\HealthHub.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\HealthHub.Services\HealthHub.Services.csproj" />
+    <ProjectReference Include="..\..\Web\HealthHub.Web.Infrastructure\HealthHub.Web.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Web\HealthHub.Web.ViewModels\HealthHub.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\..\Web\HealthHub.Web\HealthHub.Web.csproj" />
   </ItemGroup>
 
 </Project>

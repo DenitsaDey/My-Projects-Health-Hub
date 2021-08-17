@@ -10,7 +10,7 @@
 
         public string DoctorId { get; set; }
 
-        public DateTime AppointmentTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         public string AppointmentStatus { get; set; }
 

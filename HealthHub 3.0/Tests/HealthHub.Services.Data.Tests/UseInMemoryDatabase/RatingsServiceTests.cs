@@ -25,12 +25,14 @@
         [Fact]
         public async Task SetRatingAsyncShouldAddCorrectly()
         {
-            var appointmentId = new NLipsum.Core.Word().ToString();
+            var doctorId = new NLipsum.Core.Word().ToString();
+
+            var appointmentId = this.CreateAppointmentAsync(doctorId).Result.Id;
             int value = 5;
             var additionalComments = new NLipsum.Core.Sentence().ToString();
             await this.CreateRatingAsync(appointmentId, value, additionalComments);
 
-            var secondAppointmentId = new NLipsum.Core.Word().ToString();
+            var secondAppointmentId = this.CreateAppointmentAsync(doctorId).Result.Id;
             int secondValue = 4;
             var secondAdditionalComments = string.Empty;
 
@@ -44,7 +46,8 @@
         [Fact]
         public async Task SetRatingAsyncShouldChangeAppointmentAsHasBeenVoted()
         {
-            var secondAppointmentId = new NLipsum.Core.Word().ToString();
+            var doctorId = Guid.NewGuid().ToString();
+            var secondAppointmentId = this.CreateAppointmentAsync(doctorId).Result.Id;
             int secondValue = 3;
             var secondAdditionalComments = string.Empty;
 
@@ -58,7 +61,9 @@
         [Fact]
         public async Task SetRatingAsyncShouldSetAppointmentValue()
         {
-            var secondAppointmentId = new NLipsum.Core.Word().ToString();
+            var doctorId = new NLipsum.Core.Word().ToString();
+
+            var secondAppointmentId = this.CreateAppointmentAsync(doctorId).Result.Id;
             int secondValue = 5;
             var secondAdditionalComments = string.Empty;
 
@@ -72,20 +77,19 @@
         [Fact]
         public async Task SetRatingAsyncShouldNotSetRatingOnAppointmentThatHasBeenRated()
         {
-            var appointmentId = new NLipsum.Core.Word().ToString();
-            int value = 1;
-            var additionalComments = new NLipsum.Core.Sentence().ToString();
-            await this.CreateRatingAsync(appointmentId, value, additionalComments);
+            var doctorId = new NLipsum.Core.Word().ToString();
 
-            var secondAppointmentId = new NLipsum.Core.Word().ToString();
-            int secondValue = 4;
-            var secondAdditionalComments = string.Empty;
+            var appointmentId = this.CreateAppointmentAsync(doctorId).Result.Id;
+            await this.Service.SetRatingAsync(appointmentId, 1, "test1");
 
-            await this.Service.SetRatingAsync(secondAdditionalComments, secondValue, secondAdditionalComments);
+            /* should not be able to SetRating if
+              the first SetRatingAsync has successfully changed
+              the appointment status to HasBeenVoted = true
+              thus the appointmentToBerated will be null and will throw NullReferenceException
+            */
+            var appointment = this.DbContext.Appointments.FirstOrDefault(x => x.Id == appointmentId);
 
-            var appointmentRatingValue = this.DbContext.Appointments.Where(x => x.Id == secondAppointmentId).FirstOrDefault().Rating.Value;
-
-            Assert.Equal(1, appointmentRatingValue);
+            await Assert.ThrowsAsync<NullReferenceException>(() => this.Service.SetRatingAsync(appointment.Id, 4, "test2"));
         }
 
         [Fact]
@@ -93,12 +97,10 @@
         {
             var doctorId = new NLipsum.Core.Word().ToString();
 
-            var appointmentId = new NLipsum.Core.Word().ToString();
-            await this.CreateAppointmentAsync(appointmentId, doctorId);
+            var appointmentId = this.CreateAppointmentAsync(doctorId).Result.Id;
             await this.Service.SetRatingAsync(appointmentId, 5, string.Empty);
 
-            var secondAppointmentId = new NLipsum.Core.Word().ToString();
-            await this.CreateAppointmentAsync(secondAppointmentId, doctorId);
+            var secondAppointmentId = this.CreateAppointmentAsync(doctorId).Result.Id;
             await this.Service.SetRatingAsync(secondAppointmentId, 3, string.Empty);
 
             var actualResult = this.DbContext.Ratings
@@ -114,31 +116,24 @@
             var clinicId = new NLipsum.Core.Word().ToString();
 
             // 2 appointments for first doctor
-            var doctorId = new NLipsum.Core.Word().ToString();
-            await this.CreateDoctorAsync(clinicId, doctorId);
+            var doctorId = this.CreateDoctorAsync(clinicId).Result.Id;
 
-            var appointmentId = new NLipsum.Core.Word().ToString();
-            await this.CreateAppointmentAsync(appointmentId, doctorId);
-            await this.Service.SetRatingAsync(appointmentId, 5, string.Empty);
+            var appointmentId1 = this.CreateAppointmentAsync(doctorId).Result.Id; ;
+            await this.Service.SetRatingAsync(appointmentId1, 5, string.Empty);
 
-            var secondAppointmentId = new NLipsum.Core.Word().ToString();
-            await this.CreateAppointmentAsync(secondAppointmentId, doctorId);
-            await this.Service.SetRatingAsync(secondAppointmentId, 3, string.Empty);
+            var appointmentId2 = this.CreateAppointmentAsync(doctorId).Result.Id;
+            await this.Service.SetRatingAsync(appointmentId2, 3, string.Empty);
 
             // 3 appointments for second doctor
-            var doctorId2 = new NLipsum.Core.Word().ToString();
-            await this.CreateDoctorAsync(clinicId, doctorId2);
+            var doctorId2 = this.CreateDoctorAsync(clinicId).Result.Id;
 
-            var appointmentId3 = new NLipsum.Core.Word().ToString();
-            await this.CreateAppointmentAsync(appointmentId3, doctorId2);
+            var appointmentId3 = this.CreateAppointmentAsync(doctorId2).Result.Id;
             await this.Service.SetRatingAsync(appointmentId3, 2, string.Empty);
 
-            var appointmentId4 = new NLipsum.Core.Word().ToString();
-            await this.CreateAppointmentAsync(appointmentId4, doctorId2);
+            var appointmentId4 = this.CreateAppointmentAsync(doctorId2).Result.Id;
             await this.Service.SetRatingAsync(appointmentId4, 2, string.Empty);
 
-            var appointmentId5 = new NLipsum.Core.Word().ToString();
-            await this.CreateAppointmentAsync(appointmentId5, doctorId2);
+            var appointmentId5 = this.CreateAppointmentAsync(doctorId2).Result.Id;
             await this.Service.SetRatingAsync(appointmentId5, 3, string.Empty);
 
             var actualResult = this.DbContext.Ratings
@@ -162,15 +157,14 @@
             return rating;
         }
 
-        private async Task<Appointment> CreateAppointmentAsync(string appointmentId, string doctorId)
+        private async Task<Appointment> CreateAppointmentAsync(string doctorId)
         {
             var appointment = new Appointment
             {
-                Id = appointmentId,
                 DoctorId = doctorId,
                 PatientId = new NLipsum.Core.Word().ToString(),
                 ServiceId = new NLipsum.Core.Word().ToString(),
-                AppointmentTime = DateTime.UtcNow.AddDays(-2),
+                DateTime = DateTime.UtcNow.AddDays(-2),
                 AppointmentStatus = AppointmentStatus.Completed,
                 HasBeenVoted = false,
             };
@@ -181,11 +175,10 @@
             return appointment;
         }
 
-        private async Task<Doctor> CreateDoctorAsync(string clinicId, string doctorId)
+        private async Task<Doctor> CreateDoctorAsync(string clinicId)
         {
             var doctor = new Doctor
             {
-                Id = doctorId,
                 FirstName = new NLipsum.Core.Word().ToString(),
                 LastName = new NLipsum.Core.Word().ToString(),
                 ImageUrl = new NLipsum.Core.Sentence().ToString(),

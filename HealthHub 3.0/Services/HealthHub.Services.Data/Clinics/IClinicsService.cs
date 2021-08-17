@@ -24,11 +24,7 @@
 
         IEnumerable<ClinicViewModel> GetAllWithDeleted();
 
-        IEnumerable<string> GetAllClinicsNames();
-
         ClinicViewModel GetById(string clinicId);
-
-        IEnumerable<string> GetAllClinicIds();
 
         Task UpdateAsync(string id, ClinicEditInputModel input);
 

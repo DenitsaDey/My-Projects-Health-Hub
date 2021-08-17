@@ -15,24 +15,17 @@
     public class AppointmentsService : IAppointmentsService
     {
         private readonly IDeletableEntityRepository<Appointment> appointmentsRepository;
-        private readonly IDeletableEntityRepository<Service> proceduresRepository;
-        private readonly IDateTimeParserService dateTimeParserService;
 
-        public AppointmentsService(
-            IDeletableEntityRepository<Appointment> appointmentsRepository,
-            IDeletableEntityRepository<Service> proceduresRepository,
-            IDateTimeParserService dateTimeParserService)
+        public AppointmentsService(IDeletableEntityRepository<Appointment> appointmentsRepository)
         {
             this.appointmentsRepository = appointmentsRepository;
-            this.proceduresRepository = proceduresRepository;
-            this.dateTimeParserService = dateTimeParserService;
         }
 
         public async Task<T> GetByIdAsync<T>(string id)
         {
             var currentAppointment = await this.appointmentsRepository.All()
                 .Where(a => a.Id == id)
-                .OrderByDescending(a => a.AppointmentTime)
+                .OrderByDescending(a => a.DateTime)
                 .To<T>()
                 .FirstOrDefaultAsync();
 
@@ -42,7 +35,7 @@
         public IEnumerable<T> GetAll<T>()
         {
             var allAppointments = this.appointmentsRepository.All()
-                .OrderByDescending(a => a.AppointmentTime)
+                .OrderByDescending(a => a.DateTime)
                 .To<T>()
                 .ToList();
 
@@ -53,9 +46,9 @@
         {
             var allAppointments = this.appointmentsRepository.All()
                 .Where(a => a.DoctorId == doctorId
-                && a.AppointmentTime.Date >= DateTime.UtcNow.Date
-                && a.AppointmentTime.Hour >= DateTime.UtcNow.Hour)
-                .OrderBy(a => a.AppointmentTime)
+                && a.DateTime.Date >= DateTime.UtcNow.Date
+                && a.DateTime.Hour >= DateTime.UtcNow.Hour)
+                .OrderBy(a => a.DateTime)
                 .To<T>()
                 .ToList();
 
@@ -66,9 +59,9 @@
         {
             var allAppointments = await this.appointmentsRepository.All()
                 .Where(a => a.DoctorId == doctorId
-                && a.AppointmentTime.Date <= DateTime.UtcNow.Date
-                && a.AppointmentTime.Hour < DateTime.UtcNow.Hour)
-                .OrderByDescending(a => a.AppointmentTime)
+                && a.DateTime.Date <= DateTime.UtcNow.Date
+                && a.DateTime.Hour < DateTime.UtcNow.Hour)
+                .OrderByDescending(a => a.DateTime)
                 .To<T>()
                 .ToListAsync();
 
@@ -79,9 +72,9 @@
         {
             var allAppointments = this.appointmentsRepository.All()
                 .Where(a => a.PatientId == patientId
-                && a.AppointmentTime.Date >= DateTime.UtcNow.Date
-                && a.AppointmentTime.Hour >= DateTime.UtcNow.Hour)
-                .OrderBy(a => a.AppointmentTime)
+                && a.DateTime.Date >= DateTime.UtcNow.Date
+                && a.DateTime.Hour >= DateTime.UtcNow.Hour)
+                .OrderBy(a => a.DateTime)
                 .To<T>()
                 .ToList();
 
@@ -92,12 +85,12 @@
         {
             var allAppointments = await this.appointmentsRepository.All()
                 .Where(a => a.PatientId == patientId
-                && a.AppointmentTime.Date <= DateTime.UtcNow.Date
-                && a.AppointmentTime.Hour < DateTime.UtcNow.Hour)
-                .OrderByDescending(a => a.AppointmentTime)
+                && a.DateTime.Date <= DateTime.UtcNow.Date
+                && a.DateTime.Hour < DateTime.UtcNow.Hour)
+                .OrderByDescending(a => a.DateTime)
                 .To<T>()
                 .ToListAsync();
-            
+
             return allAppointments;
         }
 
@@ -105,7 +98,7 @@
         {
             var newAppointment = new Appointment
             {
-                AppointmentTime = dateTime,
+                DateTime = dateTime,
                 ServiceId = serviceId,
                 PatientId = patientId,
                 DoctorId = doctorId,

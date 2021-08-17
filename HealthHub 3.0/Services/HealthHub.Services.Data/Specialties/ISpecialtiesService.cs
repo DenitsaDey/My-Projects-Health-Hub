@@ -9,12 +9,8 @@
     {
         Task<IEnumerable<T>> GetAllSpecialtiesAsync<T>();
 
-        IEnumerable<string> GetAllSpecialtiesNames();
-
         Task<T> GetByIdAsync<T>(string specialtyId);
 
         Task AddAsync(string name);
-
-        IEnumerable<string> GetAllSpecialtiesIds();
     }
 }

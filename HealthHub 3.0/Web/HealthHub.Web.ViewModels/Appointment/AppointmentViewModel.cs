@@ -33,7 +33,7 @@
 
         public string ProcedureBooked { get; set; }
 
-        public DateTime AppointmentTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         public AppointmentStatus AppointmentStatus { get; set; }
 

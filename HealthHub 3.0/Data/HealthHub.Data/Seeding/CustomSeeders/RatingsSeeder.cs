@@ -24,7 +24,6 @@
 
             ratings.Add(new Rating
             {
-                Id = Guid.NewGuid().ToString(),
                 Value = 5,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 1").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
@@ -32,7 +31,6 @@
 
             ratings.Add(new Rating
             {
-                Id = Guid.NewGuid().ToString(),
                 Value = 4,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 2").FirstOrDefault().Id,
                 AdditionalComments = "vwry good service",
@@ -40,7 +38,6 @@
 
             ratings.Add(new Rating
             {
-                Id = Guid.NewGuid().ToString(),
                 Value = 4,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 3").FirstOrDefault().Id,
                 AdditionalComments = "very good service",
@@ -48,7 +45,6 @@
 
             ratings.Add(new Rating
             {
-                Id = Guid.NewGuid().ToString(),
                 Value = 5,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 4").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
@@ -64,7 +60,6 @@
 
             ratings.Add(new Rating
             {
-                Id = Guid.NewGuid().ToString(),
                 Value = 5,
                 AppointmentId = dbContext.Appointments.Where(a => a.Message == "test voting 6").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",

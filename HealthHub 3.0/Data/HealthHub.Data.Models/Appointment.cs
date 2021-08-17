@@ -12,7 +12,7 @@
     {
         public Appointment() => this.Id = Guid.NewGuid().ToString();
 
-        public DateTime AppointmentTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         [Required]
         public string ServiceId { get; set; }

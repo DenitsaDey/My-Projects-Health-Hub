@@ -1,12 +1,17 @@
 ﻿namespace HealthHub.Services.Data.Tests.UseInMemoryDatabase
 {
     using System;
-
+    using System.Reflection;
     using HealthHub.Data;
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Repositories;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Services.Data.Ratings;
+    using HealthHub.Services.Mapping;
+    using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Appointment;
+    using HealthHub.Web.ViewModels.Clinics;
+    using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -52,6 +57,15 @@
             services.AddTransient<IInsuranceService, InsuranceService>();
             services.AddTransient<IRatingsService, RatingsService>();
 
+            // AutoMapper
+            AutoMapperConfig.RegisterMappings(typeof(SpecialtyViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(ServicesViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(InsuranceViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(InsuranceClinicsViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(ClinicViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(AppointmentViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(CityAreasViewModel).GetTypeInfo().Assembly);
+            
             return services;
         }
     }
