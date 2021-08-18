@@ -13,7 +13,6 @@
     using HealthHub.Services.Messaging;
     using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Appointment;
-    using HealthHub.Web.ViewModels.Clinics;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -53,14 +52,7 @@
             var userId = await this.userManager.GetUserIdAsync(user);
             var viewModel = new AppointmentListViewModel();
 
-            if (user.UserName == "doctor@doctor.com")
-            {
-                viewModel.AppointmentList = this.appointmentService.GetUpcomingByDoctor<AppointmentViewModel>(userId);
-            }
-            else
-            {
-                viewModel.AppointmentList = this.appointmentService.GetUpcomingByPatient<AppointmentViewModel>(userId);
-            }
+            viewModel.AppointmentList = this.appointmentService.GetUpcomingByPatient<AppointmentViewModel>(userId);
 
             viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
@@ -69,10 +61,17 @@
         [Authorize(Roles = GlobalConstants.PatientRoleName)]
         public IActionResult Book(string doctorId)
         {
+            if (doctorId == null)
+            {
+                return this.NotFound();
+            }
+
             var viewModel = new AppointmentInputModel();
+
             viewModel.Clinics = this.clinicsService.GetAll();
             viewModel.DoctorId = doctorId;
             viewModel.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
+
             return this.View(viewModel);
         }
 
@@ -82,18 +81,13 @@
         {
             if (!this.ModelState.IsValid)
             {
+                input.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
                 return this.RedirectToAction("Book", input);
             }
 
             if (!this.servicesService.GetAllServices<ServicesViewModel>().Any(s => s.Id == input.ServiceId))
             {
                 this.ModelState.AddModelError(nameof(input.ServiceId), "Service does not exist.");
-            }
-
-            if (!this.ModelState.IsValid)
-            {
-                input.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
-                return this.View(input);
             }
 
             DateTime dateTime;
@@ -103,6 +97,7 @@
             }
             catch (System.Exception)
             {
+                input.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
                 return this.RedirectToAction("Book", input);
             }
 
@@ -119,13 +114,23 @@
 
             await this.emailSender.SendEmailAsync("healthhub@healthhub.com", "Health Hub", patientEmail, "Your Appointment Request", htmlContent);
 
-            // TODO return message "You have successfully requested an appointment"
             return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<IActionResult> Details(string appointmentId)
         {
+            if (appointmentId == null)
+            {
+                return this.NotFound();
+            }
+
             var viewModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error404", "Home");
+            }
+
             viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
@@ -133,10 +138,16 @@
         [Authorize(Roles = GlobalConstants.PatientRoleName)]
         public async Task<IActionResult> Reschedule(string appointmentId)
         {
+            if (appointmentId == null)
+            {
+                return this.NotFound();
+            }
+
             var viewModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
+
             if (viewModel == null)
             {
-                return new StatusCodeResult(404);
+                return this.RedirectToAction("Error404", "Home");
             }
 
             viewModel.Clinics = this.clinicsService.GetAll();
@@ -148,6 +159,11 @@
         [HttpPost]
         public async Task<IActionResult> Delete(string appointmentId, string doctorId)
         {
+            if (doctorId == null)
+            {
+                return this.NotFound();
+            }
+
             await this.appointmentService.RescheduleAppointmentAsync(appointmentId);
             return this.RedirectToAction(nameof(this.Book), new { doctorId });
         }
@@ -156,6 +172,11 @@
         [HttpPost]
         public async Task<IActionResult> Cancel(string appointmentId)
         {
+            if (appointmentId == null)
+            {
+                return this.NotFound();
+            }
+
             var viewModel = new HeaderSearchQueryModel();
             viewModel.Clinics = this.clinicsService.GetAll();
             await this.appointmentService.ChangeAppointmentStatusAsync(appointmentId, "Cancelled");

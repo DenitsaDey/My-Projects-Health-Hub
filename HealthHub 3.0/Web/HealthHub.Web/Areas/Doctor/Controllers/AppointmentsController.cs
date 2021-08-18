@@ -51,7 +51,8 @@
             // for demo purposes the doctorId will be asigned manually for the doctor who happened to have the most seeded appointments
             var doctorId = this.doctorsService.GetIdByMostAppointments();
 
-            var viewModel = this.appointmentsService.GetUpcomingByDoctor<DoctorAppointmentViewModel>(doctorId);
+            var viewModel = new DoctorAppointmentListViewModel();
+            viewModel.AppointmentList = this.appointmentsService.GetUpcomingByDoctor<DoctorAppointmentViewModel>(doctorId);
 
             return this.View(viewModel);
         }

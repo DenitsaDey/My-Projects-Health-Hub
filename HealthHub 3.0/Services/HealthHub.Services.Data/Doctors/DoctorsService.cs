@@ -31,6 +31,7 @@
         }
 
         public async Task<DoctorsFilterViewModel> GetAllSearchedAsync(
+            string searchName,
             string clinicId,
             string specialtyId,
             string cityAreaId,
@@ -39,13 +40,18 @@
             bool onlineConsultations,
             Gender gender,
             SearchSorting sorting,
-            string searchName,
             int pageNumber,
             int itemsPerPage)
         {
             var doctorsQuery = this.doctorsRepository.AllAsNoTracking()
                 .OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
                 .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchName))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(searchName.ToLower()));
+            }
 
             if (!string.IsNullOrWhiteSpace(clinicId))
             {
@@ -69,12 +75,6 @@
             {
                 doctorsQuery = doctorsQuery
                     .Where(d => d.Clinic.InsuranceCompanies.Any(x => x.InsuranceId == insuranceId));
-            }
-
-            if (!string.IsNullOrWhiteSpace(searchName))
-            {
-                doctorsQuery = doctorsQuery
-                    .Where(d => (d.FirstName + " " + d.LastName).ToLower().Contains(searchName.ToLower()));
             }
 
             if (worksWithChilderen)

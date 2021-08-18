@@ -36,7 +36,7 @@
             // in the cases when the appointment has not been confirmed or cancelled by the Doctor in the due time and the appointment has passed
             if (appointmentList.Any(a => a.AppointmentStatus == AppointmentStatus.Requested))
             {
-                foreach (var appointment in appointmentList)
+                foreach (var appointment in appointmentList.Where(a => a.AppointmentStatus == AppointmentStatus.Requested))
                 {
                     await this.appointmentsService.ChangeAppointmentStatusAsync(appointment.Id, "Cancelled");
                 }
@@ -46,7 +46,7 @@
             // However here the doctor has the option to change the status to "NoShow" if the patient did not show up, to prevent the option of rating the appointment
             if (appointmentList.Any(a => a.AppointmentStatus == AppointmentStatus.Confirmed))
             {
-                foreach (var appointment in appointmentList)
+                foreach (var appointment in appointmentList.Where(a => a.AppointmentStatus == AppointmentStatus.Confirmed))
                 {
                     await this.appointmentsService.ChangeAppointmentStatusAsync(appointment.Id, "Completed");
                 }

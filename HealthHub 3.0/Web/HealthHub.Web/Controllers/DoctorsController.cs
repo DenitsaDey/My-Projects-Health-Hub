@@ -1,13 +1,10 @@
 ﻿namespace HealthHub.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using HealthHub.Data.Models.Enums;
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
-    using HealthHub.Web.ViewModels.Clinics;
     using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,7 +14,6 @@
         private readonly IDoctorsService doctorsService;
         private readonly ISpecialtiesService specialtiesService;
         private readonly ICityAreasService cityAreasService;
-        private readonly IGetCountsService getCountsService;
         private readonly IInsuranceService insuranceService;
         private readonly IClinicsService clinicsService;
 
@@ -25,14 +21,12 @@
             IDoctorsService doctorsService,
             ISpecialtiesService specialtiesService,
             ICityAreasService cityAreasService,
-            IGetCountsService getCountsService,
             IInsuranceService insuranceService,
             IClinicsService clinicsService)
         {
             this.doctorsService = doctorsService;
             this.specialtiesService = specialtiesService;
             this.cityAreasService = cityAreasService;
-            this.getCountsService = getCountsService;
             this.insuranceService = insuranceService;
             this.clinicsService = clinicsService;
         }
@@ -61,6 +55,7 @@
             const int ItemsPerPage = 8;
 
             var viewModel = await this.doctorsService.GetAllSearchedAsync(
+                query.SearchName,
                 query.ClinicId,
                 query.SpecialtyId,
                 query.CityAreaId,
@@ -69,9 +64,13 @@
                 query.OnlineConsultation,
                 query.Gender,
                 query.Sorting,
-                query.SearchName,
                 pageId,
                 ItemsPerPage);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error404", "Home");
+            }
 
             viewModel.Clinics = this.clinicsService.GetAll();
             viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync<CityAreasViewModel>();
@@ -101,11 +100,16 @@
 
         public async Task<IActionResult> Details(string doctorId)
         {
+            if (doctorId == null)
+            {
+                return this.NotFound();
+            }
+
             var model = await this.doctorsService.GetByIdAsync<DoctorsViewModel>(doctorId);
 
             if (model == null)
             {
-                return new StatusCodeResult(404);
+                return this.RedirectToAction("Error404", "Home");
             }
 
             model.Clinics = this.clinicsService.GetAll();

@@ -37,6 +37,7 @@
         {
             this.ratingPopulatingService.ImportRatings();
 
+            // initially CityAreas and Insurances were scraped, later were just seeded
             // await this.cityAreasScraperService.ImportCityAreas();
             // await this.insuranceScraperService.ImportInsuranceCompanies();
             return this.RedirectToAction("Index", "Home");

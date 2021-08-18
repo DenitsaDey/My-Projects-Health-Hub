@@ -46,8 +46,7 @@
         {
             var allAppointments = this.appointmentsRepository.All()
                 .Where(a => a.DoctorId == doctorId
-                && a.AppointmentTime.Date >= DateTime.UtcNow.Date
-                && a.AppointmentTime.Hour >= DateTime.UtcNow.Hour)
+                && a.AppointmentTime.Date >= DateTime.UtcNow.Date)
                 .OrderBy(a => a.AppointmentTime)
                 .To<T>()
                 .ToList();
@@ -59,8 +58,7 @@
         {
             var allAppointments = await this.appointmentsRepository.All()
                 .Where(a => a.DoctorId == doctorId
-                && a.AppointmentTime.Date <= DateTime.UtcNow.Date
-                && a.AppointmentTime.Hour < DateTime.UtcNow.Hour)
+                && a.AppointmentTime.Date < DateTime.UtcNow.Date)
                 .OrderByDescending(a => a.AppointmentTime)
                 .To<T>()
                 .ToListAsync();
@@ -84,7 +82,7 @@
         {
             var allAppointments = await this.appointmentsRepository.All()
                 .Where(a => a.PatientId == patientId
-                && a.AppointmentTime.Date <= DateTime.UtcNow.Date)
+                && a.AppointmentTime.Date < DateTime.UtcNow.Date)
                 .OrderByDescending(a => a.AppointmentTime)
                 .To<T>()
                 .ToListAsync();

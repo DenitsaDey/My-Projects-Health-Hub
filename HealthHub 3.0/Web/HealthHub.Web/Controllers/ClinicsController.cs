@@ -50,6 +50,12 @@
                 query.Sorting,
                 pageId,
                 ItemsPerPage);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error404", "Home");
+            }
+
             viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync<CityAreasViewModel>();
             viewModel.InsuranceCompanies = this.insurancesService.GetAllInsuranceCompanies<InsuranceViewModel>();
             viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
@@ -77,11 +83,17 @@
 
         public IActionResult Details(string clinicId)
         {
+            if
+                (clinicId == null)
+            {
+                return this.NotFound();
+            }
+
             var viewModel = this.clinicsService.GetById(clinicId);
 
             if (viewModel == null)
             {
-                return new StatusCodeResult(404);
+                return this.RedirectToAction("Error404", "Home");
             }
 
             viewModel.Clinics = this.clinicsService.GetAll();

@@ -1,8 +1,8 @@
-﻿@model IEnumerable<HealthHub.Web.ViewModels.Appointment.DoctorAppointmentViewModel>
+﻿@model HealthHub.Web.ViewModels.Appointment.DoctorAppointmentListViewModel
 @{ this.ViewData["Title"] = "Default"; }
 
 <h2><strong>Past Appointments</strong></h2>
-@if (@Model.Count() > 0)
+@if (@Model.AppointmentList.Count() > 0)
 {
 <table class="table table-bordered table-light">
     <thead class="thead-light">
@@ -12,49 +12,97 @@
             <th scope="col">Status</th>
             <th scope="col">Rating</th>
             <th scope="col">Details</th>
-            <th scope="col">Change Status</th>
+            <th scope="col">
+                <p>Patient did not show up?</p>
+                <p>change status to avoid rating</p>
+            </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var appointment in this.Model)
+        @foreach (var appointment in this.Model.AppointmentList)
         {
-            <tr>
-                <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
-                <td>@appointment.PatientName</td>
-                <td>
-                    @if (appointment.AppointmentStatus.ToString() == "Requested")
-                    {
-                        <p>Cancelled</p>
-                    }
-                    else if(appointment.AppointmentStatus.ToString() != "Completed")
-                    {
-                        <p>Not Completed!</p>
-                    }
-                </td>
-                <td>
-                    @if (appointment.RatingValue != 0)
-                    {
-                        <p>Already Rated!</p> 
-                    }
-                    else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() == "Completed")
-                    {
-                        <p>Not Rated Yet!</p>
-                    }
-                    else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() != "Completed")
-                    {
+<tr>
+    <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
+    <td>@appointment.PatientName</td>
+    <td>@appointment.AppointmentStatus</td>
+    <td>
+        @if (appointment.RatingValue != 0)
+        {
+<p>Already Rated!</p> }
+else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() == "Completed")
+{
+<p>Not Rated Yet!</p>}
+    </td>
+    <td>
+        <a class="btn btn-outline-success btn-sm"
+           asp-area="Doctor" asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@appointment.Id">
+            Details
+        </a>
+    </td>
+    <td>
+        @if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() == "Completed")
+        {
+<form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="ChangeStatus" id="noShowAppointment" asp-route-appointmentId="@appointment.Id">
+</form>
                         <a class="btn btn-outline-danger btn-sm"
-                        asp-area="Doctor" asp-controller="Appointments" asp-action="ChangeStatus" asp-route-appointmentId="@appointment.Id" asp-route-status ="Completed">
-                        Change status to allow rating!
-                    </a>
-                    }
-                </td>
-                <td>
-                    <a class="btn btn-outline-success btn-sm"
-                       asp-area="Doctor" asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@appointment.Id">
-                        Details
-                    </a>
-                </td>
-            </tr>
-            }
+                           data-toggle="modal" data-target="#modalNoShow">
+                            NoShow
+                        </a>}
+    </td>
+</tr>
+}
     </tbody>
 </table>}
+
+<!-- Modal NoShow-->
+<div class="modal" id="modalNoShow" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change appointment status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Are you sure this appointment is NoShow?
+                </p>
+                <p>
+                    You won't get rating for it.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back!</button>
+                <button type="button" class="btn btn-primary" onclick="noShowAppointment.submit()">Yes, mark it as NoShow!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        //Everytime we press confirm in the table row
+        $(this).click(function (el) {
+            e.preventDefault();
+
+            //Update the item to confirm id so our model knows which one to confirm
+            var id = $(this).data('id');
+            $('#item-to-confirm').val(id);
+
+        });
+
+        //Everytime we press sumbit on the modal form...
+        $('#mySubmit').click(function() {
+
+        //Get the id to confirm from the hidden field
+        var id = $('#item-to-confirm').val();
+
+
+        //Call our confirm actionresult and pass over this id
+        $.post(@Url.Action("Confirm", "Appointments"), { id : id } , function (data) {
+            alert("Confirmed");
+        });
+
+    </script>
+}

@@ -21,8 +21,6 @@
 
         public string DoctorImageUrl { get; set; }
 
-        // public string ClinicId { get; set; }
-
         public string ClinicName { get; set; }
 
         public string ClinicMapUrl { get; set; }

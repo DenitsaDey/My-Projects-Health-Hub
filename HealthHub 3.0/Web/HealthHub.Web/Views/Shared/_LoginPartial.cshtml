@@ -4,23 +4,26 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-    @if (this.SignInManager.IsSignedIn(this.User))
+@{
+    if (this.SignInManager.IsSignedIn(this.User))
     {
-        <li>
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @((await UserManager.GetUserAsync(User)).FirstName)!</a>
-        </li>
-        <li>
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
-                <button type="submit" class="btn btn-dark">Logout</button>
-            </form>
-        </li>
+        string name = (await UserManager.GetUserAsync(User)).FirstName;
+    <li>
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(name)!</a>
+    </li>
+    <li>
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
+            <button type="submit" class="btn btn-dark">Logout</button>
+        </form>
+    </li>
     }
     else
     {
-        <li>
-            <a asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li>
-            <a asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
+    <li>
+        <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li>
+        <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+        }
     }

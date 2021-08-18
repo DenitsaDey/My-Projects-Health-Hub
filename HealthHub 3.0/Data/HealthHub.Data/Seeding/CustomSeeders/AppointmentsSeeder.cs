@@ -64,7 +64,7 @@
             {
                 AppointmentTime = DateTime.UtcNow.AddDays(-3),
                 PatientId = patientId,
-                DoctorId = doctorsId[2],
+                DoctorId = doctorsId[3],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
                 AppointmentStatus = Models.Enums.AppointmentStatus.Cancelled,
                 Message = "appointment test 4",
@@ -77,7 +77,7 @@
                 PatientId = patientId,
                 DoctorId = doctorsId[3],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Vaccination").FirstOrDefault(),
-                AppointmentStatus = Models.Enums.AppointmentStatus.Completed,
+                AppointmentStatus = Models.Enums.AppointmentStatus.Confirmed,
                 Message = "appointment test 5",
                 HasBeenVoted = false,
             });
@@ -86,9 +86,9 @@
             {
                 AppointmentTime = DateTime.UtcNow.AddDays(-4),
                 PatientId = patientId,
-                DoctorId = doctorsId[4],
+                DoctorId = doctorsId[3],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
-                AppointmentStatus = Models.Enums.AppointmentStatus.Cancelled,
+                AppointmentStatus = Models.Enums.AppointmentStatus.Requested,
                 Message = "appointment test 6",
                 HasBeenVoted = false,
             });

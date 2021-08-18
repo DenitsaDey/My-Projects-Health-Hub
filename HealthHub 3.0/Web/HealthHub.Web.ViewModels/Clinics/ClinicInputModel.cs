@@ -14,9 +14,11 @@
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Map Url")]
         public string MapUrl { get; set; }
 
         [Required]
+        [Display(Name = "Area")]
         public string AreaId { get; set; }
 
         public string AreaName { get; set; }
@@ -25,8 +27,10 @@
         [MaxLength(AddressMaxLength)]
         public string Address { get; set; }
 
+        [Display(Name = "Medical Staff")]
         public IEnumerable<DoctorsViewModel> MedicalStaff { get; set; }
 
+        [Display(Name = "Insurance Companies")]
         public IEnumerable<InsuranceClinicsViewModel> InsuranceCompanies { get; set; }
     }
 }

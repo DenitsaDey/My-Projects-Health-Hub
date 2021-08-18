@@ -25,8 +25,6 @@
         public string AppointmentTime { get; set; }
 
         [Display(Name ="Additional Notes")]
-
-        // [StringLength(200, MinimumLength = 10, ErrorMessage ="Text should be between {2} and {1} characters.")]
         public string Message { get; set; }
 
         public IEnumerable<ServicesViewModel> ServicesItems { get; set; }

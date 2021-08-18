@@ -8,7 +8,6 @@
     using HealthHub.Services.Data.Ratings;
     using HealthHub.Web.ViewModels.Appointment;
     using HealthHub.Web.ViewModels.Doctor;
-    using HealthHub.Web.ViewModels.Rating;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +35,18 @@
 
         public async Task<IActionResult> RatePastAppointment(string appointmentId)
         {
+            if (appointmentId == null)
+            {
+                return this.NotFound();
+            }
+
             var viewModel = await this.appointmentsService.GetByIdAsync<AppointmentRatingViewModel>(appointmentId);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error404", "Home");
+            }
+
             viewModel.Clinics = this.clinicsService.GetAll();
             return this.View(viewModel);
         }
