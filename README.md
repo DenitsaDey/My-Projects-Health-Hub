@@ -16,7 +16,7 @@ Note: The project is created without any current knowledge of JavaScript, kindly
 5. [Bootstrap Template](https://github.com/DenitsaDey/My-Projects#bootstrap-template)
 6. [Acknowledgements](https://github.com/DenitsaDey/My-Projects#screenshots#acknowledgements)
 
-## :pencil12: Overview
+## :pencil2: Overview
 &nbsp;&nbsp;&nbsp;&nbsp;**Health Hub** is a web application that connects doctors and patients. It has the following functionality:
 
 - Guest Users can: 
