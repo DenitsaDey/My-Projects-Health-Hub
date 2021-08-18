@@ -19,7 +19,7 @@ Note: The project is created without any current knowledge of JavaScript, kindly
 ## :information_source: Overview
 &nbsp;&nbsp;&nbsp;&nbsp;**Health Hub** is a web application that connects doctors and patients. It has the following functionality:
 
-- Guest users can: 
+- Guest Users can: 
   - browse doctors by clinics, specialties, city areas, insurance companies, rating, most popular, gender etc.
   - view information about each doctor such as About and Rating.
   - see Frequently Asked Questions.
@@ -30,7 +30,7 @@ Note: The project is created without any current knowledge of JavaScript, kindly
   - reschedule appointments.
   - can add or edit notes to the doctor.
   - can rate appointments that have been completed.  
-- Doctors (user role) can:
+- Doctors can:
   - confirm/cancel requested appointments; 
   - change the status of confirmed appointments to Completed, Cancelled or NoShow thus enabling the voting option for each past appointment.
 - Admin can:
