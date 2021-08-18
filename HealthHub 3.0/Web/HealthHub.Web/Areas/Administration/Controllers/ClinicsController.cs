@@ -37,9 +37,7 @@
         // GET: Administration/Clinics
         public IActionResult Index()
         {
-            var clinics = this.clinicsService.GetAllWithDeleted();
-            var insuranceCompanies = clinics.Select(c => c.InsuranceCompanies.Select(ic => ic.InsuranceName)).ToList();
-            this.ViewData["InsuranceCompanies"] = new SelectList(insuranceCompanies, "Name");
+            var clinics = this.clinicsService.GetAllClinics();
 
             return this.View(clinics);
         }

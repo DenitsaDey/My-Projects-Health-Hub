@@ -22,7 +22,7 @@
             int pageNumber,
             int itemsPerPage);
 
-        IEnumerable<ClinicViewModel> GetAllWithDeleted();
+        IEnumerable<ClinicViewModel> GetDeleted();
 
         ClinicViewModel GetById(string clinicId);
 

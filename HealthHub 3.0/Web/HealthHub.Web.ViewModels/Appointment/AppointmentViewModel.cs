@@ -21,7 +21,7 @@
 
         public string DoctorImageUrl { get; set; }
 
-       // public string ClinicId { get; set; }
+        // public string ClinicId { get; set; }
 
         public string ClinicName { get; set; }
 
@@ -33,7 +33,7 @@
 
         public string ProcedureBooked { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTime AppointmentTime { get; set; }
 
         public AppointmentStatus AppointmentStatus { get; set; }
 

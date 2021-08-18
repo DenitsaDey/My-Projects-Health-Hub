@@ -347,7 +347,7 @@
                 10,
                 false,
                 true,
-                "Dr.Rama has been practicing since 2011, treating diagnosing and managing a wide spectrum of internal and cardiac illnesses (hypertension , arrhythymia, valvular, cardiomyopathies , congenital, ischemic heart diseases and heart attacks in addition to the cardiac emergency cases such as cardiac arrest and CPR), utilizing the most important cardiac investigation tools like electrocardiogram , echocardiography , stress test , holter, ,monitoring gamma camera, catheterization and revasculization ,coronary CT and others.");
+                "Dr.Rana has been practicing since 2011, treating diagnosing and managing a wide spectrum of internal and cardiac illnesses (hypertension , arrhythymia, valvular, cardiomyopathies , congenital, ischemic heart diseases and heart attacks in addition to the cardiac emergency cases such as cardiac arrest and CPR), utilizing the most important cardiac investigation tools like electrocardiogram , echocardiography , stress test , holter, ,monitoring gamma camera, catheterization and revasculization ,coronary CT and others.");
 
             await AddNewDoctor(
                 dbContext,

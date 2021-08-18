@@ -11,19 +11,19 @@
                     <p>
                         <strong>Phone:</strong> +97433088806<br>
                         <strong>Email:</strong> denitsa.dey@gmail.com<br>
-                        <strong>Github:</strong> <a href="https://github.com/DenitsaDey/My-Projects/tree/master/HealthHub%203.0" target="_blank">
-                            <span>Denitsa Dey Health Hub</span>
+                        <strong>Github:</strong> <a href="https://github.com/DenitsaDey/My-Projects" target="_blank">
+                            <span>Denitsa Dey Health Hub</span></a>
                     </p>
                 </div>
                 <nav id="navbar" class="navbar order-last order-lg-10">
                     <ul>
                         <li><a class="nav-link scrollto" href="#home">     </a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link scrollto">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link scrollto">About</a></li>
+                        <li><a href="@Url.Action("Index","Home")#about" class="nav-link scrollto">About</a></li>
                         <li><a asp-area="" asp-controller="Doctors" asp-action="All" class="nav-link scrollto">Doctors</a></li>
                         <li><a asp-area="" asp-controller="Clinics" asp-action="Index"class="nav-link scrollto">Clinics</a></li>
                         <li><a asp-area="" asp-controller="Appointment" asp-action="Index"class="nav-link scrollto">Appointments</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link scrollto">FAQs</a></li>
+                        <li><a href="@Url.Action("Index","Home")#faq" class="nav-link scrollto">FAQs</a></li>
                     </ul>
                 </nav>
             </div>

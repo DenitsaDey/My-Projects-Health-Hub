@@ -16,18 +16,22 @@
         private readonly IDeletableEntityRepository<Doctor> doctorsRepository;
         private readonly IDeletableEntityRepository<Service> servicesRepository;
         private readonly IDeletableEntityRepository<Specialty> specialtyRepository;
+        private readonly IDeletableEntityRepository<Appointment> appointmentsRepository;
 
         public DoctorsService(
             IDeletableEntityRepository<Doctor> doctorsRepository,
             IDeletableEntityRepository<Service> servicesRepository,
-            IDeletableEntityRepository<Specialty> specialtyRepository)
+            IDeletableEntityRepository<Specialty> specialtyRepository,
+            IDeletableEntityRepository<Appointment> appointmentsRepository)
         {
             this.doctorsRepository = doctorsRepository;
             this.servicesRepository = servicesRepository;
             this.specialtyRepository = specialtyRepository;
+            this.appointmentsRepository = appointmentsRepository;
         }
 
         public async Task<DoctorsFilterViewModel> GetAllSearchedAsync(
+            string clinicId,
             string specialtyId,
             string cityAreaId,
             string insuranceId,
@@ -35,7 +39,6 @@
             bool onlineConsultations,
             Gender gender,
             SearchSorting sorting,
-            string clinicId,
             string searchName,
             int pageNumber,
             int itemsPerPage)
@@ -43,6 +46,12 @@
             var doctorsQuery = this.doctorsRepository.AllAsNoTracking()
                 .OrderByDescending(d => d.ScheduledAppointments.Select(sa => sa.Rating.Value).Average())
                 .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(clinicId))
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Clinic.Id == clinicId);
+            }
 
             if (!string.IsNullOrWhiteSpace(specialtyId))
             {
@@ -60,12 +69,6 @@
             {
                 doctorsQuery = doctorsQuery
                     .Where(d => d.Clinic.InsuranceCompanies.Any(x => x.InsuranceId == insuranceId));
-            }
-
-            if (!string.IsNullOrWhiteSpace(clinicId))
-            {
-                doctorsQuery = doctorsQuery
-                    .Where(d => d.Clinic.Id == clinicId);
             }
 
             if (!string.IsNullOrWhiteSpace(searchName))
@@ -132,11 +135,12 @@
         }
 
         // for Administration Area/ Doctors Controller/ Index
-        public IEnumerable<T> GetAllWithDeleted<T>()
+        public IEnumerable<T> GetDeleted<T>()
         {
             return this.doctorsRepository.AllWithDeleted()
                 .Include(d => d.Clinic)
                 .Include(d => d.Specialty)
+                .Where(d => d.IsDeleted)
                 .To<T>()
                 .ToList();
         }
@@ -210,7 +214,7 @@
 
         public async Task<T> GetByIdAsync<T>(string doctorId)
         {
-            var currentDoctor = await this.doctorsRepository.All()
+            var currentDoctor = await this.doctorsRepository.AllWithDeleted() // all with deleted in order to be able to still show details for deleted doctors in Admin/Doctors/Index in Deleted Doctors table
                 .Where(d => d.Id == doctorId)
                 .To<T>()
                 .FirstOrDefaultAsync();
@@ -221,10 +225,24 @@
         // for demo purposes in Doctor Area/ Appointments Controller/ Index
         public string GetIdByMostAppointments()
         {
-            return this.doctorsRepository.All()
-                .OrderByDescending(d => d.ScheduledAppointments.Count)
+            //return this.doctorsRepository.All()
+            //    .OrderByDescending(d => d.ScheduledAppointments.Count)
+            //    .FirstOrDefault()
+            //    .Id;
+            var groupedAppointments = this.appointmentsRepository.All()
+                .GroupBy(a => a.DoctorId)
+                .Select(x => new
+                {
+                    DoctorId = x.Key,
+                    Count = x.Select(a => a.Id).Distinct().Count(),
+                });
+
+            var doctorId = groupedAppointments
+                .OrderByDescending(x => x.Count)
                 .FirstOrDefault()
-                .Id;
+                .DoctorId;
+
+            return doctorId;
         }
 
         public T GetByAppointment<T>(string appointmentId)

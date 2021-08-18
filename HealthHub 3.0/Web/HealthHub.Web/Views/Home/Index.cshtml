@@ -15,6 +15,10 @@ else if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
     <partial name="_AdminHeaderPartial" />
 }
+else if (this.ViewData["Title"].ToString() == "Import Data")
+{
+    <partial name="_AdminHeaderPartial" />
+}
 else
 {
     <partial name="_HeaderPartial" />

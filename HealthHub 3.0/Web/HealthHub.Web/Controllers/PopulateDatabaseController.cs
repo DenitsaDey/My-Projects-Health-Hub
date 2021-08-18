@@ -30,14 +30,12 @@
         {
             this.ratingPopulatingService.ImportRatings();
 
-            var viewModel = new HeaderSearchQueryModel();
-            viewModel.Clinics = this.clinicsService.GetAll();
-            return this.View(viewModel);
+            return this.View();
         }
 
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
-            await this.ratingPopulatingService.ImportRatings();
+            this.ratingPopulatingService.ImportRatings();
 
             // await this.cityAreasScraperService.ImportCityAreas();
             // await this.insuranceScraperService.ImportInsuranceCompanies();

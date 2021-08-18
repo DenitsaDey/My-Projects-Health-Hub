@@ -164,7 +164,7 @@
                 DoctorId = doctorId,
                 PatientId = new NLipsum.Core.Word().ToString(),
                 ServiceId = new NLipsum.Core.Word().ToString(),
-                DateTime = DateTime.UtcNow.AddDays(-2),
+                AppointmentTime = DateTime.UtcNow.AddDays(-2),
                 AppointmentStatus = AppointmentStatus.Completed,
                 HasBeenVoted = false,
             };

@@ -7,6 +7,7 @@
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
+    using HealthHub.Services.Mapping;
     using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Clinics;
     using HealthHub.Web.ViewModels.Doctor;
@@ -229,9 +230,10 @@
         }
 
         // for Administration Area/ Clinics Controller/ Index
-        public IEnumerable<ClinicViewModel> GetAllWithDeleted()
+        public IEnumerable<ClinicViewModel> GetDeleted()
         {
             var allClinics = this.clinicsRepository.AllWithDeleted()
+                .Where(c => c.IsDeleted)
                 .OrderBy(x => x.Name)
                 .Select(c => new ClinicViewModel
                 {
@@ -282,11 +284,12 @@
 
             return allClinics;
 
-            // return this.clinicsRepository.AllWithDeleted()
-            //    .Include(c => c.Area)
-            //    .Include(c => c.InsuranceCompanies)
-            //    .To<T>()
-            //    .ToList();
+            //return this.clinicsRepository.All()
+            //    .Where(c => c.IsDeleted)
+            //   .Include(c => c.Area)
+            //   .Include(c => c.InsuranceCompanies)
+            //   .To<T>()
+            //   .ToList();
         }
 
         // for Administration Area/ Clinics Controller/ Edit
@@ -322,7 +325,7 @@
 
         public ClinicViewModel GetById(string clinicId)
         {
-            var clinic = this.clinicsRepository.All()
+            var clinic = this.clinicsRepository.AllWithDeleted() // all with deleted in order to be able to still show details for deleted clinics in Admin/Clinics/Index Deleted Clinics table
                 .Where(c => c.Id == clinicId)
                 .Select(c => new ClinicViewModel
                 {
@@ -357,6 +360,9 @@
                     .ToList(),
                 })
                 .FirstOrDefault();
+
+            if (clinic != null)
+            {
             clinic.AverageRating =
                     clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
                     clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.AverageRating).Average() : 0;
@@ -364,6 +370,7 @@
             clinic.RatingsCount =
                 clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
                 clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.RatingsCount).Sum() : 0;
+            }
 
             return clinic;
         }

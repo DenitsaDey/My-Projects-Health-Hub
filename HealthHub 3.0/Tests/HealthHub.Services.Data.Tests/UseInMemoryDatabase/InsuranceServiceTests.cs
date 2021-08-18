@@ -46,51 +46,6 @@
             Assert.Equal(model2.Name, resultModelCollection.First().Name);
         }
 
-        //[Fact]
-        //public async Task GetAllByClinicIdShouldReturnTheCorrectModelCollection()
-        //{
-        //    var cityArea = this.CreateCityAreaAsync("area");
-        //    var cityAreaId = cityArea.Result.Id;
-
-        //    // 2 insurnace companies
-        //    var insurance1 = await this.CreateInsuranceAsync("insurnace 1");
-        //    var insurance2 = await this.CreateInsuranceAsync("insurnace 2");
-
-        //    // clinic 1 with 2 isnurance companies
-        //    var clinic = await this.CreateClinicAsync(cityAreaId);
-        //    var clinicId = clinic.Id;
-
-        //    var insuranceinClinic1 = await this.CreateInsuranceClinicAsync(clinicId, insurance1.Id);
-        //    var insuranceinClinic2 = await this.CreateInsuranceClinicAsync(clinicId, insurance2.Id);
-
-        //    var model1 = new InsuranceClinicsViewModel()
-        //    {
-        //        Id = insuranceinClinic1.Id,
-        //        ClinicId = insuranceinClinic1.ClinicId,
-        //        ClinicName = insuranceinClinic1.Clinic.Name,
-        //        InsuranceId = insuranceinClinic1.InsuranceId,
-        //        InsuranceName = insuranceinClinic2.Insurance.Name,
-        //    };
-
-        //    var model2 = new InsuranceClinicsViewModel()
-        //    {
-        //        Id = insuranceinClinic2.Id,
-        //        ClinicId = insuranceinClinic2.ClinicId,
-        //        ClinicName = insuranceinClinic2.Clinic.Name,
-        //        InsuranceId = insuranceinClinic2.InsuranceId,
-        //        InsuranceName = insuranceinClinic2.Insurance.Name,
-        //    };
-
-        //    var resultModelCollection = this.Service.GetAllByClinicId<InsuranceClinicsViewModel>(clinicId);
-
-        //    Assert.Equal(model1.Id, resultModelCollection.Last().Id);
-        //    Assert.Equal(model1.ClinicId, resultModelCollection.Last().ClinicId);
-        //    Assert.Equal(model1.InsuranceId, resultModelCollection.Last().InsuranceId);
-        //    Assert.Equal(model2.Id, resultModelCollection.First().Id);
-        //    Assert.Equal(model2.ClinicId, resultModelCollection.First().ClinicId);
-        //    Assert.Equal(model2.InsuranceId, resultModelCollection.First().InsuranceId);
-        //}
-
         private async Task<Insurance> CreateInsuranceAsync(string name)
         {
             var insurance = new Insurance()

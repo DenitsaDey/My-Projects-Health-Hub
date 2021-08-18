@@ -4,52 +4,56 @@
 <h2><strong>Past Appointments</strong></h2>
 @if (@Model.AppointmentList.Count() > 0)
 {
-                <table class="table table-bordered table-light">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Date and Time</th>
-                            <th scope="col">Doctor</th>
-                            <th scope="col">Clinic</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Rating</th>
-                            <th scope="col">Details</th>
-                            <th scope="col">Book Again</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var appointment in this.Model.AppointmentList)
-                        {
-        <tr>
-            <th scope="row">@appointment.DateTime.ToString("f")</th>
-            <td>@appointment.DoctorName</td>
-            <td>@appointment.ClinicName</td>
-            <td>@appointment.AppointmentStatus.ToString()</td>
-            <td>
-                @if (appointment.RatingValue != 0)
-                {
-<p>Already Rated!</p> }
-else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() == "Completed")
-{
-<a class="btn btn-outline-danger btn-sm"
-   asp-area="" asp-controller="Rating" asp-action="RatePastAppointment" asp-route-appointmentId="@appointment.Id">
-    Rate Appointment
-</a> }
-                    else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() != "Completed")
+ <table class="table table-bordered table-light">
+     <thead class="thead-light">
+         <tr>
+             <th scope="col">Date and Time</th>
+             <th scope="col">Doctor</th>
+             <th scope="col">Clinic</th>
+             <th scope="col">Status</th>
+             <th scope="col">Rating</th>
+             <th scope="col">Details</th>
+             <th scope="col">Book Again</th>
+         </tr>
+     </thead>
+     <tbody>
+         @foreach (var appointment in this.Model.AppointmentList)
+         {
+          <tr>
+              <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
+              <td>@appointment.DoctorName</td>
+              <td>@appointment.ClinicName</td>
+              <td>@appointment.AppointmentStatus.ToString()</td>
+              <td>
+                  @if (appointment.RatingValue != 0)
                     {
-<p>Can't rate this appointment!</p>}
-            </td>
-            <td>
-                <a class="btn btn-outline-success btn-sm"
-                   asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@appointment.Id">
-                    Details
-                </a>
-            </td>
-            <td>
-                <a class="btn btn-outline-info btn-sm"
-                   asp-area="" asp-controller="Appointment" asp-action="Book" asp-route-appointmentId="@appointment.Id">
-                    Book again
-                </a>
-            </td>
-        </tr>}
-                    </tbody>
-                </table>}
+                    <p>Already Rated!</p> 
+                    }
+                  else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() == "Completed")
+                    {
+                    <a class="btn btn-outline-danger btn-sm"
+                       asp-area="" asp-controller="Rating" asp-action="RatePastAppointment" asp-route-appointmentId="@appointment.Id">
+                        Rate Appointment
+                    </a> 
+                    }
+                  else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() != "Completed")
+                    {
+                    <p>Can't rate this appointment!</p>
+                    }
+              </td>
+              <td>
+                  <a class="btn btn-outline-success btn-sm"
+                     asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@appointment.Id">
+                      Details
+                  </a>
+              </td>
+              <td>
+                  <a class="btn btn-outline-info btn-sm"
+                     asp-area="" asp-controller="Appointment" asp-action="Book" asp-route-appointmentId="@appointment.Id">
+                      Book again
+                  </a>
+              </td>
+          </tr>
+          }
+     </tbody>
+ </table>}

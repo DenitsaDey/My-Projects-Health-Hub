@@ -24,7 +24,7 @@
             <div class="tab_panel active">
                 <div class="tab_panel_content">
                     <div class="info_content">
-                        <div class="info_title" style="padding-top:10px"><strong> @Model.DateTime.ToString("f")</strong> </div>
+                        <div class="info_title" style="padding-top:10px"><strong> @Model.AppointmentTime.ToString("f")</strong> </div>
                         <div class="info_text" style="padding-top:20px"><strong>Doctor: </strong>@Model.DoctorName</div>
                         <div class="info_text" style="padding-top:20px"><strong>Patient: </strong>@Model.PatientName</div>
                         <div class="info_text" style="padding-top:20px"><strong>Booked for: </strong>@Model.ProcedureBooked</div>
@@ -32,20 +32,21 @@
                         <div class="info_text"><strong>Status: </strong>@Model.AppointmentStatus</div>
                     </div>
                     <div class="tab_list">
-                           @if (@Model.RatingValue != 0 && @Model.AppointmentStatus.ToString() == "Completed")
-                            {
-                                <div class="info_text">
-                                    Rating: &nbsp;&nbsp;
-                                    <span class="star-rating">
-                                        <span class="fa fa-star-o" data-rating="1"></span>
-                                        <span class="fa fa-star-o" data-rating="2"></span>
-                                        <span class="fa fa-star-o" data-rating="3"></span>
-                                        <span class="fa fa-star-o" data-rating="4"></span>
-                                        <span class="fa fa-star-o" data-rating="5"></span>
-                                        <input type="hidden" name="whatever1" class="rating-value" value="@Model.RatingValue">
-                                    </span>
-                                </div>
-                            }
+                        @if (@Model.RatingValue != 0 && @Model.AppointmentStatus.ToString() == "Completed")
+                        {
+                            <div class="info_text">
+                                Rating: &nbsp;&nbsp;
+                                <span class="star-rating">
+                                    <span class="fa fa-star-o" data-rating="1"></span>
+                                    <span class="fa fa-star-o" data-rating="2"></span>
+                                    <span class="fa fa-star-o" data-rating="3"></span>
+                                    <span class="fa fa-star-o" data-rating="4"></span>
+                                    <span class="fa fa-star-o" data-rating="5"></span>
+                                    <input type="hidden" name="whatever1" class="rating-value" value="@Model.RatingValue">
+                                    <span>&nbsp; ( @Model.RatingValue.ToString("F") / 5.00 )</span>
+                                </span>
+                            </div>
+                        }
                     </div>
                     <div class="tab_list">
                         <div class="appointment-btn scrollto">
@@ -59,3 +60,7 @@
         </div>
     </div>
 </section>
+@section Scripts {
+
+    <script src="~/js/rating-static.js" asp-append-version="true"></script>
+}

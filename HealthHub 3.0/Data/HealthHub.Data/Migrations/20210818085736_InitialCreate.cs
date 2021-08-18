@@ -325,7 +325,7 @@ namespace HealthHub.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AppointmentTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ServiceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(700)", maxLength: 700, nullable: true),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),

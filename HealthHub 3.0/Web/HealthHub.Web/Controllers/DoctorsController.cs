@@ -37,8 +37,8 @@
             this.clinicsService = clinicsService;
         }
 
-        // [Route("Doctors/All/{specialtyId}&{cityAreaId}&{name}&{pageNumber}")]
         public async Task<IActionResult> All(
+            string clinicId,
             [FromQuery] DoctorsFilterViewModel query,
             string searchName,
             int pageId = 1)
@@ -48,9 +48,20 @@
                 return this.NotFound();
             }
 
+            if (!string.IsNullOrEmpty(clinicId))
+            {
+                query.ClinicId = clinicId;
+            }
+
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                query.SearchName = searchName;
+            }
+
             const int ItemsPerPage = 8;
 
             var viewModel = await this.doctorsService.GetAllSearchedAsync(
+                query.ClinicId,
                 query.SpecialtyId,
                 query.CityAreaId,
                 query.InsuranceId,
@@ -58,8 +69,7 @@
                 query.OnlineConsultation,
                 query.Gender,
                 query.Sorting,
-                query.ClinicId,
-                searchName,
+                query.SearchName,
                 pageId,
                 ItemsPerPage);
 

@@ -5,6 +5,7 @@
 
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
+    using HealthHub.Data.Models.Enums;
     using HealthHub.Services.Data;
     using HealthHub.Web.ViewModels.Appointment;
     using Microsoft.AspNetCore.Identity;
@@ -36,8 +37,30 @@
                 .FirstOrDefault()
                 .Id;
 
-            var viewModel = await this.appointmentsService.GetPastByDoctorAsync<DoctorAppointmentViewModel>(doctorId);
+            var viewModel = new DoctorAppointmentListViewModel();
 
+            var appointmentList = await this.appointmentsService.GetPastByDoctorAsync<DoctorAppointmentViewModel>(doctorId);
+
+            // in the cases when the appointment has not been confirmed or cancelled by the Doctor in the due time and the appointment has passed
+            if (appointmentList.Any(a => a.AppointmentStatus == AppointmentStatus.Requested))
+            {
+                foreach (var appointment in appointmentList)
+                {
+                    await this.appointmentsService.ChangeAppointmentStatusAsync(appointment.Id, "Cancelled");
+                }
+            }
+
+            // in case of confirmed appointment that has passed we assume it has been completed and it automatically changes its status to "Completed"
+            // However here the doctor has the option to change the status to "NoShow" if the patient did not show up, to prevent the option of rating the appointment
+            if (appointmentList.Any(a => a.AppointmentStatus == AppointmentStatus.Confirmed))
+            {
+                foreach (var appointment in appointmentList)
+                {
+                    await this.appointmentsService.ChangeAppointmentStatusAsync(appointment.Id, "Completed");
+                }
+            }
+
+            viewModel.AppointmentList = appointmentList;
             return this.View(viewModel);
         }
     }

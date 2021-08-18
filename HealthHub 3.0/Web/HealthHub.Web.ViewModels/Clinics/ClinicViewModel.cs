@@ -31,6 +31,8 @@
 
         public int RatingsCount { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Clinic, ClinicViewModel>()

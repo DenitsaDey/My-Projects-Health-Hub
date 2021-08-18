@@ -1,18 +1,11 @@
 ﻿@model IEnumerable<HealthHub.Web.ViewModels.Clinics.ClinicViewModel>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var insuranceCompanies = this.ViewData["InsuranceCompanies"] as SelectList;
-
+    ViewData["Title"] = "Default";
 }
-<partial name="_AdminHeaderPartial" />
 
-<h1>Clinics</h1>
+<h1>Deleted Clinics</h1>
 
-<p>
-    <a class="appointment-btn scrollto" asp-action="Create">Add New Clinic</a>
-</p>
 <table class="table table-bordered table-hover" style="background-color:white">
     <thead>
         <tr>
@@ -40,16 +33,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-            }
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-
-<div>
-    @await Component.InvokeAsync("DeletedClinics")
-</div>

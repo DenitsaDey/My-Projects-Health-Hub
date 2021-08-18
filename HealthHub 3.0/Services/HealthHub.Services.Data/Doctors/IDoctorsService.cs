@@ -9,6 +9,7 @@
     public interface IDoctorsService
     {
         Task<DoctorsFilterViewModel> GetAllSearchedAsync(
+            string clinicId,
             string specialtyId,
             string cityAreaId,
             string insuranceId,
@@ -16,14 +17,13 @@
             bool onlineConsultations,
             Gender gender,
             SearchSorting sorting,
-            string clinicId,
             string searchName,
             int pageNumber,
             int itemsPerPage);
 
         IEnumerable<T> GetAll<T>();
 
-        IEnumerable<T> GetAllWithDeleted<T>();
+        IEnumerable<T> GetDeleted<T>();
 
         Task<string> AddAsync(DoctorInputModel input);
 

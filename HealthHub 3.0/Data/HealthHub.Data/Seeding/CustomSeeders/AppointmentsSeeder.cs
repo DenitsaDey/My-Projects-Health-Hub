@@ -28,7 +28,7 @@
             // Add Upcoming Appointments
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(3),
+                AppointmentTime = DateTime.UtcNow.AddDays(3),
                 PatientId = patientId,
                 DoctorId = doctorsId[0],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Follow-up").FirstOrDefault(),
@@ -39,7 +39,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(5),
+                AppointmentTime = DateTime.UtcNow.AddDays(5),
                 PatientId = patientId,
                 DoctorId = doctorsId[1],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Lab test").FirstOrDefault(),
@@ -51,7 +51,7 @@
             // Add Past Appointments
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-2),
+                AppointmentTime = DateTime.UtcNow.AddDays(-2),
                 PatientId = patientId,
                 DoctorId = doctorsId[2],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
@@ -62,7 +62,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-3),
+                AppointmentTime = DateTime.UtcNow.AddDays(-3),
                 PatientId = patientId,
                 DoctorId = doctorsId[2],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
@@ -73,7 +73,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-5),
+                AppointmentTime = DateTime.UtcNow.AddDays(-3),
                 PatientId = patientId,
                 DoctorId = doctorsId[3],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Vaccination").FirstOrDefault(),
@@ -84,7 +84,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-7),
+                AppointmentTime = DateTime.UtcNow.AddDays(-4),
                 PatientId = patientId,
                 DoctorId = doctorsId[4],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
@@ -95,7 +95,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-9),
+                AppointmentTime = DateTime.UtcNow.AddDays(-4),
                 PatientId = patientId,
                 DoctorId = doctorsId[5],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
@@ -107,7 +107,7 @@
             // More Past Appointments for testing the Rating functionality
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-5),
+                AppointmentTime = DateTime.UtcNow.AddDays(-5),
                 PatientId = patientId,
                 DoctorId = doctorsId[3],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Vaccination").FirstOrDefault(),
@@ -118,7 +118,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-5),
+                AppointmentTime = DateTime.UtcNow.AddDays(-5),
                 PatientId = patientId,
                 DoctorId = doctorsId[3],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Medical document").FirstOrDefault(),
@@ -129,7 +129,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-5),
+                AppointmentTime = DateTime.UtcNow.AddDays(-5),
                 PatientId = patientId,
                 DoctorId = doctorsId[3],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Follow-up").FirstOrDefault(),
@@ -140,7 +140,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-7),
+                AppointmentTime = DateTime.UtcNow.AddDays(-7),
                 PatientId = patientId,
                 DoctorId = doctorsId[4],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
@@ -151,7 +151,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-7),
+                AppointmentTime = DateTime.UtcNow.AddDays(-7),
                 PatientId = patientId,
                 DoctorId = doctorsId[4],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),
@@ -162,7 +162,7 @@
 
             appointments.Add(new Appointment
             {
-                DateTime = DateTime.UtcNow.AddDays(-9),
+                AppointmentTime = DateTime.UtcNow.AddDays(-9),
                 PatientId = patientId,
                 DoctorId = doctorsId[5],
                 ProcedureBooked = dbContext.Services.Where(x => x.Name == "Initial check-up").FirstOrDefault(),

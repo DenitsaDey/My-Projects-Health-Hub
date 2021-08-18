@@ -6,6 +6,7 @@
 
     using HealthHub.Common;
     using HealthHub.Data.Models;
+    using HealthHub.Data.Models.Enums;
     using HealthHub.Services;
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;

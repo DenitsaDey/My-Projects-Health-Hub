@@ -23,7 +23,7 @@
             <div class="tab_panel active">
                 <div class="tab_panel_content">
                     <div class="info_content">
-                        <div class="info_title" style="padding-top:10px"><strong> @Model.DateTime.ToString("f")</strong> </div>
+                        <div class="info_title" style="padding-top:10px"><strong> @Model.AppointmentTime.ToString("f")</strong> </div>
                         <div class="info_text" style="padding-top:20px"><strong>Doctor: </strong>@Model.DoctorName</div>
                         <div class="info_text"><strong>Booked for: </strong>@Model.ProcedureBooked</div>
                         <div class="info_text"><strong>Additional Notes: </strong>@Model.Message</div>
@@ -55,7 +55,7 @@
                             }
                         </ul>
                         <ul>
-                            @if (@Model.AppointmentStatus.ToString() != "Completed")
+                            @if (@Model.AppointmentStatus.ToString() == "Confirmed" || @Model.AppointmentStatus.ToString() == "Requested")
                             {
                                 <a class="btn btn-outline-primary btn-sm"
                                    asp-area="" asp-controller="Appointment" asp-action="Edit" asp-route-appointmentId="@Model.Id">

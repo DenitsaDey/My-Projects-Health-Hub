@@ -31,7 +31,7 @@
         // GET: Administration/Doctors
         public IActionResult Index()
         {
-            var doctors = this.doctorsService.GetAllWithDeleted<DoctorsViewModel>();
+            var doctors = this.doctorsService.GetAll<DoctorsViewModel>();
             return this.View(doctors);
         }
 
@@ -47,7 +47,7 @@
 
             if (model == null)
             {
-                return new StatusCodeResult(404);
+                return this.RedirectToAction("Error404", "Home");
             }
 
             return this.View(model);
@@ -99,7 +99,7 @@
             var doctor = await this.doctorsService.GetByIdAsync<DoctorEditInputModel>(id);
             if (doctor == null)
             {
-                return this.NotFound();
+                return this.RedirectToAction("Error404", "Home");
             }
 
             var clinics = this.clinicsService.GetAllClinics();

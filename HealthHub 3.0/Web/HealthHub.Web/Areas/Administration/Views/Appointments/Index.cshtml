@@ -36,7 +36,7 @@
             @foreach (var appointment in this.Model.AppointmentList)
             {
             <tr>
-                <th scope="row">@appointment.DateTime.ToString("f")</th>
+                <th scope="row">@appointment.AppointmentTime.ToString("f")</th>
                 <td>@appointment.PatientName</td>
                 <td>@appointment.DoctorName</td>
                 <td>@appointment.ClinicName</td>

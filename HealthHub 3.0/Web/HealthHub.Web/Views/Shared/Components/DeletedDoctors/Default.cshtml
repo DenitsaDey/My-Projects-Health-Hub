@@ -1,16 +1,9 @@
 ﻿@model IEnumerable<HealthHub.Web.ViewModels.Doctor.DoctorsViewModel>
+@{ this.ViewData["Title"] = "Default"; }
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<partial name="_AdminHeaderPartial" />
+<h1>Deleted Doctors</h1>
 
-<h1>Doctors</h1>
 
-<p>
-    <a class="appointment-btn scrollto" asp-action="Create">Add New Doctor</a>
-</p>
 <table class="table table-bordered table-hover" style="background-color:white">
     <thead>
         <tr>
@@ -33,7 +26,7 @@
                 Years of Experience
             </th>
             <th>
-               Works With Children
+                Works With Children
             </th>
             <th>
                 Online Consultations
@@ -70,15 +63,9 @@
                     @Html.DisplayFor(modelItem => item.OnlineConsultation)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-doctorId="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<div>
-    @await Component.InvokeAsync("DeletedDoctors")
-</div>

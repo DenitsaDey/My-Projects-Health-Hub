@@ -103,7 +103,7 @@
                 PatientId = Guid.NewGuid().ToString(),
                 ServiceId = Guid.NewGuid().ToString(),
                 Message = new NLipsum.Core.Word().ToString(),
-                DateTime = DateTime.UtcNow.AddDays(2),
+                AppointmentTime = DateTime.UtcNow.AddDays(2),
                 AppointmentStatus = AppointmentStatus.Requested,
                 HasBeenVoted = false,
             };
