@@ -36,10 +36,10 @@
 
             var resultModelCollection = this.Service.GetAllServices<ServicesViewModel>();
 
-            Assert.Equal(model1.Id, resultModelCollection.Last().Id);
-            Assert.Equal(model1.Name, resultModelCollection.Last().Name);
-            Assert.Equal(model2.Id, resultModelCollection.First().Id);
-            Assert.Equal(model2.Name, resultModelCollection.First().Name);
+            Assert.Equal(model1.Id, resultModelCollection.First().Id);
+            Assert.Equal(model1.Name, resultModelCollection.First().Name);
+            Assert.Equal(model2.Id, resultModelCollection.Last().Id);
+            Assert.Equal(model2.Name, resultModelCollection.Last().Name);
         }
 
         private async Task<Service> CreateServiceAsync(string name)
