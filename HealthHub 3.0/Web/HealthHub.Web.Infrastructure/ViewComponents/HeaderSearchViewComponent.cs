@@ -21,7 +21,7 @@
         {
             var viewModel = new HeaderSearchQueryModel
             {
-                Clinics = this.clinicsService.GetAll(),
+                Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>(),
             };
 
             return this.View(viewModel);

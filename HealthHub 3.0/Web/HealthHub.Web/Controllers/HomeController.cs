@@ -31,7 +31,7 @@
         {
             var viewModel = new HomeHeaderViewModel();
 
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             viewModel.DataCounts = this.getCountsService.GetCounts();
             viewModel.Doctors = this.doctorsService.GetAll<DoctorsViewModel>();
 
@@ -41,7 +41,7 @@
         public IActionResult Privacy()
         {
             var viewModel = new HeaderSearchQueryModel();
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
 
@@ -49,7 +49,7 @@
         public IActionResult Error404()
         {
             var viewModel = new HeaderSearchQueryModel();
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
 
@@ -59,7 +59,7 @@
             // Could handle different codes here
             // or just return the default error view
             var viewModel = new HeaderSearchQueryModel();
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
 

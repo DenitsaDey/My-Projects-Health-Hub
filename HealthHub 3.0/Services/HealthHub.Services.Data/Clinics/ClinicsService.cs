@@ -16,23 +16,17 @@
     public class ClinicsService : IClinicsService
     {
         private readonly IDeletableEntityRepository<Clinic> clinicsRepository;
-        private readonly IDeletableEntityRepository<CityArea> cityAreasRepository;
         private readonly IDeletableEntityRepository<Doctor> doctorsRepository;
         private readonly IDeletableEntityRepository<InsuranceClinic> insuranceClinicsRepository;
         private readonly IDeletableEntityRepository<Insurance> insurancesRepository;
-        private readonly ICityAreasService cityAreasService;
 
         public ClinicsService(
         IDeletableEntityRepository<Clinic> clinicsRepository,
-        IDeletableEntityRepository<CityArea> cityAreasRepository,
-        ICityAreasService cityAreasService,
         IDeletableEntityRepository<Doctor> doctorsRepository,
         IDeletableEntityRepository<InsuranceClinic> insuranceClinicsRepository,
         IDeletableEntityRepository<Insurance> insurancesRepository)
         {
             this.clinicsRepository = clinicsRepository;
-            this.cityAreasRepository = cityAreasRepository;
-            this.cityAreasService = cityAreasService;
             this.doctorsRepository = doctorsRepository;
             this.insuranceClinicsRepository = insuranceClinicsRepository;
             this.insurancesRepository = insurancesRepository;
@@ -66,15 +60,13 @@
             await this.clinicsRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<ClinicSimpleViewModel> GetAll()
+        // auto mapping used for ClinicSimpleViewModel as it requires only Name and Id
+        public IEnumerable<T> GetAll<T>()
         {
             return this.clinicsRepository.All()
                 .OrderBy(x => x.Name)
-                .Select(c => new ClinicSimpleViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                });
+                .To<T>()
+                .ToList();
         }
 
         public IEnumerable<ClinicViewModel> GetAllClinics()

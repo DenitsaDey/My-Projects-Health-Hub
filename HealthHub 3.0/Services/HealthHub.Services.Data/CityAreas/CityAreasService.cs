@@ -7,7 +7,6 @@
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Services.Mapping;
-    using HealthHub.Web.ViewModels;
     using Microsoft.EntityFrameworkCore;
 
     public class CityAreasService : ICityAreasService
@@ -30,7 +29,7 @@
         public async Task<IEnumerable<T>> GetAllCityAreasAsync<T>()
         {
             return await this.cityAreasRepository.All()
-                .OrderBy(x => x.Id)
+                .OrderBy(x => x.Name)
                 .To<T>()
                 .ToListAsync();
         }
@@ -38,7 +37,7 @@
         public async Task<T> GetByIdAsync<T>(string cityAreaId)
         {
             var cityArea = await this.cityAreasRepository.All()
-                .Where(s => s.Id == cityAreaId)
+                .Where(x => x.Id == cityAreaId)
                 .To<T>()
                 .FirstOrDefaultAsync();
 

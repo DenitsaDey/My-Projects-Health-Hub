@@ -19,7 +19,7 @@
         public IEnumerable<T> GetAllServices<T>()
         {
             return this.servicesRepository.All()
-                .OrderBy(x => x.Id)
+                .OrderBy(x => x.CreatedOn)
                 .To<T>()
                 .ToList();
         }

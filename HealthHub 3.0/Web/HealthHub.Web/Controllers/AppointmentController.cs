@@ -6,13 +6,13 @@
 
     using HealthHub.Common;
     using HealthHub.Data.Models;
-    using HealthHub.Data.Models.Enums;
     using HealthHub.Services;
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Services.Messaging;
     using HealthHub.Web.ViewModels;
     using HealthHub.Web.ViewModels.Appointment;
+    using HealthHub.Web.ViewModels.Clinics;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -54,7 +54,7 @@
 
             viewModel.AppointmentList = this.appointmentService.GetUpcomingByPatient<AppointmentViewModel>(userId);
 
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
 
@@ -68,7 +68,7 @@
 
             var viewModel = new AppointmentInputModel();
 
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             viewModel.DoctorId = doctorId;
             viewModel.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
 
@@ -109,7 +109,7 @@
             // automatically sending email with appointment details after user has requested an appointment through the HealthHub system
             var patientEmail = await this.userManager.GetEmailAsync(patient);
             var htmlModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
-            htmlModel.Clinics = this.clinicsService.GetAll(); // as the partial Header View requires a list of clinics for the dropdown
+            htmlModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>(); // as the partial Header View requires a list of clinics for the dropdown
             var htmlContent = await this.viewRenderService.RenderToStringAsync("~/Views/Appointment/Details.cshtml", htmlModel);
 
             await this.emailSender.SendEmailAsync("healthhub@healthhub.com", "Health Hub", patientEmail, "Your Appointment Request", htmlContent);
@@ -131,7 +131,7 @@
                 return this.RedirectToAction("Error404", "Home");
             }
 
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
 
@@ -150,7 +150,7 @@
                 return this.RedirectToAction("Error404", "Home");
             }
 
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
 
@@ -178,14 +178,14 @@
             }
 
             var viewModel = new HeaderSearchQueryModel();
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             await this.appointmentService.ChangeAppointmentStatusAsync(appointmentId, "Cancelled");
 
             // automatically sending email with appointment status after patient has cancelled an appointment
             var patient = await this.userManager.GetUserAsync(this.HttpContext.User);
             var patientEmail = await this.userManager.GetEmailAsync(patient);
             var htmlModel = await this.appointmentService.GetByIdAsync<AppointmentViewModel>(appointmentId);
-            htmlModel.Clinics = this.clinicsService.GetAll(); // as the partial Header View requires a list of clinics for the dropdown
+            htmlModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>(); // as the partial Header View requires a list of clinics for the dropdown
             var htmlContent = await this.viewRenderService.RenderToStringAsync("~/Views/Appointment/Details.cshtml", htmlModel);
 
             await this.emailSender.SendEmailAsync("healthhub@healthhub.com", "Health Hub", patientEmail, "Your Appointment Cancellation", htmlContent);
@@ -197,7 +197,7 @@
         public IActionResult Edit()
         {
             var viewModel = new AppointmentEditInputModel();
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
 
@@ -208,7 +208,7 @@
             if (!this.ModelState.IsValid)
             {
                 var model = new AppointmentEditInputModel();
-                model.Clinics = this.clinicsService.GetAll();
+                model.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
                 return this.View(model);
             }
 

@@ -73,10 +73,6 @@
                 .Count() == 0 ? 0 :
                 this.ratingRepository.All()
                 .Where(r => r.Appointment.DoctorId == doctorId && r.Appointment.HasBeenVoted).Average(r => r.Value);
-
-            // return this.doctorRepository.All()
-            //    .Where(d => d.Id == doctorId && d.ScheduledAppointments.Where(a => a.HasBeenVoted).Any())
-            //    .Average(d => d.ScheduledAppointments.Average(sa => sa.Rating.Value));
         }
 
         public double GetClinicAverageRating(string clinicId)
@@ -86,12 +82,6 @@
                 .Count() == 0 ? 0 :
                 this.ratingRepository.All()
                 .Where(r => r.Appointment.Doctor.ClinicId == clinicId && r.Appointment.HasBeenVoted).Average(r => r.Value);
-
-            // return this.clinicRepository.All()
-            //    .Where(c => c.Id == clinicId)
-            //    .Average(c => c.MedicalStaff
-            //                .Average(ms => ms.ScheduledAppointments
-            //                                            .Average(sa => sa.Rating.Value)));
         }
     }
 }

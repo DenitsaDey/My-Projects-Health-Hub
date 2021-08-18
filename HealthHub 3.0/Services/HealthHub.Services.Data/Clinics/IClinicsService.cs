@@ -10,7 +10,7 @@
     {
         Task AddAsync(ClinicInputModel input);
 
-        IEnumerable<ClinicSimpleViewModel> GetAll();
+        IEnumerable<T> GetAll<T>();
 
         IEnumerable<ClinicViewModel> GetAllClinics();
 

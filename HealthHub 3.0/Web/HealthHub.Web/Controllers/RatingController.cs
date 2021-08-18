@@ -1,19 +1,19 @@
 ﻿namespace HealthHub.Web.Controllers
 {
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using HealthHub.Common;
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Services.Data.Ratings;
     using HealthHub.Web.ViewModels.Appointment;
+    using HealthHub.Web.ViewModels.Clinics;
     using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    // [ApiController]
-    // [Route("api/[controller]")]
     [Authorize]
+    [Authorize(Roles = GlobalConstants.PatientRoleName)]
     public class RatingController : BaseController
     {
         private readonly IRatingsService ratingsService;
@@ -47,7 +47,7 @@
                 return this.RedirectToAction("Error404", "Home");
             }
 
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
 
@@ -55,7 +55,7 @@
         public async Task<IActionResult> Rate(AppointmentRatingViewModel model, string appointmentId)
         {
             var viewModel = await this.appointmentsService.GetByIdAsync<AppointmentRatingViewModel>(appointmentId);
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
 
             if (!this.ModelState.IsValid)
             {

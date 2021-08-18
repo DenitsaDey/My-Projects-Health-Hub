@@ -5,6 +5,7 @@
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Clinics;
     using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -72,7 +73,7 @@
                 return this.RedirectToAction("Error404", "Home");
             }
 
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             viewModel.CityAreas = await this.cityAreasService.GetAllCityAreasAsync<CityAreasViewModel>();
             viewModel.InsuranceCompanies = this.insuranceService.GetAllInsuranceCompanies<InsuranceViewModel>();
             viewModel.Specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
@@ -112,7 +113,7 @@
                 return this.RedirectToAction("Error404", "Home");
             }
 
-            model.Clinics = this.clinicsService.GetAll();
+            model.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(model);
         }
     }

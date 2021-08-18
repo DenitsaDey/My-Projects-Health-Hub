@@ -96,7 +96,7 @@
                 return this.RedirectToAction("Error404", "Home");
             }
 
-            viewModel.Clinics = this.clinicsService.GetAll();
+            viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
     }

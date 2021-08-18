@@ -117,7 +117,7 @@
             var result = new DoctorsFilterViewModel
             {
                 Doctors = allDoctors,
-                DoctorsCount = doctorsQuery.ToList().Count(),
+                DoctorsCount = doctorsQuery.ToList().Count(), // necessary in order to pass it ot the paging view model in the controller
             };
 
             return result;
@@ -225,10 +225,6 @@
         // for demo purposes in Doctor Area/ Appointments Controller/ Index
         public string GetIdByMostAppointments()
         {
-            //return this.doctorsRepository.All()
-            //    .OrderByDescending(d => d.ScheduledAppointments.Count)
-            //    .FirstOrDefault()
-            //    .Id;
             var groupedAppointments = this.appointmentsRepository.All()
                 .GroupBy(a => a.DoctorId)
                 .Select(x => new
@@ -243,6 +239,12 @@
                 .DoctorId;
 
             return doctorId;
+
+            // or shorter:
+            // return this.doctorsRepository.All()
+            //    .OrderByDescending(d => d.ScheduledAppointments.Count)
+            //    .FirstOrDefault()
+            //    .Id;
         }
 
         public T GetByAppointment<T>(string appointmentId)
@@ -262,29 +264,6 @@
                 .ToListAsync();
 
             return doctorsInClinic;
-        }
-
-        public async Task RateDoctorAsync(string doctorId, int rateValue)
-        {
-            var doctor =
-                await this.doctorsRepository
-                .All()
-                .Where(x => x.Id == doctorId)
-                .FirstOrDefaultAsync();
-
-            // might not need old and new in my case (depending on the view)
-            var oldRating = doctor.ScheduledAppointments
-                .Where(sa => (bool)sa.HasBeenVoted).Any() ? 0 :
-                doctor.ScheduledAppointments
-                .Where(sa => (bool)sa.HasBeenVoted)
-                .Average(sa => sa.Rating.Value);
-            var oldRatersCount = doctor.ScheduledAppointments.Where(sa => (bool)sa.HasBeenVoted).Any() ? 0 :
-                doctor.ScheduledAppointments.Where(sa => (bool)sa.HasBeenVoted).Count();
-
-            var newRatersCount = oldRatersCount + 1;
-            var newRating = (oldRating + rateValue) / newRatersCount;
-
-            await this.doctorsRepository.SaveChangesAsync();
         }
     }
 }
