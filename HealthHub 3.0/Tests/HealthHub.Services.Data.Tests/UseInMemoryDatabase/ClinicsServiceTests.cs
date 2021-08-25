@@ -54,7 +54,7 @@
                 Address = new NLipsum.Core.Word().ToString(),
                 AreaId = Guid.NewGuid().ToString(),
                 MapUrl = new NLipsum.Core.Sentence().ToString(),
-                InsuranceCompanies = new List<InsuranceClinicsViewModel>(),
+                InsuranceCompanies = new List<InsuranceViewModel>(),
             };
 
             await this.Service.AddAsync(input);
@@ -75,7 +75,7 @@
                 Address = "Updated Address",
                 AreaId = Guid.NewGuid().ToString(),
                 MapUrl = new NLipsum.Core.Sentence().ToString(),
-                InsuranceCompanies = new List<InsuranceClinicsViewModel>(),
+                InsuranceCompanies = new List<InsuranceViewModel>(),
             };
 
             await this.Service.UpdateAsync(clinicId, input);

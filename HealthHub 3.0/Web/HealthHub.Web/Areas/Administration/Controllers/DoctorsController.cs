@@ -6,6 +6,7 @@
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
+    using HealthHub.Web.ViewModels.Clinics;
     using HealthHub.Web.ViewModels.Doctor;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -56,7 +57,7 @@
         // GET: Administration/Doctors/Create
         public async Task<IActionResult> Create()
         {
-            var clinics = this.clinicsService.GetAllClinics();
+            var clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             var specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
 
             this.ViewData["Clinics"] = new SelectList(clinics, "Id", "Name");
@@ -73,7 +74,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var clinics = this.clinicsService.GetAllClinics();
+                var clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
                 var specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
 
                 this.ViewData["Clinics"] = new SelectList(clinics, "Id", "Name");
@@ -102,7 +103,7 @@
                 return this.RedirectToAction("Error404", "Home");
             }
 
-            var clinics = this.clinicsService.GetAllClinics();
+            var clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             var specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
 
             this.ViewData["Clinics"] = new SelectList(clinics, "Id", "Name");
@@ -120,7 +121,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var clinics = this.clinicsService.GetAllClinics();
+                var clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
                 var specialties = await this.specialtiesService.GetAllSpecialtiesAsync<SpecialtyViewModel>();
 
                 this.ViewData["Clinics"] = new SelectList(clinics, "Id", "Name");

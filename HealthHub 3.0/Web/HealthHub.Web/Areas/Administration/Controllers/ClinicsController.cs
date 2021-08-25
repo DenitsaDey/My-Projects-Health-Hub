@@ -1,13 +1,7 @@
 ﻿namespace HealthHub.Web.Areas.Administration
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using HealthHub.Data;
-    using HealthHub.Data.Common.Repositories;
-    using HealthHub.Data.Models;
     using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.Areas.Administration.Controllers;
@@ -37,7 +31,7 @@
         // GET: Administration/Clinics
         public IActionResult Index()
         {
-            var clinics = this.clinicsService.GetAllClinics();
+            var clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
 
             return this.View(clinics);
         }

@@ -42,13 +42,10 @@
                 MapUrl = input.MapUrl,
             };
 
-            foreach (var inputInsuranceInClinic in input.InsuranceCompanies)
+            foreach (var inputInsuranceId in input.InsuranceCompanyIds)
             {
-                var insuranceInClinic = this.insuranceClinicsRepository.All().FirstOrDefault(x => x.Id == inputInsuranceInClinic.Id);
-                if (insuranceInClinic == null)
-                {
-                    insuranceInClinic = new InsuranceClinic { ClinicId = clinic.Id, InsuranceId = inputInsuranceInClinic.InsuranceId };
-                }
+                // creating many to many for this Clinic and its Insurance Companies in the InsuranceClinics Table
+                var insuranceInClinic = new InsuranceClinic { ClinicId = clinic.Id, InsuranceId = inputInsuranceId };
 
                 clinic.InsuranceCompanies.Add(insuranceInClinic);
 
@@ -60,67 +57,13 @@
             await this.clinicsRepository.SaveChangesAsync();
         }
 
-        // auto mapping used for ClinicSimpleViewModel as it requires only Name and Id
+        // auto mapping used for ClinicSimpleViewModel as it requires only Id and Name + Area Name and Address(for the Admin/Clinics/Index View)
         public IEnumerable<T> GetAll<T>()
         {
             return this.clinicsRepository.All()
                 .OrderBy(x => x.Name)
                 .To<T>()
                 .ToList();
-        }
-
-        public IEnumerable<ClinicViewModel> GetAllClinics()
-        {
-            var allClinics = this.clinicsRepository.All()
-                .OrderBy(x => x.Name)
-                .Select(c => new ClinicViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    MapUrl = c.MapUrl,
-                    Address = c.Address,
-                    AreaId = c.AreaId,
-                    AreaName = c.Area.Name,
-                    MedicalStaff = new List<DoctorsViewModel>(),
-                    InsuranceCompanies = new List<InsuranceClinicsViewModel>(),
-                })
-                .ToList();
-
-            foreach (var clinic in allClinics)
-            {
-                clinic.MedicalStaff = this.doctorsRepository.All()
-                    .Where(d => d.ClinicId == clinic.Id)
-                    .Select(d => new DoctorsViewModel
-                    {
-                        Id = d.Id,
-                        AverageRating = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
-                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted)
-                                        .Select(sa => sa.Rating.Value).Average() : 0,
-                        RatingsCount = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
-                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
-                    })
-                    .ToList();
-
-                clinic.InsuranceCompanies = this.insuranceClinicsRepository.All()
-                    .Where(ic => ic.ClinicId == clinic.Id)
-                    .Select(ic => new InsuranceClinicsViewModel
-                    {
-                        Id = ic.Id,
-                        ClinicId = ic.ClinicId,
-                        ClinicName = this.clinicsRepository.All().Where(c => c.Id == ic.ClinicId).FirstOrDefault().Name,
-                        InsuranceId = ic.InsuranceId,
-                        InsuranceName = this.insurancesRepository.All().Where(i => i.Id == ic.InsuranceId).FirstOrDefault().Name,
-                    })
-                    .ToList();
-
-                clinic.AverageRating = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
-                    clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.AverageRating).Average() : 0;
-
-                clinic.RatingsCount = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
-                    clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.RatingsCount).Sum() : 0;
-            }
-
-            return allClinics;
         }
 
         // for filtering on the Clinics/Index page
@@ -170,36 +113,28 @@
                 })
                 .ToListAsync();
 
-            // foreach (var clinic in filteredClinics)
-            // {
-            //    clinic.MedicalStaff = this.doctorsRepository.All()
-            //        .Where(d => d.ClinicId == clinic.Id)
-            //        .Select(d => new DoctorsViewModel
-            //        {
-            //            Id = d.Id,
-            //            AverageRating = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
-            //                            d.ScheduledAppointments.Where(sa => sa.HasBeenVoted)
-            //                            .Select(sa => sa.Rating.Value).Average() : 0,
-            //            RatingsCount = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
-            //                            d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
-            //        })
-            //        .ToList();
+            // Medical staff is needed in order to dispaly Average Rating of the clinic on the Clinics/Index page
+            foreach (var clinic in filteredClinics)
+            {
+                clinic.MedicalStaff = this.doctorsRepository.All()
+                    .Where(d => d.ClinicId == clinic.Id)
+                    .Select(d => new DoctorsViewModel
+                    {
+                        Id = d.Id,
+                        AverageRating = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
+                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted)
+                                        .Select(sa => sa.Rating.Value).Average() : 0,
+                        RatingsCount = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
+                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
+                    })
+                    .ToList();
 
-            // clinic.InsuranceCompanies = this.insuranceClinicsRepository.All()
-            //        .Where(ic => ic.ClinicId == clinic.Id)
-            //        .Select(ic => new InsuranceViewModel
-            //        {
-            //            Id = ic.Insurance.Id,
-            //            Name = ic.Insurance.Name,
-            //        })
-            //        .ToList();
+                clinic.AverageRating = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
+                       clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.AverageRating).Average() : 0;
 
-            // clinic.AverageRating = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
-            //        clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.AverageRating).Average() : 0;
-
-            // clinic.RatingsCount = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
-            //        clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.RatingsCount).Sum() : 0;
-            // }
+                clinic.RatingsCount = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
+                       clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.RatingsCount).Sum() : 0;
+            }
 
             // for header bar dropdown list of all clinics
             var allClinics = this.clinicsRepository.All()
@@ -221,67 +156,16 @@
             return result;
         }
 
-        // for Administration Area/ Clinics Controller/ Index
-        public IEnumerable<ClinicViewModel> GetDeleted()
+        // for Administration Area/ Clinics Controller/ Index using ClinicSimpleViewModel
+        public IEnumerable<T> GetDeleted<T>()
         {
             var allClinics = this.clinicsRepository.AllWithDeleted()
                 .Where(c => c.IsDeleted)
                 .OrderBy(x => x.Name)
-                .Select(c => new ClinicViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    MapUrl = c.MapUrl,
-                    Address = c.Address,
-                    AreaId = c.AreaId,
-                    AreaName = c.Area.Name,
-                    MedicalStaff = new List<DoctorsViewModel>(),
-                    InsuranceCompanies = new List<InsuranceClinicsViewModel>(),
-                })
+                .To<T>()
                 .ToList();
 
-            foreach (var clinic in allClinics)
-            {
-                clinic.MedicalStaff = this.doctorsRepository.All()
-                    .Where(d => d.ClinicId == clinic.Id)
-                    .Select(d => new DoctorsViewModel
-                    {
-                        Id = d.Id,
-                        AverageRating = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
-                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted)
-                                        .Select(sa => sa.Rating.Value).Average() : 0,
-                        RatingsCount = d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Any() ?
-                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
-                    })
-                    .ToList();
-
-                clinic.InsuranceCompanies = this.insuranceClinicsRepository.All()
-                    .Where(ic => ic.ClinicId == clinic.Id)
-                    .Select(ic => new InsuranceClinicsViewModel
-                    {
-                        Id = ic.Id,
-                        ClinicId = ic.ClinicId,
-                        ClinicName = this.clinicsRepository.All().Where(c => c.Id == ic.ClinicId).FirstOrDefault().Name,
-                        InsuranceId = ic.InsuranceId,
-                        InsuranceName = this.insurancesRepository.All().Where(i => i.Id == ic.InsuranceId).FirstOrDefault().Name,
-                    })
-                    .ToList();
-
-                clinic.AverageRating = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
-                    clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.AverageRating).Average() : 0;
-
-                clinic.RatingsCount = clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Any() ?
-                    clinic.MedicalStaff.Where(ms => ms.AverageRating != 0).Select(ms => ms.RatingsCount).Sum() : 0;
-            }
-
             return allClinics;
-
-            //return this.clinicsRepository.All()
-            //    .Where(c => c.IsDeleted)
-            //   .Include(c => c.Area)
-            //   .Include(c => c.InsuranceCompanies)
-            //   .To<T>()
-            //   .ToList();
         }
 
         // for Administration Area/ Clinics Controller/ Edit
@@ -325,6 +209,8 @@
                     Name = c.Name,
                     Address = c.Address,
                     MapUrl = c.MapUrl,
+
+                    // medical staff are needed for clinic's average rating and also for the Admin/Clinics/Details View where list of doctors is shown
                     MedicalStaff = this.doctorsRepository.All()
                     .Where(d => d.ClinicId == clinicId)
                     .Select(d => new DoctorsViewModel
@@ -339,6 +225,8 @@
                                        d.ScheduledAppointments.Where(sa => sa.HasBeenVoted).Count() : 0,
                     })
                     .ToList(),
+
+                    // insurance companies needed for the Admin/Clinics/Details View where list of insurances is shown
                     InsuranceCompanies = this.insuranceClinicsRepository.All()
                     .Where(ic => ic.ClinicId == clinicId)
                     .Select(ic => new InsuranceClinicsViewModel

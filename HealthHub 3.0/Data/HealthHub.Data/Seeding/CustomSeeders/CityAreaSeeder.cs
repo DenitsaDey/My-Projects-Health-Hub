@@ -43,7 +43,6 @@
             {
                 await dbContext.CityAreas.AddAsync(area);
                 await dbContext.SaveChangesAsync();
-
             }
         }
     }

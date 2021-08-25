@@ -118,7 +118,7 @@
             // 2 appointments for first doctor
             var doctorId = this.CreateDoctorAsync(clinicId).Result.Id;
 
-            var appointmentId1 = this.CreateAppointmentAsync(doctorId).Result.Id; ;
+            var appointmentId1 = this.CreateAppointmentAsync(doctorId).Result.Id;
             await this.Service.SetRatingAsync(appointmentId1, 5, string.Empty);
 
             var appointmentId2 = this.CreateAppointmentAsync(doctorId).Result.Id;

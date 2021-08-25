@@ -30,7 +30,9 @@
         [Display(Name = "Medical Staff")]
         public IEnumerable<DoctorsViewModel> MedicalStaff { get; set; }
 
+        public IEnumerable<string> InsuranceCompanyIds { get; set; }
+
         [Display(Name = "Insurance Companies")]
-        public IEnumerable<InsuranceClinicsViewModel> InsuranceCompanies { get; set; }
+        public IEnumerable<InsuranceViewModel> InsuranceCompanies { get; set; }
     }
 }

@@ -7,7 +7,7 @@
 @{
     if (this.SignInManager.IsSignedIn(this.User))
     {
-        string name = (await UserManager.GetUserAsync(User)).FirstName;
+        string name = UserManager.GetUserAsync(User).Result.FirstName;
     <li>
         <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(name)!</a>
     </li>

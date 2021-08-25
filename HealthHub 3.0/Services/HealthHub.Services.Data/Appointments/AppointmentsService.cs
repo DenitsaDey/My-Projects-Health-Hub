@@ -8,7 +8,6 @@
     using HealthHub.Data.Common.Repositories;
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
-    using HealthHub.Services;
     using HealthHub.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
 
@@ -129,6 +128,7 @@
             await this.appointmentsRepository.SaveChangesAsync();
         }
 
+        // rescheduling appointment by deleting completely the appointment and redirecting to the same doctor to book a new one
         public async Task RescheduleAppointmentAsync(string appointmentId)
         {
             var appointment = this.appointmentsRepository.All()

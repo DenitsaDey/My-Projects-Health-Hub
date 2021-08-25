@@ -12,8 +12,6 @@
 
         IEnumerable<T> GetAll<T>();
 
-        IEnumerable<ClinicViewModel> GetAllClinics();
-
         Task<ClinicFilterViewModel> GetAllSearchedAsync(
             string specialtyId,
             string cityAreaId,
@@ -22,7 +20,7 @@
             int pageNumber,
             int itemsPerPage);
 
-        IEnumerable<ClinicViewModel> GetDeleted();
+        public IEnumerable<T> GetDeleted<T>();
 
         ClinicViewModel GetById(string clinicId);
 

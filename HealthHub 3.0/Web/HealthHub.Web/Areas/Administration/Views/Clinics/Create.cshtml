@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var areas = this.ViewData["Areas"] as SelectList;
     var insuranceCompanies = this.ViewData["InsuranceCompanies"] as SelectList;
+    var insuranceCompanyIds = this.ViewData["InsuranceCompanyIds"] as SelectList;
 }
 <partial name="_AdminHeaderPartial" />
 
@@ -14,7 +15,7 @@
 <hr />
 <div class="row" style="background-color:white">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form method="post" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -42,16 +43,16 @@
                 <input type="submit" asp-area="Administration" asp-controller="CityAreas" asp-action="Create" value="Add new city area" class="cancel" />
             </div>
             <div class="form-group" id="InsuranceContainer">
-                <label asp-for="InsuranceCompanies" class="control-label">Add Insurance Companies</label>
-                <select asp-for="InsuranceCompanies" class="form-control">
-                    <option value="">Select</option>
+                <label asp-for="InsuranceCompanyIds" class="control-label">Add Insurance Companies</label>
+                <a class="btn btn-primary" onclick="AddAnotherInsurance()">+</a>
+                @*<select asp-for="InsuranceCompanies" class="form-control">
+                        <option value="">Select</option>
 
-                    @foreach (var insurance in insuranceCompanies)
-                    {
-                        <option value="@insurance.Value">@insurance.Text</option>
-                    }
-                </select>
-                <a class="btn btn-success" onclick="AddInsuranceCompany()">+</a>
+                        @foreach (var insurance in insuranceCompanies)
+                        {
+                            <option value="@insurance.Value">@insurance.Text</option>
+                        }
+                    </select>*@
             </div>
             <div class="form-group">
                 Insurance Company is not available?
@@ -72,14 +73,12 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
 @section Scripts {
     <script>
-        var insuranceIndex = 0;
-        function AddInsuranceCompanies() {
+        var insuranceCompanies = this.ViewData["InsuranceCompanies"];
+        function AddAnotherInsurance() {
             $("#InsuranceContainer").
-                append("<div class='form-control'>Insurance: <input type='text' name='Insurance.Text[" + ingredientIndex + "].IngredientName'/></div>");
-            ingredientIndex++;
+                append("<select asp-for='InsuranceCompanyIds' class='form-control'><option value=''>Select</option>@foreach (var insurance in insuranceCompanies){<option value='@insurance.Value'>@insurance.Text</option>}</select>");
         }
     </script>
 }

@@ -1,17 +1,9 @@
-﻿using HealthHub.Data.Models;
-using HealthHub.Web.Controllers;
-using HealthHub.Web.ViewModels.Home;
-using MyTested.AspNetCore.Mvc;
-using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace HealthHub.Services.Data.Tests.MyTestedAspNet
+﻿namespace HealthHub.Services.Data.Tests.MyTestedAspNet
 {
+    using HealthHub.Web.Controllers;
+    using MyTested.AspNetCore.Mvc;
+    using Xunit;
+
     public class HomeControllerTest
     {
         [Fact]

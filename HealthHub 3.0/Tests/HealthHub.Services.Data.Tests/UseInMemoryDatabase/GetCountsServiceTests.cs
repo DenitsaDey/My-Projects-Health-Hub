@@ -1,12 +1,13 @@
 ﻿namespace HealthHub.Services.Data.Tests.UseInMemoryDatabase
 {
+    using System;
+    using System.Threading.Tasks;
+
     using HealthHub.Data.Models;
     using HealthHub.Data.Models.Enums;
     using HealthHub.Web.ViewModels;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class GetCountsServiceTests : BaseServiceTests

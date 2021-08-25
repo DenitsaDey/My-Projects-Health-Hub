@@ -95,8 +95,9 @@
             {
                 dateTime = this.dateTimeParserService.ConvertStrings(input.AppointmentDate, input.AppointmentTime);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
                 input.ServicesItems = this.servicesService.GetAllServices<ServicesViewModel>();
                 return this.RedirectToAction("Book", input);
             }
@@ -114,6 +115,7 @@
 
             await this.emailSender.SendEmailAsync("healthhub@healthhub.com", "Health Hub", patientEmail, "Your Appointment Request", htmlContent);
 
+            this.TempData["Message"] = "Appointment requested successfully.";
             return this.RedirectToAction(nameof(this.Index));
         }
 

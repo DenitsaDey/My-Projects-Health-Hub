@@ -29,7 +29,7 @@
                 .ToList();
         }
 
-        // for Admin / Clinics / Edit 
+        // for Admin / Clinics / Edit
         public IEnumerable<T> GetAllByClinicId<T>(string clinicId)
         {
             return this.insuranceClinicsRepository.All()

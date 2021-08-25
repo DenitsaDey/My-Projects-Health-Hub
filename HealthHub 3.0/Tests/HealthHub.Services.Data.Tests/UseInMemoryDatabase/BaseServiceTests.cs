@@ -65,7 +65,7 @@
             AutoMapperConfig.RegisterMappings(typeof(ClinicViewModel).GetTypeInfo().Assembly);
             AutoMapperConfig.RegisterMappings(typeof(AppointmentViewModel).GetTypeInfo().Assembly);
             AutoMapperConfig.RegisterMappings(typeof(CityAreasViewModel).GetTypeInfo().Assembly);
-            
+
             return services;
         }
     }
