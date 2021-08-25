@@ -115,7 +115,7 @@
 
             await this.emailSender.SendEmailAsync("healthhub@healthhub.com", "Health Hub", patientEmail, "Your Appointment Request", htmlContent);
 
-            this.TempData["Message"] = "Appointment requested successfully.";
+            this.TempData["Book"] = "Appointment requested successfully.";
             return this.RedirectToAction(nameof(this.Index));
         }
 

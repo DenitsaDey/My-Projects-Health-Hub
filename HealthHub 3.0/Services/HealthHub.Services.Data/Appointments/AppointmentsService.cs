@@ -14,10 +14,14 @@
     public class AppointmentsService : IAppointmentsService
     {
         private readonly IDeletableEntityRepository<Appointment> appointmentsRepository;
+        private readonly IDeletableEntityRepository<Rating> ratingsRepository;
 
-        public AppointmentsService(IDeletableEntityRepository<Appointment> appointmentsRepository)
+        public AppointmentsService(
+            IDeletableEntityRepository<Appointment> appointmentsRepository,
+            IDeletableEntityRepository<Rating> ratingsRepository)
         {
             this.appointmentsRepository = appointmentsRepository;
+            this.ratingsRepository = ratingsRepository;
         }
 
         public async Task<T> GetByIdAsync<T>(string id)

@@ -28,67 +28,50 @@
                 return;
             }
 
-            var ratings = new List<Rating>();
-
-            ratings.Add(new Rating
+            var ratings = new List<Rating>()
             {
-                Id = Guid.NewGuid().ToString(),
+                new Rating
+            {
                 Value = 5,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 1").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
-            });
-
-            ratings.Add(new Rating
+            },
+                new Rating
             {
-                Id = Guid.NewGuid().ToString(),
                 Value = 4,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 2").FirstOrDefault().Id,
                 AdditionalComments = "very good service",
-            });
-
-            ratings.Add(new Rating
+            },
+                new Rating
             {
-                Id = Guid.NewGuid().ToString(),
                 Value = 4,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 3").FirstOrDefault().Id,
                 AdditionalComments = "very good service",
-            });
-
-            ratings.Add(new Rating
-            {
-                Id = Guid.NewGuid().ToString(),
-                Value = 5,
-                AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 4").FirstOrDefault().Id,
-                AdditionalComments = "excellent service",
-            });
-
-            ratings.Add(new Rating
+            },
+                new Rating
             {
                 Id = Guid.NewGuid().ToString(),
                 Value = 2,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 5").FirstOrDefault().Id,
                 AdditionalComments = "average service",
-            });
-
-            ratings.Add(new Rating
+            },
+                new Rating
             {
-                Id = Guid.NewGuid().ToString(),
                 Value = 5,
                 AppointmentId = this.appointmentRepository.All().Where(a => a.Message == "test voting 6").FirstOrDefault().Id,
                 AdditionalComments = "excellent service",
-            });
+            },
+            };
 
             foreach (var rating in ratings)
             {
                 await this.ratingRepository.AddAsync(rating);
                 await this.ratingRepository.SaveChangesAsync();
 
-                this.appointmentRepository.All()
-                .FirstOrDefault(a => a.Id == rating.AppointmentId)
-                .HasBeenVoted = true;
-                this.appointmentRepository.All()
-                    .FirstOrDefault(a => a.Id == rating.AppointmentId)
-                    .RatingId = rating.Id;
+                var currentAppointment = this.appointmentRepository.All()
+                .FirstOrDefault(a => a.Id == rating.AppointmentId);
+                currentAppointment.HasBeenVoted = true;
+                currentAppointment.RatingId = rating.Id;
 
                 await this.appointmentRepository.SaveChangesAsync();
             }

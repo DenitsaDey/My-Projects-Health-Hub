@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using HealthHub.Services;
+    using HealthHub.Services.Data;
     using HealthHub.Services.Data.Clinics;
     using HealthHub.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc;
@@ -26,17 +27,14 @@
             this.ratingPopulatingService = ratingPopulatingService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            this.ratingPopulatingService.ImportRatings();
-
+            await this.ratingPopulatingService.ImportRatings();
             return this.View();
         }
 
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            this.ratingPopulatingService.ImportRatings();
-
             // initially CityAreas and Insurances were scraped, later were just seeded
             // await this.cityAreasScraperService.ImportCityAreas();
             // await this.insuranceScraperService.ImportInsuranceCompanies();

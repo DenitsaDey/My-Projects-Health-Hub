@@ -31,6 +31,11 @@
 
 @if (@Model.AppointmentList.Count() > 0)
 {
+    @if (TempData["Book"] != null)
+    {
+        <p class="alert alert-success" id="successMessage">@TempData["Book"]</p>
+    }
+
     <h2><strong>Due Appointments</strong></h2>
 
     <table class="table table-bordered table-light">
@@ -67,13 +72,14 @@
                         </a>
                     </td>
                     <td>
-                        @if (@appointment.AppointmentStatus.ToString() != "Cancelled") { 
-                        <form method="post" asp-area="" asp-controller="Appointment" asp-action="Cancel" id="cancelAppointment" asp-route-appointmentId="@appointment.Id">
-                        </form>
-                        <a class="btn btn-outline-danger btn-sm"
-                            data-toggle="modal" data-target="#modalCancel">
-                            Cancel
-                        </a>
+                        @if (@appointment.AppointmentStatus.ToString() != "Cancelled")
+                        {
+                            <form method="post" asp-area="" asp-controller="Appointment" asp-action="Cancel" id="cancelAppointment" asp-route-appointmentId="@appointment.Id">
+                            </form>
+                            <a class="btn btn-outline-danger btn-sm"
+                               data-toggle="modal" data-target="#modalCancel">
+                                Cancel
+                            </a>
                         }
                     </td>
                 </tr>
@@ -120,8 +126,8 @@
             </div>
         </div>
     </div>
-</div> 
-    
+</div>
+
 @section Scripts {
     <script type="text/javascript">
         //Everytime we press delete in the table row
