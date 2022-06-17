@@ -91,6 +91,15 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> NoShow(string appointmentId)
+        {
+            await this.appointmentsService.ChangeAppointmentStatusAsync(appointmentId, "NoShow");
+            await this.SendEmail(appointmentId);
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
         private async Task SendEmail(string appointmentId)
         {
             // automatically sending email with appointment status after patient has cancelled an appointment

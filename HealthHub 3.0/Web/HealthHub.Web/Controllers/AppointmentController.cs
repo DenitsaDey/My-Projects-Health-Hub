@@ -196,9 +196,11 @@
         }
 
         [Authorize(Roles = GlobalConstants.PatientRoleName)]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(string appointmentId)
         {
-            var viewModel = new AppointmentEditInputModel();
+            // the AppointmentEditInputModel is mapped from Appointment and for this reason it gets the appointment message directly from the Appointment and displays it in the edit form
+            var viewModel = await this.appointmentService.GetByIdAsync<AppointmentEditInputModel>(appointmentId);
+
             viewModel.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
             return this.View(viewModel);
         }
@@ -209,7 +211,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var model = new AppointmentEditInputModel();
+                var model = await this.appointmentService.GetByIdAsync<AppointmentEditInputModel>(appointmentId);
                 model.Clinics = this.clinicsService.GetAll<ClinicSimpleViewModel>();
                 return this.View(model);
             }

@@ -1,0 +1,30 @@
+﻿@*
+    This partial view is created to prevent the copy-paste 
+    of the car display logic in All.cshtml and Mine.cshtml
+    *@
+@model IEnumerable<CarSummaryViewModel>
+
+<div class="row">
+    @foreach (var car in Model)
+    {
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@car.ImgUrl" alt="@car.Brand @car.Model (@car.Category)">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">@car.Brand @car.Model (@car.Category)</h5>
+                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">View Details</a>
+                    @if(ViewBag.AllowCarEdit == true)
+                        @*
+                            or another way to do validation if the user is the owner of the car is
+                            @if(car.UserId == this.user.GetId())
+                            but for this we need to add property UserId to the viewModel
+                            *@
+                {
+                <a asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id" class="btn btn-warning">Edit</a>
+                <a asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete</a>
+                }
+                </div>
+            </div>
+        </div>
+    }
+</div>

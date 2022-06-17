@@ -42,7 +42,7 @@ else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString(
     <td>
         @if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString() == "Completed")
         {
-<form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="ChangeStatus" id="noShowAppointment" asp-route-appointmentId="@appointment.Id">
+<form method="post" asp-area="Doctor" asp-controller="Appointments" asp-action="NoShow" id="noShowAppointment" asp-route-appointmentId="@appointment.Id">
 </form>
                         <a class="btn btn-outline-danger btn-sm"
                            data-toggle="modal" data-target="#modalNoShow">
@@ -100,7 +100,7 @@ else if (appointment.RatingValue == 0 && appointment.AppointmentStatus.ToString(
 
 
         //Call our confirm actionresult and pass over this id
-        $.post(@Url.Action("Confirm", "Appointments"), { id : id } , function (data) {
+        $.post(@Url.Action("NoShow", "Appointments"), { id : id } , function (data) {
             alert("Confirmed");
         });
 

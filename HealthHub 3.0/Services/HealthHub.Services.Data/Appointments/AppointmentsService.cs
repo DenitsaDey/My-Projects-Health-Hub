@@ -125,9 +125,11 @@
 
         public async Task EditMessageAsync(string appointmentId, string message)
         {
-            this.appointmentsRepository.All()
+            var currentAppointment = this.appointmentsRepository.All()
                 .Where(a => a.Id == appointmentId)
-                .FirstOrDefault().Message = message;
+                .FirstOrDefault();
+
+            currentAppointment.Message = message;
 
             await this.appointmentsRepository.SaveChangesAsync();
         }

@@ -52,7 +52,7 @@
 
             // in case of confirmed appointment that has passed we assume it has been completed and it automatically changes its status to "Completed"
             // However here the doctor has the option to change the status to "NoShow" if the patient did not show up, to prevent the option of rating the appointment
-            if (appointmentList.Any(a => a.AppointmentStatus == AppointmentStatus.Confirmed))
+            if (appointmentList.Any(a => a.AppointmentStatus == AppointmentStatus.Confirmed && a.AppointmentStatus != AppointmentStatus.NoShow))
             {
                 foreach (var appointment in appointmentList.Where(a => a.AppointmentStatus == AppointmentStatus.Confirmed))
                 {

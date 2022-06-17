@@ -16,13 +16,12 @@
                       enctype="multipart/form-data">
                     <h1>Type your new message:</h1>
                     <div class="form-group mt-3">
-                        <textarea asp-for="Message" class="form-control" rows="5" placeholder="Your Message Here"></textarea>
+                        <textarea asp-for="Message" class="form-control" rows="5" placeholder="@Model.Message"></textarea>
                         <span asp-validation-for="Message" class="small text-danger"></span>
                     </div>
-                    <input type="hidden" asp-for="Id" />
-                           <button type="submit" class="appointment-btn scrollto" value="Submit" />
-                    <a class="appointment-btn scrollto" asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@Model.Id">
-                        <h7>Submit</h7>
+                    <input type="submit" value="Submit" class="appointment-btn scrollto" />
+                    <a asp-area="" asp-controller="Appointment" asp-action="Details" asp-route-appointmentId="@Model.Id">
+                       
                     </a>
                 </form>
             </div>

@@ -1,0 +1,11 @@
+﻿@model CarInputModel
+
+@{
+    ViewData["Title"] = "Add Car";
+}
+
+<partial name="_CarFormPartial" model="@Model" />
+
+@section Scripts{ 
+    <partial name="_ValidationScriptsPartial" />
+}

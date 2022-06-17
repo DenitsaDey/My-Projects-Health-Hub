@@ -1,0 +1,13 @@
+﻿@model IEnumerable<CarSummaryViewModel>
+
+@{ 
+    ViewBag.Title = "My Cars";
+    ViewBag.AllowCarEdit = true; // we add property to the viewBag in order to use it in the partial view to display Edit and Delete buttons
+}
+
+@if (!Model.Any()) 
+{ 
+    <h2 class="text-center">You do not have any cars yet!</h2>
+}
+
+<partial name="_CarsPartial" model="@Model" />
