@@ -6,6 +6,8 @@ Health Hub is created as a platform that allows patients to effortlessly find do
 
 This is my defense project for ASP.NET Core Course at [SoftUni](https://softuni.org). (Jun-Aug 2021) 
 
+Here is how the project works: https://www.youtube.com/watch?v=CLHitVhiHCE
+
 Note: The project is created without any current knowledge of JavaScript, kindly disregard discrepancies related to it.
 
 ## Table of Contents
